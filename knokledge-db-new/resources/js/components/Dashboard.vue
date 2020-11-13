@@ -1,34 +1,33 @@
 <template>
     <div class="flex flex-col flex-wrap w-full justify-center items-center pt-56">
-        <div v-if="loading" class="flex items-center justify-center">
-            <p class="text-3xl text-red-800 text-center">Loading!</p>
-        </div>
-
-        <div v-if="error" class="flex items-center justify-center">
-            <p class="text-3xl text-red-800 text-center">{{ error }}</p>
+        <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
+        <div v-if="getErrors" class="flex items-center justify-center">
+            <p class="text-3xl text-red-800 text-center">{{ getErrors }}</p>
         </div>
 
         <div v-if="getUser" class="flex items-center justify-center">
             <div class="pt-4">
-                Dashboard <br>
-                Name: {{getUser.name}} <br>
-                Email: {{getUser.email}}<br><br>
-                <button class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded" @click.prevent="logout">Logout</button>
+                <h3 class="text-2xl text-white">Dashboard </h3>
+                <p class="text-white">Name: {{ getUser.name }} </p>
+                <p class="text-white">Email: {{ getUser.email }}</p>
+                <button class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded"
+                        @click.prevent="logout">Logout
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState} from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
+import Preloader from "./Preloader";
 
 export default {
     name: "Dashboard",
-    data(){
-        return{
+    components: {Preloader},
+    data() {
+        return {
             loading: true,
-            logUser: null,
-            error: null
         }
     },
     watch: {
@@ -37,24 +36,26 @@ export default {
     },
     methods: {
         ...mapActions(['getLoggedInUser']),
-        logout() {
-            this.$store.dispatch('logoutUser')
-                .then(() => this.$router.push({name: "Home"}));
-        },
-        fetchData() {
-            this.error = this.logUser = null;
+        async logout() {
             this.loading = true;
-            this.getLoggedInUser();
+            await this.$store.dispatch('logoutUser')
+                .then(() => {
+                        this.loading = false;
+                        this.$router.push({name: "Home"})
+                    }
+                );
+        },
+        async fetchData() {
+            this.loading = true;
+            await this.getLoggedInUser();
             this.loading = false;
-
         },
     },
     computed: {
-        ...mapGetters(["getUser"]),
+        ...mapGetters(['getUser', 'getErrors']),
         ...mapState(['user', 'errors'])
     },
-    created () {
-        // this.getLoggedInUser();
+    created() {
         this.fetchData();
     },
 }

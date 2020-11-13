@@ -8,35 +8,34 @@ const state = {
 const getters = {
     getUser: state => {
         return state.user;
+    },
+    getErrors: state => {
+        return state.errors;
     }
 };
 const actions = {
     async loginUser({state, commit}, user){
-         await axios.get('/sanctum/csrf-cookie').then(async res => {
+         await axios.get('/sanctum/csrf-cookie').then(async () => {
              await axios.post('/api/login', user).then(() =>{
-                //     // localStorage.setItem(
-                //     //     "kdb_token",
-                //     //     res.data.token
-                //     // )
-                //     // window.location.replace("/dashboard");
             }).catch((error) =>{
-                state.errors = error.response.data;
-            });
+                 commit('setErrors', error);
+             });
         });
     },
-    async getLoggedInUser({state, commit}){
+    async getLoggedInUser({commit}){
         const response = await axios.get('/api/user')
             .catch((error) =>{
-            state.errors = error.response.data;
+                commit('setErrors', error);
         });
         commit('setUser', response.data);
     },
-    logoutUser(){
-        axios.post('/api/logout').then(()=>{
-            state.user = {};
+    async logoutUser({commit}){
+        await axios.post('/api/logout').then(()=>{
+            commit('setUser', null);
         }).catch((error) =>{
-            state.errors = error.response.data;
+            commit('setErrors', error);
         });
+
     }
 };
 const mutations = {
