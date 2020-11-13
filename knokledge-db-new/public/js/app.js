@@ -2269,7 +2269,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Preloader",
   data: function data() {
@@ -57813,4 +57812,3 @@ module.exports = __webpack_require__(/*! C:\Users\Andrii\Documents\Git_Hub\PHP\k
 /***/ })
 
 /******/ });
-//# sourceMappingURL=app.js.map

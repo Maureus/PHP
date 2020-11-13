@@ -5,6 +5,7 @@ const state = {
     student: 'student',
     errors: null,
 };
+
 const getters = {
     getUser: state => {
         return state.user;
