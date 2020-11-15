@@ -2695,6 +2695,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -41023,7 +41045,7 @@ var render = function() {
                     "flex items-center justify-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full",
                   on: { click: _vm.showEditProfile }
                 },
-                [_vm._v("Edit my profile")]
+                [_vm._v("\n                Edit my profile\n            ")]
               ),
               _vm._v(" "),
               _c(
@@ -41033,7 +41055,7 @@ var render = function() {
                     "flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg w-full",
                   on: { click: _vm.showChangePassword }
                 },
-                [_vm._v("Change my password")]
+                [_vm._v("\n                Change my password\n            ")]
               )
             ]
           )
@@ -41069,7 +41091,7 @@ var render = function() {
                               "block text-sm font-medium leading-5 text-gray-700",
                             attrs: { for: "name" }
                           },
-                          [_vm._v("Your name")]
+                          [_vm._v("Your\n                                name")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -41115,7 +41137,11 @@ var render = function() {
                               "block text-sm font-medium leading-5 text-gray-700",
                             attrs: { for: "phone" }
                           },
-                          [_vm._v("Phone number")]
+                          [
+                            _vm._v(
+                              "Phone\n                                number"
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -41206,7 +41232,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Save\n                        "
+                            "\n                        Save\n                    "
                           )
                         ]
                       )
@@ -41280,7 +41306,11 @@ var render = function() {
                               "block text-sm font-medium leading-5 text-gray-700",
                             attrs: { for: "repeat_password" }
                           },
-                          [_vm._v("Repeat password")]
+                          [
+                            _vm._v(
+                              "Repeat\n                                password"
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -41330,7 +41360,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Save\n                        "
+                            "\n                        Save\n                    "
                           )
                         ]
                       )
