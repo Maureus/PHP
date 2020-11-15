@@ -109,28 +109,30 @@ Route::middleware('auth:sanctum')->group(function (){
         return request()->user();
     });
 
-    Route::post('/saveuser', function(Request $request)
-    {
-        $pdo = DB::getPdo();
+    Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 
-        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ? where id = ?');
-
-//        $file = $request->file("avatar");
-//        $data = fopen ($file, 'rb');
-//        $size = filesize ($file);
-//        $contents = fread ($data, $size);
-//        fclose ($data);
-
-
-
-//        $id = Auth::user()->id;
-        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
-        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
-        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
-        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
-        $statement->bindValue(5, $request->id, PDO::PARAM_INT);
-        $statement->execute();
-    });
+//    Route::post('/saveuser', function(Request $request)
+//    {
+//        $pdo = DB::getPdo();
+//
+//        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ? where id = ?');
+//
+////        $file = $request->file("avatar");
+////        $data = fopen ($file, 'rb');
+////        $size = filesize ($file);
+////        $contents = fread ($data, $size);
+////        fclose ($data);
+//
+//
+//
+////        $id = Auth::user()->id;
+//        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+//        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
+//        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
+//        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
+//        $statement->bindValue(5, $request->id, PDO::PARAM_INT);
+//        $statement->execute();
+//    });
 
     //Fot token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);

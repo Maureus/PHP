@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     name: "Login",
     data: () => ({
@@ -27,11 +28,15 @@ export default {
         }
     }),
     methods:{
-        login() {
-            this.$store.dispatch('loginUser', this.user)
+        ...mapActions(['loginUser']),
+        async login() {
+            await this.loginUser(this.user)
                 .then(() => this.$router.push({name: "Dashboard"}));
         }
     },
+    computed: {
+
+    }
 }
 </script>
 

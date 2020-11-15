@@ -4,6 +4,7 @@ const state = {
     teacher: 'teacher',
     student: 'student',
     errors: null,
+    showModalConfirm: false,
 };
 
 const getters = {
@@ -12,6 +13,9 @@ const getters = {
     },
     getErrors: state => {
         return state.errors;
+    },
+    getShowModalConfirm: state => {
+        return state.showModalConfirm;
     }
 };
 const actions = {
@@ -37,6 +41,17 @@ const actions = {
             commit('setErrors', error);
         });
 
+    },
+    async registerUser({commit}, user) {
+        axios.post('/api/register', user).catch( error => {
+            commit('setErrors', error);
+        })
+    },
+    async saveErrors({commit}, errors) {
+        commit('setErrors', errors);
+    },
+    confirm({commit}) {
+        commit('setShowModalConfirm');
     }
 };
 const mutations = {
@@ -46,6 +61,9 @@ const mutations = {
     setErrors(state, payload) {
         state.errors = payload;
     },
+    setShowModalConfirm(state) {
+        state.showModalConfirm = !state.showModalConfirm;
+    }
 };
 
 export default {

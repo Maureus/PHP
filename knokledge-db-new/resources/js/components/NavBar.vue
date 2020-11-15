@@ -39,11 +39,15 @@ export default {
         ...mapState(['user', 'errors'])
     },
     watch: {
+        'this.$store.state.user': function() {
+            console.log(this.$store.state.user);
+        }
     },
     methods: {
         logout() {
             this.$store.dispatch('logoutUser')
                 .then(() => this.$router.push({name: "Home"}));
+
         },
     }
 }

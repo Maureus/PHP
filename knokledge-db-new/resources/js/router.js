@@ -65,7 +65,7 @@ export default new VueRouter({
         {
             path: '/profile',
             component: UserProfile,
-            name: 'UserProfile'
+            name: 'Profile'
         }
     ]
 

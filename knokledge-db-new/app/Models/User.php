@@ -46,7 +46,8 @@ class User extends Authenticatable
         'updated_at',
         'phone',
         'address',
-        'avatar'
+        'avatar',
+        'hasAvatar'
     ];
 
     /**

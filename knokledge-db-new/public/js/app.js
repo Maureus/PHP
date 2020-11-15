@@ -2095,6 +2095,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2114,6 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
@@ -2124,17 +2140,32 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['loginUser'])), {}, {
     login: function login() {
       var _this = this;
 
-      this.$store.dispatch('loginUser', this.user).then(function () {
-        return _this.$router.push({
-          name: "Dashboard"
-        });
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.loginUser(_this.user).then(function () {
+                  return _this.$router.push({
+                    name: "Dashboard"
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
-  }
+  }),
+  computed: {}
 });
 
 /***/ }),
@@ -2214,7 +2245,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NavBar",
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["getUser"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['user', 'errors'])),
-  watch: {},
+  watch: {
+    'this.$store.state.user': function this$storeStateUser() {
+      console.log(this.$store.state.user);
+    }
+  },
   methods: {
     logout: function logout() {
       var _this = this;
@@ -2338,6 +2373,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2366,6 +2416,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Register",
   data: function data() {
@@ -2379,16 +2430,34 @@ __webpack_require__.r(__webpack_exports__);
       errors: []
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['registerUser'])), {}, {
     saveForm: function saveForm() {
       var _this = this;
 
-      axios.post('/api/register', this.form).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.registerUser(_this.form).then(function () {
+                  _this.$router.push({
+                    name: "Login"
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
+  }),
+  computed: {},
+  watch: {// things that vue watches change
+    // validate here
   }
 });
 
@@ -2515,7 +2584,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Preloader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Preloader */ "./resources/js/components/Preloader.vue");
 
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -2523,101 +2597,111 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserProfile",
+  components: {
+    Preloader: _Preloader__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
       editProfile: false,
@@ -2631,10 +2715,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: ''
       },
       password: '',
-      repeatPassword: ''
+      password_confirmation: '',
+      loading: true,
+      profileConfirm: false,
+      passwordConfirm: false
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['getLoggedInUser', 'saveErrors', 'confirm'])), {}, {
     showEditProfile: function showEditProfile() {
       var _this = this;
 
@@ -2643,7 +2730,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.curUser.name = _this.curUser.email = _this.curUser.avatar = _this.curUser.phone = _this.curUser.address = '';
+                if (_this.getUser) {
+                  _this.curUser.name = _this.getUser['name'];
+                  _this.curUser.email = _this.getUser['email'];
+                  _this.curUser.address = _this.getUser['address'];
+                  _this.curUser.phone = _this.getUser['phone'];
+                } else {
+                  _this.curUser.name = _this.curUser.email = _this.curUser.avatar = _this.curUser.phone = _this.curUser.address = '';
+                }
+
                 if (_this.changePassword === true) _this.changePassword = false;
                 _this.editProfile === false ? _this.editProfile = true : _this.editProfile = false;
 
@@ -2663,7 +2758,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.password = _this2.repeatPassword = '';
+                _this2.password = _this2.password_confirmation = '';
                 if (_this2.editProfile === true) _this2.editProfile = false;
                 _this2.changePassword === false ? _this2.changePassword = true : _this2.changePassword = false;
 
@@ -2678,47 +2773,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     saveUserProfile: function saveUserProfile() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                formData = new FormData();
-                formData.append('name', _this3.curUser.name);
-                formData.append('email', _this3.curUser.email);
-                formData.append('avatar', _this3.curUser.avatar, _this3.curUser.avatar.name);
-                formData.append('phone', _this3.curUser.phone);
-                formData.append('address', _this3.curUser.address);
-                formData.append('id', _this3.getUser['id']); // formData.append('_method', 'put');
-
-                console.log(formData.get('name'));
-                _context3.next = 10;
-                return axios.post('api/saveuser', formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (res) {
-                  console.log('SUCCESS ' + res);
-                  _this3.editProfile = false;
-                })["catch"](function (err) {
-                  console.log('FAILURE ' + err);
-                });
-
-              case 10:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    saveUserPassword: function saveUserPassword() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                formData = new FormData();
+                formData.append('name', _this3.curUser.name);
+                formData.append('email', _this3.curUser.email);
+
+                if (_this3.curUser.avatar) {
+                  formData.append('avatar', _this3.curUser.avatar, _this3.curUser.avatar.name);
+                }
+
+                formData.append('phone', _this3.curUser.phone);
+                formData.append('address', _this3.curUser.address);
+                formData.append('id', _this3.getUser['id']); // formData.append('_method', 'put');
+
+                _context4.next = 9;
+                return axios.post('api/saveuser', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _this3.passwordConfirm = false;
+                          _this3.profileConfirm = true;
+                          _this3.editProfile = false;
+                          _context3.next = 5;
+                          return _this3.getLoggedInUser();
+
+                        case 5:
+                          _this3.confirmModal();
+
+                        case 6:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })))["catch"](function (errors) {
+                  _this3.saveErrors(errors);
+                });
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -2726,35 +2828,85 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    selectAvatar: function selectAvatar() {
-      // this.curUser.avatar = new Blob([this.$refs.myFile.files[0]],{type: 'image/jpg'});
-      this.curUser.avatar = this.$refs.myFile.files[0];
-      console.log(this.curUser.avatar);
-    },
-    createImage: function createImage() {// this.curUser.avatar = '';
-      // this.getUser['avatar'].lastModifiedDate = new Date();
-      // this.getUser['avatar'].name = 'avatar.jpg';
-      // this.curUser.avatar = this.getUser['avatar'];
-      // let a = document.getElementById("a");
-      // // var file = new Blob([text], {type: type});
-      // a.src = URL.createObjectURL(this.curUser.avatar);
+    saveUserPassword: function saveUserPassword() {
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                formData = new FormData();
+                formData.append('password', _this4.password);
+                formData.append('password_confirmation', _this4.password_confirmation);
+                formData.append('id', _this4.getUser['id']);
+                _context5.next = 6;
+                return axios.post('api/saveuser', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then(function () {
+                  _this4.passwordConfirm = true;
+                  _this4.profileConfirm = false;
+                  _this4.changePassword = false;
+
+                  _this4.confirmModal();
+                })["catch"](function (errors) {
+                  _this4.saveErrors(errors);
+                });
+
+              case 6:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
       }))();
-    }
+    },
+    selectAvatar: function selectAvatar() {
+      this.curUser.avatar = this.$refs.myFile.files[0];
+      console.log(this.curUser.avatar);
+    },
+    setAvatarAndUser: function setAvatarAndUser() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this5.loading = true;
+                _context6.next = 3;
+                return _this5.getLoggedInUser();
+
+              case 3:
+                if (_this5.getUser['hasavatar'] === "1") {
+                  document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + _this5.getUser['id'] + '.jpg';
+                } else {
+                  document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatarP.jpg';
+                }
+
+                _this5.loading = false;
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    confirmModal: function confirmModal() {
+      this.confirm();
+    },
+    checkName: function checkName() {}
+  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getUser', 'getErrors', 'getShowModalConfirm'])),
+  created: function created() {// this.fetchData();
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getUser', 'getErrors'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['user', 'errors'])),
-  created: function created() {
-    this.createImage();
+  mounted: function mounted() {
+    this.setAvatarAndUser();
   }
 });
 
@@ -40787,302 +40939,411 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex flex-row pt-4" }, [
-    _c(
-      "div",
-      { staticClass: "h-full w-1/3 flex flex-col items-center justify-center" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex flex-col items-center justify-center" },
-          [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "flex items-center justify-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full",
-                on: { click: _vm.showEditProfile }
-              },
-              [_vm._v("Edit my profile")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass:
-                  "flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg w-full",
-                on: { click: _vm.showChangePassword }
-              },
-              [_vm._v("Change my password")]
-            )
-          ]
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "h-full w-2/3" }, [
-      _vm.editProfile
-        ? _c("div", [
-            _c("div", { staticClass: "shadow overflow-hidden sm:rounded-md" }, [
-              _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
-                _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "name" }
-                      },
-                      [_vm._v("Your name")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.curUser.name,
-                          expression: "curUser.name"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "name", name: "name" },
-                      domProps: { value: _vm.curUser.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.curUser, "name", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
-                    _c("input", {
-                      ref: "myFile",
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "avatar", type: "file", name: "avatar" },
-                      on: { change: _vm.selectAvatar }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "phone" }
-                      },
-                      [_vm._v("Phone number")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.curUser.phone,
-                          expression: "curUser.phone"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "phone", name: "phone" },
-                      domProps: { value: _vm.curUser.phone },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.curUser, "phone", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 " }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "address" }
-                      },
-                      [_vm._v("Address")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.curUser.address,
-                          expression: "curUser.address"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "address", name: "address" },
-                      domProps: { value: _vm.curUser.address },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.curUser, "address", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.saveUserProfile($event)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            Save\n                        "
-                      )
-                    ]
-                  )
-                ]
-              )
-            ])
-          ])
+  return _c(
+    "div",
+    { staticClass: "flex flex-row pt-4" },
+    [
+      _vm.loading
+        ? _c("preloader", {
+            staticClass: "absolute inset-0 flex items-center justify-center"
+          })
         : _vm._e(),
       _vm._v(" "),
-      _vm.changePassword
-        ? _c("div", [
-            _c("div", { staticClass: "shadow overflow-hidden sm:rounded-md" }, [
-              _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
-                _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "password" }
-                      },
-                      [_vm._v("Password")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.password,
-                          expression: "password"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "password", name: "password" },
-                      domProps: { value: _vm.password },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.password = $event.target.value
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "repeat_password" }
-                      },
-                      [_vm._v("Repeat password")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.repeatPassword,
-                          expression: "repeatPassword"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "repeat_password", name: "repeatPassword" },
-                      domProps: { value: _vm.repeatPassword },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.repeatPassword = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
+      _vm.getShowModalConfirm
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "absolute inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50"
+            },
+            [
               _c(
                 "div",
-                { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+                {
+                  staticClass:
+                    "flex-column items-center justify-center w-1/5 bg-white border-0 rounded"
+                },
                 [
+                  _vm.passwordConfirm
+                    ? _c("p", { staticClass: "text-center pt-4 text-lg" }, [
+                        _vm._v("Password has been changed!")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.profileConfirm
+                    ? _c("p", { staticClass: "text-center pt-4 text-lg" }, [
+                        _vm._v("Profile has been changed!")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
-                    "button",
+                    "div",
                     {
                       staticClass:
-                        "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.saveUserPassword($event)
-                        }
-                      }
+                        "flex items-center pt-4 justify-end w-full pr-2"
                     },
                     [
-                      _vm._v(
-                        "\n                            Save\n                        "
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2\n                        focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2",
+                          on: { click: _vm.confirmModal }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Confirm\n                "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "h-full w-1/3 flex flex-col items-center justify-center"
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex flex-col items-center justify-center" },
+            [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "flex items-center justify-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full",
+                  on: { click: _vm.showEditProfile }
+                },
+                [_vm._v("Edit my profile")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg w-full",
+                  on: { click: _vm.showChangePassword }
+                },
+                [_vm._v("Change my password")]
+              )
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "h-full w-2/3" }, [
+        _vm.editProfile
+          ? _c("div", [
+              _c(
+                "div",
+                { staticClass: "shadow overflow-hidden sm:rounded-md" },
+                [
+                  _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+                    _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-span-6 text-center text-3xl" },
+                        [
+                          _c("h2", [_vm._v("Edit your profile")]),
+                          _vm._v(" "),
+                          _vm.getErrors
+                            ? _c("h3", [_vm._v(_vm._s(_vm.getErrors))])
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block text-sm font-medium leading-5 text-gray-700",
+                            attrs: { for: "name" }
+                          },
+                          [_vm._v("Your name")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.curUser.name,
+                              expression: "curUser.name"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "name", name: "name" },
+                          domProps: { value: _vm.curUser.name },
+                          on: {
+                            change: _vm.checkName,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.curUser, "name", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                        _c("input", {
+                          ref: "myFile",
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "avatar", type: "file", name: "avatar" },
+                          on: { change: _vm.selectAvatar }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block text-sm font-medium leading-5 text-gray-700",
+                            attrs: { for: "phone" }
+                          },
+                          [_vm._v("Phone number")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.curUser.phone,
+                              expression: "curUser.phone"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "phone", name: "phone" },
+                          domProps: { value: _vm.curUser.phone },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.curUser,
+                                "phone",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 " }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block text-sm font-medium leading-5 text-gray-700",
+                            attrs: { for: "address" }
+                          },
+                          [_vm._v("Address")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.curUser.address,
+                              expression: "curUser.address"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "address", name: "address" },
+                          domProps: { value: _vm.curUser.address },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.curUser,
+                                "address",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out",
+                          attrs: { disabled: !_vm.curUser.name },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.saveUserProfile($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Save\n                        "
+                          )
+                        ]
                       )
                     ]
                   )
                 ]
               )
             ])
-          ])
-        : _vm._e()
-    ])
-  ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.changePassword
+          ? _c("div", [
+              _c(
+                "div",
+                { staticClass: "shadow overflow-hidden sm:rounded-md" },
+                [
+                  _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+                    _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-span-6 text-center text-3xl" },
+                        [
+                          _c("h2", [_vm._v("Change your password")]),
+                          _vm._v(" "),
+                          _vm.getErrors
+                            ? _c("h3", [_vm._v(_vm._s(_vm.getErrors))])
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block text-sm font-medium leading-5 text-gray-700",
+                            attrs: { for: "password" }
+                          },
+                          [_vm._v("Password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password,
+                              expression: "password"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "password", name: "password" },
+                          domProps: { value: _vm.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block text-sm font-medium leading-5 text-gray-700",
+                            attrs: { for: "repeat_password" }
+                          },
+                          [_vm._v("Repeat password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password_confirmation,
+                              expression: "password_confirmation"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: {
+                            id: "repeat_password",
+                            name: "repeatPassword"
+                          },
+                          domProps: { value: _vm.password_confirmation },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password_confirmation = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.saveUserPassword($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Save\n                        "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -41092,28 +41353,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "flex-shrink-0 h-56 w-56 mb-2" }, [
       _c("img", {
         staticClass: "h-56 w-56 rounded-full",
-        attrs: {
-          id: "a",
-          src: "http://127.0.0.1:8000/api/image/avatar1.jpg",
-          alt: ""
-        }
+        attrs: { id: "ava", src: "", alt: "" }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-span-6 text-center text-3xl" }, [
-      _c("h2", [_vm._v("Edit your profile")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-span-6 text-center text-3xl" }, [
-      _c("h2", [_vm._v("Change your password")])
     ])
   }
 ]
@@ -57685,6 +57926,7 @@ Vue.component('navbar-component', __webpack_require__(/*! ./components/NavBar.vu
 Vue.component('welcome-component', __webpack_require__(/*! ./components/Welcome */ "./resources/js/components/Welcome.vue")["default"]);
 Vue.component('user-list-item', __webpack_require__(/*! ./components/UserListItem */ "./resources/js/components/UserListItem.vue")["default"]);
 Vue.component('user-list', __webpack_require__(/*! ./components/UserList */ "./resources/js/components/UserList.vue")["default"]);
+Vue.component('modal-component', __webpack_require__(/*! ./components/Modal */ "./resources/js/components/Modal.vue")["default"]);
 var app = new Vue({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -58801,7 +59043,7 @@ vue__WEBPACK_IMPORTED_MODULE_8___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/profile',
     component: _components_UserProfile__WEBPACK_IMPORTED_MODULE_11__["default"],
-    name: 'UserProfile'
+    name: 'Profile'
   }]
 }));
 
@@ -58854,7 +59096,8 @@ var state = {
   admin: 'admin',
   teacher: 'teacher',
   student: 'student',
-  errors: null
+  errors: null,
+  showModalConfirm: false
 };
 var getters = {
   getUser: function getUser(state) {
@@ -58862,6 +59105,9 @@ var getters = {
   },
   getErrors: function getErrors(state) {
     return state.errors;
+  },
+  getShowModalConfirm: function getShowModalConfirm(state) {
+    return state.showModalConfirm;
   }
 };
 var actions = {
@@ -58947,6 +59193,48 @@ var actions = {
         }
       }, _callee4);
     }))();
+  },
+  registerUser: function registerUser(_ref5, user) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit;
+              axios.post('/api/register', user)["catch"](function (error) {
+                commit('setErrors', error);
+              });
+
+            case 2:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+  saveErrors: function saveErrors(_ref6, errors) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              commit = _ref6.commit;
+              commit('setErrors', errors);
+
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
+  },
+  confirm: function confirm(_ref7) {
+    var commit = _ref7.commit;
+    commit('setShowModalConfirm');
   }
 };
 var mutations = {
@@ -58955,6 +59243,9 @@ var mutations = {
   },
   setErrors: function setErrors(state, payload) {
     state.errors = payload;
+  },
+  setShowModalConfirm: function setShowModalConfirm(state) {
+    state.showModalConfirm = !state.showModalConfirm;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

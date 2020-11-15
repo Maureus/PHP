@@ -26,26 +26,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d23e501-ab6b-4b3a-b5e5-60360cf03360" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Modal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/UserList.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/UserListItem.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/UserProfile.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd/storage_v2/_src_/schema/ST58211.jl4BuQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd/storage_v2/_src_/schema/ST58211.jl4BuQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/NavBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/UserProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/UserProfile.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/currentUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/currentUser.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,6 +194,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\storage\app\public" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\storage\app\public" />
       <recent name="C:\Users\Andrii\Documents\Projects\PHP\knokledge-db-new\resources\js\components" />
@@ -235,7 +233,7 @@
       <workItem from="1605356910513" duration="2819000" />
       <workItem from="1605366090004" duration="30392000" />
       <workItem from="1605432349829" duration="2400000" />
-      <workItem from="1605454624885" duration="185000" />
+      <workItem from="1605454624885" duration="13162000" />
     </task>
     <servers />
   </component>
@@ -279,6 +277,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605376693975" />
+    <state x="779" y="284" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method0" timestamp="1605468896871">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="779" y="284" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method0/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605468896871" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1605217798419">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -303,9 +305,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605349060083" />
-    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1605377406731">
+    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1605460987999">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605377406731" />
+    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605460987999" />
+    <state x="590" y="242" key="run.anything.popup" timestamp="1605458630783">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="590" y="242" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605458630783" />
   </component>
 </project>
