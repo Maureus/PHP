@@ -4,39 +4,54 @@ const state = {
     teacher: 'teacher',
     student: 'student',
     errors: null,
+    showModalConfirm: false,
 };
+
 const getters = {
     getUser: state => {
         return state.user;
+    },
+    getErrors: state => {
+        return state.errors;
+    },
+    getShowModalConfirm: state => {
+        return state.showModalConfirm;
     }
 };
 const actions = {
     async loginUser({state, commit}, user){
-         await axios.get('/sanctum/csrf-cookie').then(async res => {
+         await axios.get('/sanctum/csrf-cookie').then(async () => {
              await axios.post('/api/login', user).then(() =>{
-                //     // localStorage.setItem(
-                //     //     "kdb_token",
-                //     //     res.data.token
-                //     // )
-                //     // window.location.replace("/dashboard");
             }).catch((error) =>{
-                state.errors = error.response.data;
-            });
+                 commit('setErrors', error);
+             });
         });
     },
-    async getLoggedInUser({state, commit}){
+    async getLoggedInUser({commit}){
         const response = await axios.get('/api/user')
             .catch((error) =>{
-            state.errors = error.response.data;
+                commit('setErrors', error);
         });
         commit('setUser', response.data);
     },
-    logoutUser(){
-        axios.post('/api/logout').then(()=>{
-            state.user = {};
+    async logoutUser({commit}){
+        await axios.post('/api/logout').then(()=>{
+            commit('setUser', null);
         }).catch((error) =>{
-            state.errors = error.response.data;
+            commit('setErrors', error);
         });
+
+    },
+    async registerUser({commit}, user) {
+        axios.post('/api/register', user).catch( error => {
+            commit('setErrors', error);
+        })
+    },
+    async saveErrors({commit}, errors) {
+        commit('setErrors', errors);
+    },
+    confirm({commit}) {
+        commit('setShowModalConfirm');
     }
 };
 const mutations = {
@@ -46,6 +61,9 @@ const mutations = {
     setErrors(state, payload) {
         state.errors = payload;
     },
+    setShowModalConfirm(state) {
+        state.showModalConfirm = !state.showModalConfirm;
+    }
 };
 
 export default {
