@@ -5,8 +5,11 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import Rand from "./components/Rand";
+import Modal from "./components/Modal";
 import Vue from 'vue';
 import VueRouter from "vue-router";
+import UserList from "./components/UserList";
+import UserProfile from "./components/UserProfile";
 
 Vue.use(VueRouter);
 
@@ -49,6 +52,21 @@ export default new VueRouter({
             path: '/rand/:user_id',
             component: Rand,
         },
+        {
+            path: '/modal',
+            component: Modal,
+            name: 'Modal'
+        },
+        {
+            path: '/dashboard/userlist',
+            component: UserList,
+            name: 'UserList'
+        },
+        {
+            path: '/profile',
+            component: UserProfile,
+            name: 'UserProfile'
+        }
     ]
 
 })

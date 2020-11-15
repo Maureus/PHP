@@ -26,15 +26,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d23e501-ab6b-4b3a-b5e5-60360cf03360" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Modal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/UserList.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/UserListItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/UserProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd/storage_v2/_src_/schema/ST58211.jl4BuQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8920b765-5f02-4102-8d94-d24c7f7975bd/storage_v2/_src_/schema/ST58211.jl4BuQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Preloader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Preloader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/currentUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/currentUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/NavBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +59,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -181,14 +192,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Projects/PHP/laravel-vue-spa-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/storage/app/public" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="watcher.settings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\Users\Andrii\AppData\Local\JetBrains\Toolbox\apps\PhpStorm\ch-0\202.7660.42\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\storage\app\public" />
       <recent name="C:\Users\Andrii\Documents\Projects\PHP\knokledge-db-new\resources\js\components" />
     </key>
   </component>
@@ -219,6 +231,11 @@
       <workItem from="1605269868391" duration="861000" />
       <workItem from="1605278150067" duration="2011000" />
       <workItem from="1605288149952" duration="3858000" />
+      <workItem from="1605346100537" duration="4730000" />
+      <workItem from="1605356910513" duration="2819000" />
+      <workItem from="1605366090004" duration="30392000" />
+      <workItem from="1605432349829" duration="2400000" />
+      <workItem from="1605454624885" duration="185000" />
     </task>
     <servers />
   </component>
@@ -258,10 +275,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" width="1305" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605119158561" />
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1605120798390">
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1605376693975">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605120798390" />
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605376693975" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1605217798419">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -282,9 +299,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605210088573" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1605212441145">
+    <state x="461" y="165" key="SettingsEditor" timestamp="1605349060083">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605212441145" />
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605349060083" />
+    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1605377406731">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="524" y="293" width="593" height="561" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605377406731" />
   </component>
 </project>

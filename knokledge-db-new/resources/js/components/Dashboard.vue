@@ -28,11 +28,16 @@ export default {
     data() {
         return {
             loading: true,
+            dropDown: false,
         }
     },
     watch: {
         // call again the method if the route changes
-        '$route': 'fetchData'
+        //'$route': 'fetchData'
+        preload: {
+            handler: 'fetchData',
+            immediate: true
+        }
     },
     methods: {
         ...mapActions(['getLoggedInUser']),
@@ -50,14 +55,21 @@ export default {
             await this.getLoggedInUser();
             this.loading = false;
         },
+        showDropDown() {
+          if (this.dropDown === false) {
+              this.dropDown = true;
+          } else if (this.dropDown === false) {
+              this.dropDown = false;
+          }
+        },
     },
     computed: {
         ...mapGetters(['getUser', 'getErrors']),
         ...mapState(['user', 'errors'])
     },
-    created() {
-        this.fetchData();
-    },
+    // created() {
+    //     this.fetchData();
+    // },
 }
 
 </script>
