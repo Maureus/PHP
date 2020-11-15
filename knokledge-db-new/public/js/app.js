@@ -7405,7 +7405,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "div[data-v-2ce50e5a] {\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\n", ""]);
+exports.push([module.i, "div[data-v-2ce50e5a] {\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\r\n", ""]);
 
 // exports
 
