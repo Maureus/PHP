@@ -6708,7 +6708,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "div[data-v-2ce50e5a] {\n  /*background: rgb(87, 90, 93);*/\n  /*background: radial-gradient(circle, rgba(165, 170, 174,1) 32%, rgba(87, 90, 93,1) 100%);*/\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\n", ""]);
+exports.push([module.i, "div[data-v-2ce50e5a] {\n  /*background: rgb(87, 90, 93);*/\n  /*background: radial-gradient(circle, rgba(165, 170, 174,1) 32%, rgba(87, 90, 93,1) 100%);*/\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\r\n", ""]);
 
 // exports
 
@@ -57338,11 +57338,10 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Andrii\Documents\Projects\PHP\knokledge-db-new\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Andrii\Documents\Projects\PHP\knokledge-db-new\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=app.js.map
