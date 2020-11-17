@@ -240,8 +240,8 @@ export default {
     created() {
         // this.fetchData();
     },
-    mounted() {
-        this.setAvatarAndUser();
+    async mounted() {
+        await this.setAvatarAndUser();
     }
 }
 </script>

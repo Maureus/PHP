@@ -2140,17 +2140,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['loginUser'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['loginUser', 'getLoggedInUser'])), {}, {
     login: function login() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
-                return _this.loginUser(_this.user).then(function () {
+                _context2.next = 2;
+                return _this.loginUser(_this.user).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.next = 2;
+                          return _this.getLoggedInUser();
+
+                        case 2:
+                          return _context.abrupt("return", _context.sent);
+
+                        case 3:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                }))).then(function () {
                   return _this.$router.push({
                     name: "Dashboard"
                   });
@@ -2158,10 +2175,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     }
   }),
@@ -2928,7 +2945,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {// this.fetchData();
   },
   mounted: function mounted() {
-    this.setAvatarAndUser();
+    var _this6 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return _this6.setAvatarAndUser();
+
+            case 2:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }))();
   }
 });
 
@@ -7405,7 +7438,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "div[data-v-2ce50e5a] {\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\n", ""]);
+exports.push([module.i, "div[data-v-2ce50e5a] {\n  background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);\n}\r\n", ""]);
 
 // exports
 
@@ -59018,6 +59051,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_UserList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/UserList */ "./resources/js/components/UserList.vue");
 /* harmony import */ var _components_UserProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/UserProfile */ "./resources/js/components/UserProfile.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+
 
 
 
@@ -59055,10 +59090,16 @@ vue__WEBPACK_IMPORTED_MODULE_8___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/dashboard',
     component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
-    name: 'Dashboard' // beforeEnter: (to, from, next) => {
-    //     // ...
-    // }
-
+    name: 'Dashboard',
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_store__WEBPACK_IMPORTED_MODULE_12__["default"].getters.getUser === null) {
+        next({
+          path: '/login'
+        });
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/rand/:user_id',
     component: _components_Rand__WEBPACK_IMPORTED_MODULE_6__["default"]
@@ -59073,7 +59114,16 @@ vue__WEBPACK_IMPORTED_MODULE_8___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/profile',
     component: _components_UserProfile__WEBPACK_IMPORTED_MODULE_11__["default"],
-    name: 'Profile'
+    name: 'Profile',
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_store__WEBPACK_IMPORTED_MODULE_12__["default"].getters.getUser === null) {
+        next({
+          path: '/login'
+        });
+      } else {
+        next();
+      }
+    }
   }]
 }));
 

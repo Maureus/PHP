@@ -28,10 +28,11 @@ export default {
         }
     }),
     methods:{
-        ...mapActions(['loginUser']),
+        ...mapActions(['loginUser', 'getLoggedInUser']),
         async login() {
             await this.loginUser(this.user)
-                .then(() => this.$router.push({name: "Dashboard"}));
+                .then(async () => await this.getLoggedInUser())
+                    .then(() => this.$router.push({name: "Dashboard"}));
         }
     },
     computed: {
