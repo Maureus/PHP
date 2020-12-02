@@ -8,11 +8,19 @@ use App\Http\Controllers\API\QuizController;
 use App\Http\Controllers\API\Stud_matController;
 use App\Http\Controllers\API\SubjectController;
 use App\Http\Controllers\API\UserController;
+
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\RegisterController;
 use \App\Http\Controllers\LoginController;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,17 +85,56 @@ Route::apiResources([
 //Study_mats
 
 
+Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
+
+//Route::get('/useravatar/{id}', function ($id){
+//    $file = DB::selectOne('Select avatar from users where id = :id', [":id"=>$id]);
+//    //$data = base64_encode($file);
+//    return response()->file($file);
+//});
+
+// Get image on server by url
+Route::get('image/{file_name}', function($filename){
+    $path = storage_path("app/public/$filename");
+    $image = File::get($path);
+    $mime = File::mimeType($path);
+    return response($image, 200)->header('Content-Type', $mime);
+});
 
 
-Route::middleware('auth:sanctum')->group(function (){
+// TODO check if working properly
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     //Logged in user
     Route::get('/user', function () {
         return request()->user();
     });
 
+    Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 
+//    Route::post('/saveuser', function(Request $request)
+//    {
+//        $pdo = DB::getPdo();
+//
+//        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ? where id = ?');
+//
+////        $file = $request->file("avatar");
+////        $data = fopen ($file, 'rb');
+////        $size = filesize ($file);
+////        $contents = fread ($data, $size);
+////        fclose ($data);
+//
+//
+//
+////        $id = Auth::user()->id;
+//        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+//        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
+//        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
+//        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
+//        $statement->bindValue(5, $request->id, PDO::PARAM_INT);
+//        $statement->execute();
+//    });
 
-    //Fot token auth
+    //For token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
 

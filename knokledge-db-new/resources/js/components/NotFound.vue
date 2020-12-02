@@ -12,8 +12,6 @@ name: "NotFound"
 
 <style scoped>
 div {
-    /*background: rgb(87, 90, 93);*/
-    /*background: radial-gradient(circle, rgba(165, 170, 174,1) 32%, rgba(87, 90, 93,1) 100%);*/
     background: radial-gradient(circle, rgba(74,175,244,1) 32%, rgba(74,78,244,1) 100%);
 }
 </style>

@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
 
 class User extends Authenticatable
 {
@@ -39,10 +40,14 @@ class User extends Authenticatable
         'email',
         'password',
         'email_verified_at',
+        'remember_token',
         'role',
         'created_at',
         'updated_at',
+        'phone',
+        'address',
         'avatar',
+        'hasAvatar'
     ];
 
     /**
@@ -53,6 +58,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'avatar'
     ];
 
     /**

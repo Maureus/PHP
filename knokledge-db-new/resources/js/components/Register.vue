@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: "Register",
     data () {
@@ -41,14 +43,20 @@ export default {
         }
     },
     methods:{
-        saveForm(){
-            axios.post('/api/register', this.form).then(response =>{
-                console.log(response);
-            }).catch((error) =>{
-                this.errors = error.response.data.errors;
-            })
+        ...mapActions(['registerUser']),
+        async saveForm(){
+            await this.registerUser(this.form).then(()=>{
+                this.$router.push({name: "Login"});
+            });
         }
     },
+    computed: {
+
+    },
+    watch: {
+        // things that vue watches change
+        // validate here
+    }
 }
 </script>
 
