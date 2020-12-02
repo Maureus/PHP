@@ -45,7 +45,9 @@ export default new VueRouter({
             path: '/dashboard',
             component: Dashboard,
             name: 'Dashboard',
-            beforeEnter: (to, from, next) => {
+            // call user preload
+            beforeEnter: async (to, from, next) => {
+                await store.dispatch('getLoggedInUser').then(r => console.log(r));
                 if (store.getters.getUser === null) {
                     next({
                         path: '/login'
@@ -73,7 +75,9 @@ export default new VueRouter({
             path: '/profile',
             component: UserProfile,
             name: 'Profile',
-            beforeEnter: (to, from, next) => {
+            // call user preload
+            beforeEnter: async (to, from, next) => {
+                await store.dispatch('getLoggedInUser').then(r => console.log(r));
                 if (store.getters.getUser === null) {
                     next({
                         path: '/login'
