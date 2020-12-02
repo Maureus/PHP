@@ -17,16 +17,14 @@ use Illuminate\Support\Facades\File;
 use PDO;
 use function PHPUnit\Framework\throwException;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function index()
-    {
+    public function index() {
         return response()->json(
             User::selectAll(),
             200);
@@ -37,7 +35,7 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
-     */
+     */  
     public function store(Request $request)
     {
 
@@ -49,8 +47,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function show($id)
-    {
+    static public function show($id) {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectById($id),
@@ -69,8 +66,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             if (isset($request->password) && !isset($request->name)) {
                 $request->validate([
@@ -136,13 +132,11 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 
-    static public function userSubjects($id)
-    {
+    static public function userSubjects($id) {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserSubjects($id),
@@ -154,8 +148,7 @@ class UserController extends Controller
             400);
     }
 
-    static public function userCourses($id)
-    {
+    static public function userCourses($id) {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserCourses($id),
@@ -167,8 +160,7 @@ class UserController extends Controller
             400);
     }
 
-    static public function userQuizResults($id)
-    {
+    static public function userQuizResults($id) {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserQuizResults($id),
@@ -180,8 +172,7 @@ class UserController extends Controller
             400);
     }
 
-    static public function updateUserProfile(Request $request)
-    {
+    static public function updateUserProfile(Request $request) {
         try {
             if (isset($request->password) && !isset($request->name)) {
                 $request->validate([
@@ -266,8 +257,6 @@ class UserController extends Controller
                     200);
 
             }
-
-
         } catch (QueryException $e) {
             return response()->json(
                 null,
@@ -277,6 +266,5 @@ class UserController extends Controller
                 null,
                 400);
         }
-
     }
 }
