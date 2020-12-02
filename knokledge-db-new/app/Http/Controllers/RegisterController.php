@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
 
-    public function create (Request $request) {
+    public function create(Request $request) {
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|unique:users|email',
