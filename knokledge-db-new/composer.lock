@@ -1121,6 +1121,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
+
             "time": "2020-11-24T17:31:19+00:00"
         },
         {
@@ -5402,10 +5403,12 @@
                 "faker",
                 "fixtures"
             ],
+
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
                 "source": "https://github.com/FakerPHP/Faker/tree/v1.12.0"
             },
+
             "time": "2020-11-23T09:33:08+00:00"
         },
         {
@@ -5847,10 +5850,12 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
+
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
                 "source": "https://github.com/phar-io/version/tree/3.0.3"
             },
+
             "time": "2020-11-30T09:21:21+00:00"
         },
         {

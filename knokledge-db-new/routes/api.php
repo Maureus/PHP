@@ -87,11 +87,11 @@ Route::apiResources([
 
 Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
-Route::get('/useravatar/{id}', function ($id){
-    $file = DB::selectOne('Select avatar from users where id = :id', [":id"=>$id]);
-    //$data = base64_encode($file);
-    return response()->file($file);
-});
+//Route::get('/useravatar/{id}', function ($id){
+//    $file = DB::selectOne('Select avatar from users where id = :id', [":id"=>$id]);
+//    //$data = base64_encode($file);
+//    return response()->file($file);
+//});
 
 // Get image on server by url
 Route::get('image/{file_name}', function($filename){
@@ -102,8 +102,8 @@ Route::get('image/{file_name}', function($filename){
 });
 
 
-
-Route::middleware('auth:sanctum')->group(function (){
+// TODO check if working properly
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     //Logged in user
     Route::get('/user', function () {
         return request()->user();
@@ -134,7 +134,7 @@ Route::middleware('auth:sanctum')->group(function (){
 //        $statement->execute();
 //    });
 
-    //Fot token auth
+    //For token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
 
