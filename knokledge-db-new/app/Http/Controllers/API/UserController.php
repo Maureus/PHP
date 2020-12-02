@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use mysql_xdevapi\Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -37,11 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (isset($request->user)) {
-            $user = $request->user;
-            var_dump($user);
-            User::save($user);
-        }
+
     }
 
     /**

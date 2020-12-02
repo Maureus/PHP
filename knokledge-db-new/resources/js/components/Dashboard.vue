@@ -27,18 +27,18 @@ export default {
     components: {Preloader},
     data() {
         return {
-            loading: true,
+            loading: false,
             dropDown: false,
         }
     },
-    watch: {
-        // call again the method if the route changes
-        //'$route': 'fetchData'
-        preload: {
-            handler: 'fetchData',
-            immediate: true
-        }
-    },
+    // watch: {
+    //     // call again the method if the route changes
+    //     //'$route': 'fetchData'
+    //     // preload: {
+    //     //     handler: 'fetchData',
+    //     //     immediate: true
+    //     // }
+    // },
     methods: {
         ...mapActions(['getLoggedInUser']),
         async logout() {
@@ -51,25 +51,21 @@ export default {
                 );
         },
         async fetchData() {
-            this.loading = true;
+            // this.loading = true;
             await this.getLoggedInUser();
-            this.loading = false;
+            // this.loading = false;
         },
         showDropDown() {
-          if (this.dropDown === false) {
-              this.dropDown = true;
-          } else if (this.dropDown === false) {
-              this.dropDown = false;
-          }
+            this.dropDown = !this.dropDown;
         },
     },
     computed: {
         ...mapGetters(['getUser', 'getErrors']),
         ...mapState(['user', 'errors'])
     },
-    // created() {
-    //     this.fetchData();
-    // },
+    created() {
+        // this.fetchData();
+    },
 }
 
 </script>

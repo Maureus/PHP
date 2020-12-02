@@ -1986,18 +1986,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      loading: true,
+      loading: false,
       dropDown: false
     };
   },
-  watch: {
-    // call again the method if the route changes
-    //'$route': 'fetchData'
-    preload: {
-      handler: 'fetchData',
-      immediate: true
-    }
-  },
+  // watch: {
+  //     // call again the method if the route changes
+  //     //'$route': 'fetchData'
+  //     // preload: {
+  //     //     handler: 'fetchData',
+  //     //     immediate: true
+  //     // }
+  // },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['getLoggedInUser'])), {}, {
     logout: function logout() {
       var _this = this;
@@ -2033,14 +2033,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.loading = true;
-                _context2.next = 3;
+                _context2.next = 2;
                 return _this2.getLoggedInUser();
 
-              case 3:
-                _this2.loading = false;
-
-              case 4:
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -2049,17 +2045,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     showDropDown: function showDropDown() {
-      if (this.dropDown === false) {
-        this.dropDown = true;
-      } else if (this.dropDown === false) {
-        this.dropDown = false;
-      }
+      this.dropDown = !this.dropDown;
     }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getUser', 'getErrors'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['user', 'errors'])) // created() {
-  //     this.fetchData();
-  // },
-
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getUser', 'getErrors'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['user', 'errors'])),
+  created: function created() {// this.fetchData();
+  }
 });
 
 /***/ }),
@@ -59038,20 +59029,27 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.vue");
-/* harmony import */ var _components_About__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/About */ "./resources/js/components/About.vue");
-/* harmony import */ var _components_NotFound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/NotFound */ "./resources/js/components/NotFound.vue");
-/* harmony import */ var _components_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Login */ "./resources/js/components/Login.vue");
-/* harmony import */ var _components_Register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Register */ "./resources/js/components/Register.vue");
-/* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Dashboard */ "./resources/js/components/Dashboard.vue");
-/* harmony import */ var _components_Rand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Rand */ "./resources/js/components/Rand.vue");
-/* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Modal */ "./resources/js/components/Modal.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _components_UserList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/UserList */ "./resources/js/components/UserList.vue");
-/* harmony import */ var _components_UserProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/UserProfile */ "./resources/js/components/UserProfile.vue");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.vue");
+/* harmony import */ var _components_About__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/About */ "./resources/js/components/About.vue");
+/* harmony import */ var _components_NotFound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/NotFound */ "./resources/js/components/NotFound.vue");
+/* harmony import */ var _components_Login__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Login */ "./resources/js/components/Login.vue");
+/* harmony import */ var _components_Register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Register */ "./resources/js/components/Register.vue");
+/* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Dashboard */ "./resources/js/components/Dashboard.vue");
+/* harmony import */ var _components_Rand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Rand */ "./resources/js/components/Rand.vue");
+/* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Modal */ "./resources/js/components/Modal.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_UserList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/UserList */ "./resources/js/components/UserList.vue");
+/* harmony import */ var _components_UserProfile__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/UserProfile */ "./resources/js/components/UserProfile.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
@@ -59065,65 +59063,118 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_8___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]({
+
+vue__WEBPACK_IMPORTED_MODULE_9___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]({
   model: 'history',
   mode: 'history',
   linkActiveClass: 'font-semibold',
   routes: [{
     path: '*',
-    component: _components_NotFound__WEBPACK_IMPORTED_MODULE_2__["default"]
+    component: _components_NotFound__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
     path: '/',
-    component: _components_Home__WEBPACK_IMPORTED_MODULE_0__["default"],
+    component: _components_Home__WEBPACK_IMPORTED_MODULE_1__["default"],
     name: 'Home'
   }, {
     path: '/about',
-    component: _components_About__WEBPACK_IMPORTED_MODULE_1__["default"]
+    component: _components_About__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
     path: '/register',
-    component: _components_Register__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _components_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, {
     path: '/login',
-    component: _components_Login__WEBPACK_IMPORTED_MODULE_3__["default"],
+    component: _components_Login__WEBPACK_IMPORTED_MODULE_4__["default"],
     name: 'Login'
   }, {
     path: '/dashboard',
-    component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
+    component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"],
     name: 'Dashboard',
-    beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_12__["default"].getters.getUser === null) {
-        next({
-          path: '/login'
-        });
-      } else {
-        next();
+    // call user preload
+    beforeEnter: function () {
+      var _beforeEnter = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(to, from, next) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _store__WEBPACK_IMPORTED_MODULE_13__["default"].dispatch('getLoggedInUser').then(function (r) {
+                  return console.log(r);
+                });
+
+              case 2:
+                if (_store__WEBPACK_IMPORTED_MODULE_13__["default"].getters.getUser === null) {
+                  next({
+                    path: '/login'
+                  });
+                } else {
+                  next();
+                }
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function beforeEnter(_x, _x2, _x3) {
+        return _beforeEnter.apply(this, arguments);
       }
-    }
+
+      return beforeEnter;
+    }()
   }, {
     path: '/rand/:user_id',
-    component: _components_Rand__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _components_Rand__WEBPACK_IMPORTED_MODULE_7__["default"]
   }, {
     path: '/modal',
-    component: _components_Modal__WEBPACK_IMPORTED_MODULE_7__["default"],
+    component: _components_Modal__WEBPACK_IMPORTED_MODULE_8__["default"],
     name: 'Modal'
   }, {
     path: '/dashboard/userlist',
-    component: _components_UserList__WEBPACK_IMPORTED_MODULE_10__["default"],
+    component: _components_UserList__WEBPACK_IMPORTED_MODULE_11__["default"],
     name: 'UserList'
   }, {
     path: '/profile',
-    component: _components_UserProfile__WEBPACK_IMPORTED_MODULE_11__["default"],
+    component: _components_UserProfile__WEBPACK_IMPORTED_MODULE_12__["default"],
     name: 'Profile',
-    beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_12__["default"].getters.getUser === null) {
-        next({
-          path: '/login'
-        });
-      } else {
-        next();
+    // call user preload
+    beforeEnter: function () {
+      var _beforeEnter2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(to, from, next) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _store__WEBPACK_IMPORTED_MODULE_13__["default"].dispatch('getLoggedInUser').then(function (r) {
+                  return console.log(r);
+                });
+
+              case 2:
+                if (_store__WEBPACK_IMPORTED_MODULE_13__["default"].getters.getUser === null) {
+                  next({
+                    path: '/login'
+                  });
+                } else {
+                  next();
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function beforeEnter(_x4, _x5, _x6) {
+        return _beforeEnter2.apply(this, arguments);
       }
-    }
+
+      return beforeEnter;
+    }()
   }]
 }));
 
