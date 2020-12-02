@@ -59356,8 +59356,8 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Andrii\Documents\Git_Hub\PHP\knokledge-db-new\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\nikya\Documents\GitHub\PHP\knokledge-db-new\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\nikya\Documents\GitHub\PHP\knokledge-db-new\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
