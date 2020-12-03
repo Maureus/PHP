@@ -35,7 +35,7 @@ class UserController extends Controller {
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
-     */  
+     */
     public function store(Request $request)
     {
 
@@ -133,7 +133,8 @@ class UserController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id) {
-        //
+        $result = DB::delete("delete from USERS where ID = :id", [':id' => $id]);
+        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
     }
 
     static public function userSubjects($id) {
