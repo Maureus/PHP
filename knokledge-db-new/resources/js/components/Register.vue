@@ -9,12 +9,12 @@
                     <div class="p-2 w-full">
                         <label class="w-full text-white" for="name">Name:</label>
                         <span class="w-full text-red-500" v-if="errors.name">{{ errors.name[0] }}</span>
-                        <input id="name" placeholder="Name" type="text" v-model="form.name" required minlength="255"
+                        <input id="name" placeholder="Name" type="text" v-model="form.name" required maxlength="255"
                                class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2"/>
                     </div>
                     <div class="p-2 w-full">
                         <label class="text-white" for="email">Your e-mail:</label>
-                        <input id="email" placeholder="Email" type="email" v-model="form.email" required minlength="255"
+                        <input id="email" placeholder="Email" type="email" v-model="form.email" required maxlength="255"
                                pattern="^[a-zA-Z][a-zA-Z0-9!#$%&'*+-/=?^_`{|}~.(),:;<>[\]]*@[a-zA-Z.]+.[a-zA-Z]{2,4}$"
                                class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2"/>
                     </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions} from 'vuex';
 
 export default {
     name: "Register",
@@ -76,7 +76,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .form-container {
-    width: 100%;
+    width: 500px;
     transform: translateY(-30%);
 }
 </style>

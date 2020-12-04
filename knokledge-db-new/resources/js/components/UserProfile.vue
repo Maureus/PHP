@@ -63,7 +63,7 @@
                                        v-model="curUser.phone" name="phone">
                             </div>
 
-                            <div class="col-span-6 ">
+                            <div class="col-span-6 sm:col-span-4">
                                 <label for="address"
                                        class="block text-sm font-medium leading-5 text-gray-700">Address</label>
                                 <input id="address"
