@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-wrap w-full justify-center items-center pt-56">
         <div class="flex flex-wrap max-w-xl">
-            <div class="p-2 text-2xl text-white font-semibold">
-                <h1>Login to your account</h1>
-            </div>
             <div class="form-container">
+                <div class="p-2 text-2xl text-white font-semibold">
+                    <h1>Login to your account</h1>
+                </div>
                 <form @submit.prevent="login">
                     <div class="p-2 w-full">
                         <label class="text-white" for="email">Your e-mail:</label>
@@ -51,6 +51,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .form-container {
-    width: 100%;
+    width: 500px;
+    transform: translateY(-30%);
 }
 </style>
