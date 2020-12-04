@@ -5,7 +5,7 @@
             <div class="p-2 w-full">
                 <label class="w-full text-white" for="name">Name:</label>
                 <span class="w-full text-red-500" v-if="errors.name">{{errors.name[0]}}</span>
-                <input id="name" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text" v-model="form.name" >
+                <input id="name" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text" v-model="form.name">
             </div>
             <div class="p-2 w-full">
                 <label class="text-white" for="email">Your e-mail:</label>
