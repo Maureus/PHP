@@ -19,31 +19,31 @@ const getters = {
     }
 };
 const actions = {
-    async loginUser({state, commit}, user){
-         await axios.get('/sanctum/csrf-cookie').then(async () => {
-             await axios.post('/api/login', user).then(() =>{
-            }).catch((error) =>{
-                 commit('setErrors', error);
-             });
+    async loginUser({state, commit}, user) {
+        await axios.get('/sanctum/csrf-cookie').then(async () => {
+            await axios.post('/api/login', user).then(() => {
+            }).catch((error) => {
+                commit('setErrors', error);
+            });
         });
     },
-    async getLoggedInUser({commit}){
+    async getLoggedInUser({commit}) {
         const response = await axios.get('/api/user')
-            .catch((error) =>{
+            .catch((error) => {
                 commit('setErrors', error);
-        });
+            });
         commit('setUser', response.data);
     },
-    async logoutUser({commit}){
-        await axios.post('/api/logout').then(()=>{
+    async logoutUser({commit}) {
+        await axios.post('/api/logout').then(() => {
             commit('setUser', null);
-        }).catch((error) =>{
+        }).catch((error) => {
             commit('setErrors', error);
         });
 
     },
     async registerUser({commit}, user) {
-        axios.post('/api/register', user).catch( error => {
+        axios.post('/api/register', user).catch(error => {
             commit('setErrors', error);
         })
     },
