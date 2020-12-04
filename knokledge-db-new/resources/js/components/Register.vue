@@ -27,7 +27,7 @@
                     <div class="p-2 w-full">
                         <label class="text-white" for="confirm_password">Confirm Password:</label>
                         <input id="confirm_password" name="password_confirmation" placeholder="Confirm Password"
-                               type="password"
+                               type="password" minlength="6"
                                class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
                                v-model="form.password_confirmation" required/>
                     </div>
