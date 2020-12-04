@@ -4,17 +4,19 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $result = DB::select("select * from COURSES order by ID");
+        return response()->json($result, 200);
     }
 
     /**
@@ -32,11 +34,12 @@ class CourseController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $result = DB::selectOne("select * from COURSES where ID = :id", [':id'=>$id]);
+        return response()->json($result, 200);
     }
 
     /**
@@ -55,10 +58,11 @@ class CourseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        $result = DB::delete("delete from COURSES where ID = :id", [':id' => $id]);
+        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
     }
 }

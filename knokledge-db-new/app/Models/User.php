@@ -110,7 +110,10 @@ class User extends Authenticatable
     }
 
     static public function selectAllUserQuizResults($id){
-        return DB::select("select * from " . User::QUIZ_VIEW." where user_id = :user_id order by id", [':user_id'=>$id]);
+        return DB::select(
+            "select * from " . User::QUIZ_VIEW." where user_id = :user_id order by id",
+            [':user_id'=>$id]
+        );
     }
 
 }

@@ -11,20 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use mysql_xdevapi\Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use PDO;
 use function PHPUnit\Framework\throwException;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function index() {
+    public function index()
+    {
         return response()->json(
             User::selectAll(),
             200);
@@ -35,10 +36,44 @@ class UserController extends Controller {
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
-     */  
+     */
     public function store(Request $request)
     {
+        $result = array();
+        $name = $request->input("name");
+        $email = $request->input("email");
+        $password = Hash::make($request->input("password"));
+        $id = null;
 
+        $conn = oci_connect('ST58211', 'Andr7265357', '//fei-sql1.upceucebny.cz:1521/IDAS.UPCEUCEBNY.CZ');
+        $sql = 'begin insert_or_update_user(p_id => :id,
+                           p_name => :name,
+                           p_email => :email,
+                           p_password => :password,
+                           p_id_out => :v_id_out,
+                           p_name_out => :v_name_out,
+                           p_email_out => :v_email_out,
+                           p_role_out => :v_role_out,
+                           p_created_at_out => :v_created_at_out,
+                           p_updated_at_out => :v_updated_at_out);
+                        end;';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':id', $id, 255);
+        oci_bind_by_name($stmt, ':name', $name, 255);
+        oci_bind_by_name($stmt, ':email', $email, 255);
+        oci_bind_by_name($stmt, ':password', $password, 255);
+        oci_bind_by_name($stmt, ':v_id_out', $result['id'], 255);
+        oci_bind_by_name($stmt, ':v_name_out', $result['name'], 255);
+        oci_bind_by_name($stmt, ':v_email_out', $result['email'], 255);
+        oci_bind_by_name($stmt, ':v_role_out', $result['role'], 255);
+        oci_bind_by_name($stmt, ':v_created_at_out', $result['created_at'], 255);
+        oci_bind_by_name($stmt, ':v_updated_at_out', $result['updated_at'], 255);
+        oci_execute($stmt);
+        oci_close($conn);
+
+        return response()->json(
+            $result,
+            200);
     }
 
     /**
@@ -47,7 +82,8 @@ class UserController extends Controller {
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function show($id) {
+    static public function show($id)
+    {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectById($id),
@@ -66,7 +102,8 @@ class UserController extends Controller {
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         try {
             if (isset($request->password) && !isset($request->name)) {
                 $request->validate([
@@ -132,11 +169,14 @@ class UserController extends Controller {
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id) {
-        //
+    public function destroy($id)
+    {
+        $result = DB::delete("delete from USERS where ID = :id", [':id' => $id]);
+        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
     }
 
-    static public function userSubjects($id) {
+    static public function userSubjects($id)
+    {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserSubjects($id),
@@ -148,7 +188,8 @@ class UserController extends Controller {
             400);
     }
 
-    static public function userCourses($id) {
+    static public function userCourses($id)
+    {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserCourses($id),
@@ -160,7 +201,8 @@ class UserController extends Controller {
             400);
     }
 
-    static public function userQuizResults($id) {
+    static public function userQuizResults($id)
+    {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 User::selectAllUserQuizResults($id),
@@ -172,7 +214,8 @@ class UserController extends Controller {
             400);
     }
 
-    static public function updateUserProfile(Request $request) {
+    static public function updateUserProfile(Request $request)
+    {
         try {
             if (isset($request->password) && !isset($request->name)) {
                 $request->validate([
@@ -266,5 +309,28 @@ class UserController extends Controller {
                 null,
                 400);
         }
+    }
+
+    static public function assignSubjectToUser($id1, $id2)
+    {
+        try {
+            $result = DB::insert(
+                "insert into SUBJECT_USER values(:subjectID, :userID)",
+                [':subjectID' => $id2, ':userID' => $id1]);
+
+        } catch (\Exception $e) {
+            return response()->json(0, 400);
+        }
+
+        return $result ? response()->json(null, 200) : response()->json(null, 400);
+    }
+
+    static public function removeSubjectFromUser($id1, $id2)
+    {
+        $result = DB::delete(
+            "delete from SUBJECT_USER where SUBJECT_ID=:subjectID and USER_ID = :userID",
+            [':subjectID' => $id2, ':userID' => $id1]);
+
+        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
     }
 }
