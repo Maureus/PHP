@@ -1,46 +1,56 @@
 <template>
     <div class="flex flex-wrap w-full justify-center items-center pt-56">
         <div class="flex flex-wrap max-w-xl">
-            <div class="p-2 text-2xl text-white font-semibold"><h1>Login to your account</h1></div>
-            <div class="p-2 w-full">
-                <label class="text-white" for="email">Your e-mail:</label>
-                <input id="email" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Email" type="email" v-model="user.email">
+            <div class="p-2 text-2xl text-white font-semibold">
+                <h1>Login to your account</h1>
             </div>
-            <div class="p-2 w-full">
-                <label class="text-white" for="password">Password:</label>
-                <input id="password" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Password" type="password" v-model="user.password" name="password">
-            </div>
-            <div class="p-2 w-full mt-4">
-                <button @click.prevent="login" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Login</button>
+            <div class="form-container">
+                <form @submit.prevent="login">
+                    <div class="p-2 w-full">
+                        <label class="text-white" for="email">Your e-mail:</label>
+                        <input id="email" type="email" v-model="user.email" placeholder="Email" required maxlength="255"
+                               pattern="^[a-zA-Z][a-zA-Z0-9!#$%&'*+-/=?^_`{|}~.(),:;<>[\]]*@[a-zA-Z.]+.[a-zA-Z]{1,4}$"
+                               class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2">
+                    </div>
+                    <div class="p-2 w-full">
+                        <label class="text-white" for="password">Password:</label>
+                        <input id="password" type="password" v-model="user.password" placeholder="Password" required
+                               class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2">
+                    </div>
+                    <div class="p-2 w-full mt-4">
+                        <input type="submit" value="Login"
+                               class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
+
 export default {
     name: "Login",
     data: () => ({
-        user:{
-             email: '',
-             password: ''
+        user: {
+            email: '',
+            password: ''
         }
     }),
-    methods:{
+    methods: {
         ...mapActions(['loginUser', 'getLoggedInUser']),
         async login() {
             await this.loginUser(this.user)
                 .then(async () => await this.getLoggedInUser())
-                    .then(() => this.$router.push({name: "Dashboard"}));
+                .then(() => this.$router.push({name: "Dashboard"}));
         }
-    },
-    computed: {
-
     }
 }
 </script>
 
-<style scoped>
-
+<style scoped="scoped" lang="scss">
+.form-container {
+    width: 100%;
+}
 </style>
