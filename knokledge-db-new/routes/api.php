@@ -105,7 +105,7 @@ Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
 // Get image on server by url
 Route::get('image/{file_name}', function($filename){
-    $path = storage_path("app/public/$filename");
+    $path = storage_path("app/public/avatars/$filename");
     $image = File::get($path);
     $mime = File::mimeType($path);
     return response($image, 200)->header('Content-Type', $mime);
@@ -121,28 +121,6 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
 
     Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 
-//    Route::post('/saveuser', function(Request $request)
-//    {
-//        $pdo = DB::getPdo();
-//
-//        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ? where id = ?');
-//
-////        $file = $request->file("avatar");
-////        $data = fopen ($file, 'rb');
-////        $size = filesize ($file);
-////        $contents = fread ($data, $size);
-////        fclose ($data);
-//
-//
-//
-////        $id = Auth::user()->id;
-//        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
-//        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
-//        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
-//        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
-//        $statement->bindValue(5, $request->id, PDO::PARAM_INT);
-//        $statement->execute();
-//    });
 
     //For token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
