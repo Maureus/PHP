@@ -59,6 +59,16 @@ Route::get('/users/{id}/quizzes', function ($id) {
 })->where('id', '[0-9]+');
 
 
+// assign and delete Subject to user
+Route::post('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
+    return UserController::assignSubjectToUser($id1, $id2);
+})->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
+
+Route::delete('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
+    return UserController::removeSubjectFromUser($id1, $id2);
+})->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
+
+
 Route::apiResources([
     'users' => UserController::class,
     'subjects' => SubjectController::class,
