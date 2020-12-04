@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -239,9 +240,11 @@ class UserController extends Controller
                     'address' => 'max:255'
                 ]);
 
+                $request->file('avatar')->storeAs('public/avatars', 'avatar'.Auth::id().'.jpg');
+
                 $pdo = DB::getPdo();
 
-                $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?');
+                $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?');
 
                 $statement->bindValue(1, $request->name, PDO::PARAM_STR);
                 $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
@@ -281,10 +284,12 @@ class UserController extends Controller
                     'address' => 'max:255',
                     'password' => 'required|min:6|confirmed',
                 ]);
+
+                $request->file('avatar')->storeAs('public/avatars', 'avatar'.Auth::id().'.jpg');
                 $pdo = DB::getPdo();
 
                 $statement = $pdo->prepare(
-                    'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
+                    'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?'
                 );
 
                 $statement->bindValue(1, $request->name, PDO::PARAM_STR);
