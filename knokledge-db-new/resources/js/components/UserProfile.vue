@@ -48,10 +48,14 @@
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <input id="avatar" type="file" ref="myFile" @change="selectAvatar" name="avatar"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Choose a new avatar
+                                </label>
+                                <div class="col-span-6 sm:col-span-4">
+                                    <input id="avatar" type="file" ref="myFile" @change="selectAvatar" name="avatar"
+                                           class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                </div>
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="phone" class="block text-sm font-medium leading-5 text-gray-700">
                                     Phone number
@@ -60,7 +64,6 @@
                                        @keyup="checkPhone($event.target.value)"
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="address"
                                        class="block text-sm font-medium leading-5 text-gray-700">Address</label>
@@ -93,7 +96,6 @@
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                        v-model="password" name="password">
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="repeat_password" class="block text-sm font-medium leading-5 text-gray-700">Repeat
                                     password</label>
@@ -139,7 +141,6 @@ export default {
             loading: true,
             profileConfirm: false,
             passwordConfirm: false,
-
         }
     },
     methods: {
