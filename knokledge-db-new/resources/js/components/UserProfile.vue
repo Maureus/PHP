@@ -18,9 +18,7 @@
 
         <div class="h-full w-1/3 flex flex-col items-center justify-center">
             <div class="flex-shrink-0 h-56 w-56 mb-2">
-                <img id="ava" class="h-56 w-56 rounded-full"
-                     src=""
-                     alt="">
+                <img id="ava" class="h-56 w-56 rounded-full" src="" alt="">
             </div>
             <div class="flex flex-col items-center justify-center">
                 <button @click="showEditProfile"
