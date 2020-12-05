@@ -97,12 +97,6 @@ Route::apiResources([
 
 Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
-//Route::get('/useravatar/{id}', function ($id){
-//    $file = DB::selectOne('Select avatar from users where id = :id', [":id"=>$id]);
-//    //$data = base64_encode($file);
-//    return response()->file($file);
-//});
-
 // Get image on server by url
 Route::get('image/{file_name}', function($filename){
     $path = storage_path("app/public/avatars/$filename");
@@ -120,7 +114,6 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     });
 
     Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
-
 
     //For token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);

@@ -28,7 +28,7 @@ class UserController extends Controller
     public function index()
     {
         return response()->json(
-            User::selectAll(),
+            User::all(),
             200);
     }
 

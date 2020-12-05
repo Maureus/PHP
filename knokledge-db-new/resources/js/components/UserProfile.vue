@@ -209,7 +209,6 @@ export default {
         },
         selectAvatar() {
             this.curUser.avatar = this.$refs.myFile.files[0];
-            console.log(this.curUser.avatar);
         },
         async setAvatarAndUser() {
             this.loading = true;
