@@ -12,6 +12,7 @@ import UserList from "./components/UserList";
 import UserProfile from "./components/UserProfile";
 import store from './store';
 import Courses from "./components/Courses";
+import MyCourses from "./components/MyCourses";
 
 Vue.use(VueRouter);
 
@@ -71,6 +72,11 @@ export default new VueRouter({
             path: '/dashboard/courseslist',
             component: Courses,
             name: 'Courses'
+        },
+        {
+            path: '/mycourses',
+            component: MyCourses,
+            name: 'MyCourses'
         },
         {
             path: '/dashboard/userlist',
