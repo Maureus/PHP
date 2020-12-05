@@ -1,29 +1,6 @@
 <template>
     <div>
         <h1 class="p-2 text-2xl text-white font-semibold">Courses</h1>
-        <!--                <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>-->
-        <!--                <table v-else-if="this.courses.length !== 0">-->
-        <!--                    <thead>-->
-        <!--                    <tr>-->
-        <!--                        <th>Name</th>-->
-        <!--                        <th>Semester</th>-->
-        <!--                        <th>Year</th>-->
-        <!--                        <th>Abbreviation</th>-->
-        <!--                        <th>Description</th>-->
-        <!--                    </tr>-->
-        <!--                    </thead>-->
-        <!--                    <tbody>-->
-        <!--                    <tr v-for="course in courses" :key="course.id">-->
-        <!--                        <td>{{ course.name }}</td>-->
-        <!--                        <td>{{ course.semester }}</td>-->
-        <!--                        <td>{{ course.year }}</td>-->
-        <!--                        <td>{{ course.short_name }}</td>-->
-        <!--                        <td>-->
-        <!--                            <button style="background-color: white; padding: 10px">More</button>-->
-        <!--                        </td>-->
-        <!--                    </tr>-->
-        <!--                    </tbody>-->
-        <!--                </table>-->
         <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
             <div class="list-group">
                 <button class="list-group-item list-group-item-action" @click="getYearValue" v-for="(year, id) in years"

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 
 export default {
     name: "NavBar",
@@ -67,14 +67,14 @@ export default {
     },
     methods: {
         logout() {
-            this.$store.dispatch('logoutUser')
-                .then(() => this.$router.push({name: "Home"}));
-
+            this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
         },
     }
 }
 </script>
 
 <style scoped>
-
+* {
+    font-size: 18px;
+}
 </style>

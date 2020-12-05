@@ -41,32 +41,34 @@
                                 <h3 v-if="getErrors">{{ getErrors }}</h3>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Your
-                                    name</label>
-                                <input id="name"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       v-model="curUser.name" @change="checkName" name="name">
+                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Your name
+                                </label>
+                                <input id="name" v-model="curUser.name" @change="checkName" name="name"
+                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <input id="avatar"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       type="file" ref="myFile" @change="selectAvatar" name="avatar">
+                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Choose a new avatar
+                                </label>
+                                <div class="col-span-6 sm:col-span-4">
+                                    <input id="avatar" type="file" ref="myFile" @change="selectAvatar" name="avatar"
+                                           class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                </div>
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="phone" class="block text-sm font-medium leading-5 text-gray-700">Phone
-                                    number</label>
-                                <input id="phone"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       v-model="curUser.phone" name="phone">
+                                <label for="phone" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Phone number
+                                </label>
+                                <input id="phone" v-model="curUser.phone" name="phone"
+                                       @keyup="checkPhone($event.target.value)"
+                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="address"
                                        class="block text-sm font-medium leading-5 text-gray-700">Address</label>
-                                <input id="address"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       v-model="curUser.address" name="address">
+                                <input id="address" v-model="curUser.address" name="address"
+                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                         </div>
                     </div>
@@ -94,7 +96,6 @@
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                        v-model="password" name="password">
                             </div>
-
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="repeat_password" class="block text-sm font-medium leading-5 text-gray-700">Repeat
                                     password</label>
@@ -140,7 +141,6 @@ export default {
             loading: true,
             profileConfirm: false,
             passwordConfirm: false,
-
         }
     },
     methods: {
@@ -222,6 +222,13 @@ export default {
         },
         confirmModal() {
             this.confirm();
+        },
+        checkPhone(value) {
+            console.log(value);
+            const phoneRegex = new RegExp(/^(?=(?:\D*\d){9,15}\D*$)\+?[0-9]{1,3}[\s-]?[0-9]{1,5}[-\s]?[0-9][\d\s-]{5,11}?$/);
+            if (!value.match(phoneRegex)) {
+                this.curUser.phone = value.substr(0, value.length - 1);
+            }
         },
         checkName() {
 
