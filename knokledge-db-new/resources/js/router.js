@@ -11,6 +11,7 @@ import VueRouter from "vue-router";
 import UserList from "./components/UserList";
 import UserProfile from "./components/UserProfile";
 import store from './store';
+import Courses from "./components/Courses";
 
 Vue.use(VueRouter);
 
@@ -65,6 +66,11 @@ export default new VueRouter({
             path: '/modal',
             component: Modal,
             name: 'Modal'
+        },
+        {
+            path: '/dashboard/courseslist',
+            component: Courses,
+            name: 'Courses'
         },
         {
             path: '/dashboard/userlist',

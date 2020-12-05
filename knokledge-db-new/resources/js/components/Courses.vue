@@ -1,0 +1,155 @@
+<template>
+    <div>
+        <h1 class="p-2 text-2xl text-white font-semibold">Courses</h1>
+        <!--                <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>-->
+        <!--                <table v-else-if="this.courses.length !== 0">-->
+        <!--                    <thead>-->
+        <!--                    <tr>-->
+        <!--                        <th>Name</th>-->
+        <!--                        <th>Semester</th>-->
+        <!--                        <th>Year</th>-->
+        <!--                        <th>Abbreviation</th>-->
+        <!--                        <th>Description</th>-->
+        <!--                    </tr>-->
+        <!--                    </thead>-->
+        <!--                    <tbody>-->
+        <!--                    <tr v-for="course in courses" :key="course.id">-->
+        <!--                        <td>{{ course.name }}</td>-->
+        <!--                        <td>{{ course.semester }}</td>-->
+        <!--                        <td>{{ course.year }}</td>-->
+        <!--                        <td>{{ course.short_name }}</td>-->
+        <!--                        <td>-->
+        <!--                            <button style="background-color: white; padding: 10px">More</button>-->
+        <!--                        </td>-->
+        <!--                    </tr>-->
+        <!--                    </tbody>-->
+        <!--                </table>-->
+        <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
+            <div class="list-group">
+                <button class="list-group-item list-group-item-action" @click="getYearValue" v-for="(year, id) in years"
+                        :key="id" :value="year">{{ year }}
+                </button>
+            </div>
+        </div>
+        <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
+        <div style="float: left" v-else-if="this.filteredCourses.length">
+            <table class="table-container">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Abbreviation</th>
+                    <th scope="col">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="course in filteredCourses" :key="course.id">
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.semester }}</td>
+                    <td>{{ course.year }}</td>
+                    <td>{{ course.short_name }}</td>
+                    <td>
+                        <button>More</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>
+
+<script>
+import {mapActions} from 'vuex';
+import Preloader from "./Preloader";
+
+export default {
+    name: "Courses",
+    components: {
+        Preloader
+    },
+    data() {
+        return {
+            courses: [],
+            loading: true,
+            btnYearValue: '',
+            years: []
+        }
+    },
+    methods: {
+        ...mapActions(["saveErrors"]),
+        getYearValue(event) {
+            // console.log(event.target.value);
+            this.btnYearValue = event.target.value;
+        }
+    },
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/subjects")
+            .then(resp => resp.data)
+            .then(value => {
+                this.courses = value;
+                this.loading = false;
+            })
+            .catch(errors => this.saveErrors(errors));
+
+        for (let i = 2020; i >= 2018; i--) {
+            this.years.push(i + '/' + (i + 1));
+            // console.log(i + '/' + (i + 1));
+        }
+    },
+    computed: {
+        filteredCourses() {
+            return this.courses.filter(value => value.created_at.split("-")[0] === this.btnYearValue.split("/")[0]);
+        }
+    }
+}
+</script>
+
+<style scoped="scoped" lang="scss">
+$border: 1px solid black;
+$fontSize: 18px;
+
+.table-container {
+    text-align: center;
+    display: table;
+    background-color: white;
+    color: black;
+    font-size: $fontSize;
+    border-radius: 7px;
+    overflow: hidden;
+    border-collapse: collapse;
+
+    tr {
+        margin: 5px 0;
+        line-height: 2.1875em; //25
+
+        &:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        &:nth-child(even) {
+            background-color: darken($color: #fff, $amount: 5%);;
+        }
+
+        &:hover {
+            background-color: darken($color: #dde9f5, $amount: 2%);
+        }
+    }
+
+    th {
+        color: white;
+        padding: 5px 10px;
+        background-color: darken($color: #187fe2, $amount: 3%);
+    }
+
+    td {
+        padding: 5px 10px;
+    }
+}
+
+button {
+    &:focus {
+        outline: none;
+    }
+}
+</style>

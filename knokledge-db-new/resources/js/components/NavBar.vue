@@ -7,12 +7,13 @@
                 <!--                <router-link class="mr-4 text-white" to="/rand/12">User 12</router-link>-->
                 <!--                <router-link class="mr-4 text-white" to="/modal">Modal</router-link>-->
                 <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/courselist">All courses</router-link>
+                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
             <div v-if="getUser" class="flex">
                 <router-link class="mr-4 text-white" to="/main">Main</router-link>
                 <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
+                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
                 <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>
                 <router-link v-if="getUser.role === 'teacher'" class="mr-4 text-white" to="/mystudents">My students
                 </router-link>
