@@ -191,7 +191,6 @@ export default {
                 .catch(errors => {
                     this.saveErrors(errors);
                 })
-
         },
         async saveUserPassword() {
             let formData = new FormData();
@@ -206,10 +205,9 @@ export default {
                 this.profileConfirm = false;
                 this.changePassword = false;
                 this.confirmModal();
+            }).catch(errors => {
+                this.saveErrors(errors);
             })
-                .catch(errors => {
-                    this.saveErrors(errors);
-                })
         },
         selectAvatar() {
             this.curUser.avatar = this.$refs.myFile.files[0];
@@ -231,8 +229,6 @@ export default {
         checkName() {
 
         }
-
-
     },
     computed: {
         ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm']),
