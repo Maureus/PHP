@@ -7,9 +7,8 @@
         <td v-if="getUser != null && getUser.role === 'student'">
             <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Write</button>
         </td>
-        <td v-else-if="getUser != null && getUser.role === 'admin'"
-            class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-            <button class="text-indigo-600 hover:text-indigo-900">Edit</button>
+        <td v-else-if="getUser != null && getUser.role === 'admin'">
+            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit</button>
         </td>
     </tr>
 </template>
@@ -64,5 +63,11 @@ th {
 td {
     font-size : 18px;
     padding   : 5px 10px;
+}
+
+button {
+    &:focus {
+        outline : none;
+    }
 }
 </style>
