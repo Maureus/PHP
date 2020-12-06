@@ -4,11 +4,13 @@
         <td>{{ course.semester }}</td>
         <td>{{ course.year }}</td>
         <td>{{ course.short_name }}</td>
-        <td v-if="getUser != null && getUser.role === 'student'">
-            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Write</button>
+        <td v-if="getUser != null && getUser.role === 'student'" @click="this.$emit('assign-course', course.id)">
+            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">{{ option }}
+            </button>
         </td>
         <td v-else-if="getUser != null && getUser.role === 'admin'">
-            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit</button>
+            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">{{ option }}
+            </button>
         </td>
     </tr>
 </template>
@@ -22,11 +24,15 @@ export default {
         course: {
             type: Object,
             required: true
+        },
+        option: {
+            type: String,
+            required: true
         }
     },
     computed: {
         ...mapGetters(["getUser"])
-    },
+    }
 }
 </script>
 
@@ -61,7 +67,7 @@ th {
 }
 
 td {
-    font-size : 18px;
+    font-size : $fontSize;
     padding   : 5px 10px;
 }
 

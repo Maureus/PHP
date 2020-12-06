@@ -178,17 +178,15 @@ export default {
 
             await axios.post('api/saveuser', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
+            }).then(async () => {
+                this.passwordConfirm = false;
+                this.profileConfirm = true;
+                this.editProfile = false;
+                await this.getLoggedInUser();
+                this.confirmModal();
+            }).catch(errors => {
+                this.saveErrors(errors);
             })
-                .then(async () => {
-                    this.passwordConfirm = false;
-                    this.profileConfirm = true;
-                    this.editProfile = false;
-                    await this.getLoggedInUser();
-                    this.confirmModal();
-                })
-                .catch(errors => {
-                    this.saveErrors(errors);
-                })
         },
         async saveUserPassword() {
             let formData = new FormData();

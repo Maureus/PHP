@@ -23,7 +23,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="course in filteredCourses" :key="course.id" :course="course"/>
+                <CourseItem v-for="course in filteredCourses" :key="course.id" :course="course" :option="option"
+                            @assign-course="assignCourse"/>
                 </tbody>
             </table>
         </div>
@@ -45,7 +46,8 @@ export default {
             courses: [],
             loading: true,
             btnYearValue: '',
-            years: []
+            years: [],
+            option: ''
         }
     },
     methods: {
@@ -53,6 +55,12 @@ export default {
         getYearValue(event) {
             // console.log(event.target.value);
             this.btnYearValue = event.target.value;
+        },
+        async assignCourse(subjectId) {
+            console.log(subjectId);
+            const userId = this.getUser.id;
+            console.log(userId);
+            await axios.post("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId);
         }
     },
     async mounted() {
@@ -67,6 +75,16 @@ export default {
         for (let i = 2020; i >= 2018; i--) {
             this.years.push(i + '/' + (i + 1));
             // console.log(i + '/' + (i + 1));
+        }
+        if (this.getUser != null) {
+            switch (this.getUser.role) {
+                case 'student' :
+                    this.option = 'Write';
+                    break;
+                case 'admin' :
+                    this.option = 'Edit';
+                    break;
+            }
         }
     },
     computed: {
