@@ -8,9 +8,11 @@ import Rand from "./components/Rand";
 import Modal from "./components/Modal";
 import Vue from 'vue';
 import VueRouter from "vue-router";
-import UserList from "./components/UserList";
-import UserProfile from "./components/UserProfile";
+import UserList from "./components/usersDir/UserList";
+import UserProfile from "./components/usersDir/UserProfile";
 import store from './store';
+import Courses from "./components/coursesDir/Courses";
+import MyCourses from "./components/coursesDir/MyCourses";
 
 Vue.use(VueRouter);
 
@@ -65,6 +67,16 @@ export default new VueRouter({
             path: '/modal',
             component: Modal,
             name: 'Modal'
+        },
+        {
+            path: '/dashboard/courseslist',
+            component: Courses,
+            name: 'Courses'
+        },
+        {
+            path: '/mycourses',
+            component: MyCourses,
+            name: 'MyCourses'
         },
         {
             path: '/dashboard/userlist',

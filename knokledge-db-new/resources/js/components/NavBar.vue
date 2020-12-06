@@ -7,16 +7,18 @@
                 <!--                <router-link class="mr-4 text-white" to="/rand/12">User 12</router-link>-->
                 <!--                <router-link class="mr-4 text-white" to="/modal">Modal</router-link>-->
                 <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/courselist">All courses</router-link>
+                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
             <div v-if="getUser" class="flex">
-                <router-link class="mr-4 text-white" to="/main">Main</router-link>
+                <router-link class="mr-4 text-white" to="/">Home</router-link>
                 <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
-                <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>
+                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
+                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
+                <router-link v-if="getUser.role !== 'admin'" class="mr-4 text-white" to="/mycourses">My courses
+                </router-link>
                 <router-link v-if="getUser.role === 'teacher'" class="mr-4 text-white" to="/mystudents">My students
                 </router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
             </div>
             <!--            <div v-if="getUser.role === 'student'" class="flex">-->
             <!--                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>-->
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 
 export default {
     name: "NavBar",
@@ -66,14 +68,14 @@ export default {
     },
     methods: {
         logout() {
-            this.$store.dispatch('logoutUser')
-                .then(() => this.$router.push({name: "Home"}));
-
+            this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
         },
     }
 }
 </script>
 
 <style scoped>
-
+* {
+    font-size: 18px;
+}
 </style>
