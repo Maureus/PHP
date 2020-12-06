@@ -1,8 +1,8 @@
 const state = {
     user: null,
-    admin: 'admin',
-    teacher: 'teacher',
-    student: 'student',
+    // admin: 'admin',
+    // teacher: 'teacher',
+    // student: 'student',
     errors: null,
     showModalConfirm: false,
 };
