@@ -119,7 +119,7 @@
 
 <script>
 import {mapGetters, mapActions, mapState, mapMutations} from 'vuex';
-import Preloader from "./Preloader";
+import Preloader from "../Preloader";
 
 export default {
     name: "UserProfile",

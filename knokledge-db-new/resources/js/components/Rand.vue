@@ -9,12 +9,12 @@
 <script>
 export default {
     watch: {
-        '$route' (to, from) {
+        '$route'(to, from) {
             // alert(to.params.user_id);
         }
     },
     created() {
-      // alert(this.$route.params.user_id);
+        // alert(this.$route.params.user_id);
     },
     methods: {
         goHome() {

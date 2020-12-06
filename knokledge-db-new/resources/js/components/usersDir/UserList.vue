@@ -23,7 +23,9 @@
                                 class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                         </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
                         <user-list-item v-for="user in users" :key="user.id" :user="user"></user-list-item>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -33,7 +35,7 @@
 
 <script>
 import UserListItem from "./UserListItem";
-import Preloader from "./Preloader";
+import Preloader from "../Preloader";
 import {mapGetters} from 'vuex';
 
 export default {
@@ -64,10 +66,10 @@ export default {
 
 <style scoped>
 table {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    border-collapse: collapse;
-    border-radius: 10px;
+    margin-top      : 10px;
+    margin-bottom   : 10px;
+    overflow        : hidden;
+    border-collapse : collapse;
+    border-radius   : 10px;
 }
 </style>
