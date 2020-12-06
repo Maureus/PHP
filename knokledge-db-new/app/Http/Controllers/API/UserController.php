@@ -27,9 +27,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            User::all(),
-            200);
+        $result = DB::select("select id, name, email, created_at, role, PHONE, ADDRESS, HASAVATAR from USERS order by ID");
+        return response()->json($result, 200);
     }
 
     /**
@@ -85,15 +84,12 @@ class UserController extends Controller
      */
     static public function show($id)
     {
-        if (is_numeric($id) && !empty($id)) {
-            return response()->json(
-                User::selectById($id),
-                200);
-        }
-
         return response()->json(
-            null,
-            400);
+            DB::selectOne(
+                'select id, name, email, created_at, role, PHONE, ADDRESS, HASAVATAR from USERS where id = :id',
+                [':id'=>$id]
+            ),
+            200);
     }
 
     /**
@@ -240,7 +236,7 @@ class UserController extends Controller
                     'address' => 'max:255'
                 ]);
 
-                $request->file('avatar')->storeAs('public/avatars', 'avatar'.Auth::id().'.jpg');
+                $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
 
                 $pdo = DB::getPdo();
 
@@ -285,7 +281,7 @@ class UserController extends Controller
                     'password' => 'required|min:6|confirmed',
                 ]);
 
-                $request->file('avatar')->storeAs('public/avatars', 'avatar'.Auth::id().'.jpg');
+                $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
                 $pdo = DB::getPdo();
 
                 $statement = $pdo->prepare(
