@@ -32,17 +32,18 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
+$fontSize : 18px;
 button {
-    font-size : 18px;
+    font-size : $fontSize;
 
     &:hover {
-        background-color           : #ccc;
         font-weight                : bold;
-        box-shadow                 : #ccc -1px 1px,
-        darken($color: #ccc, $amount: 2%) -2px 2px,
-        darken($color: #ccc, $amount: 4%) -3px 3px,
-        darken($color: #ccc, $amount: 6%) -4px 4px,
-        darken($color: #ccc, $amount: 8%) -5px 5px;
+        background-color           : #dde9f5;
+        box-shadow                 : #dde9f5 -1px 1px,
+        darken($color: #dde9f5, $amount: 2%) -2px 2px,
+        darken($color: #dde9f5, $amount: 4%) -3px 3px,
+        darken($color: #dde9f5, $amount: 6%) -4px 4px,
+        darken($color: #dde9f5, $amount: 8%) -5px 5px;
         transform                  : translate3d(5px, -5px, 0);
 
         transition-delay           : 0s;

@@ -79,12 +79,14 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize : 18px;
+$fontSize        : 18px;
+$hoverColor      : #dde9f5;
+$backgroundColor : white;
 
 .table-container {
     text-align       : center;
     display          : table;
-    background-color : white;
+    background-color : $backgroundColor;
     color            : black;
     font-size        : $fontSize;
     border-radius    : 7px;
@@ -93,18 +95,18 @@ $fontSize : 18px;
 
     tr {
         margin      : 5px 0;
-        line-height : 2.1875em; //25
+        line-height : 2.1875em;
 
         &:nth-child(odd) {
-            background-color : #fff;
+            background-color : $backgroundColor;
         }
 
         &:nth-child(even) {
-            background-color : darken($color : #fff, $amount : 5%);;
+            background-color : darken($color : $backgroundColor, $amount : 5%);
         }
 
         &:hover {
-            background-color : darken($color : #dde9f5, $amount : 2%);
+            background-color : darken($color : $hoverColor, $amount : 2%);
         }
     }
 
