@@ -1,5 +1,4 @@
 <template>
-    <tbody class="bg-white divide-y divide-gray-200">
     <tr>
         <td class="px-6 py-4 whitespace-no-wrap">
             <div class="flex items-center">
@@ -14,8 +13,8 @@
             </div>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap">
-            <div class="text-base leading-5 text-gray-500">{{ user.phone == null ? "No phone" : user.phone }}</div>
             <div class="text-base leading-5 text-gray-500">{{ user.email == null ? "No email" : user.email }}</div>
+            <div class="text-base leading-5 text-gray-500">{{ user.phone == null ? "" : user.phone }}</div>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500">
             {{ user.created_at | correctDateView }}
@@ -28,7 +27,6 @@
             <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
         </td>
     </tr>
-    </tbody>
 </template>
 
 <script>

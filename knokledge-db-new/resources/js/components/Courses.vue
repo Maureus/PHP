@@ -17,19 +17,11 @@
                     <th scope="col">Semester</th>
                     <th scope="col">Year</th>
                     <th scope="col">Abbreviation</th>
-                    <th scope="col">Description</th>
+                    <th scope="col" v-if="getUser != null && getUser.role === 'student'"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="course in filteredCourses" :key="course.id">
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.semester }}</td>
-                    <td>{{ course.year }}</td>
-                    <td>{{ course.short_name }}</td>
-                    <td>
-                        <button>More</button>
-                    </td>
-                </tr>
+                <CourseItem v-for="course in filteredCourses" :key="course.id" :course="course"/>
                 </tbody>
             </table>
         </div>
@@ -37,13 +29,14 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import Preloader from "./Preloader";
+import CourseItem from "./CourseItem";
 
 export default {
     name: "Courses",
     components: {
-        Preloader
+        Preloader, CourseItem
     },
     data() {
         return {
@@ -75,6 +68,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["getUser"]),
         filteredCourses() {
             return this.courses.filter(value => value.created_at.split("-")[0] === this.btnYearValue.split("/")[0]);
         }

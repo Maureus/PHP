@@ -23,7 +23,9 @@
                                 class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                         </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
                         <user-list-item v-for="user in users" :key="user.id" :user="user"></user-list-item>
+                        </tbody>
                     </table>
                 </div>
             </div>
