@@ -35,7 +35,7 @@
 
 <script>
 import UserListItem from "./UserListItem";
-import Preloader from "./Preloader";
+import Preloader from "../Preloader";
 import {mapGetters} from 'vuex';
 
 export default {
@@ -66,10 +66,10 @@ export default {
 
 <style scoped>
 table {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    border-collapse: collapse;
-    border-radius: 10px;
+    margin-top      : 10px;
+    margin-bottom   : 10px;
+    overflow        : hidden;
+    border-collapse : collapse;
+    border-radius   : 10px;
 }
 </style>

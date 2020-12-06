@@ -76,7 +76,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .form-container {
-    width: 500px;
-    transform: translateY(-30%);
+    width     : 500px;
+    transform : translateY(-30%);
 }
 </style>

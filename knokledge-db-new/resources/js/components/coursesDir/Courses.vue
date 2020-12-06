@@ -17,7 +17,9 @@
                     <th scope="col">Semester</th>
                     <th scope="col">Year</th>
                     <th scope="col">Abbreviation</th>
-                    <th scope="col" v-if="getUser != null && getUser.role === 'student'"></th>
+                    <th scope="col"
+                        v-if="(getUser != null && (getUser.role === 'student' || getUser.role === 'admin'))">Option
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,7 +32,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-import Preloader from "./Preloader";
+import Preloader from "../Preloader";
 import CourseItem from "./CourseItem";
 
 export default {
@@ -77,50 +79,45 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$border: 1px solid black;
-$fontSize: 18px;
+$fontSize : 18px;
 
 .table-container {
-    text-align: center;
-    display: table;
-    background-color: white;
-    color: black;
-    font-size: $fontSize;
-    border-radius: 7px;
-    overflow: hidden;
-    border-collapse: collapse;
+    text-align       : center;
+    display          : table;
+    background-color : white;
+    color            : black;
+    font-size        : $fontSize;
+    border-radius    : 7px;
+    overflow         : hidden;
+    border-collapse  : collapse;
 
     tr {
-        margin: 5px 0;
-        line-height: 2.1875em; //25
+        margin      : 5px 0;
+        line-height : 2.1875em; //25
 
         &:nth-child(odd) {
-            background-color: #fff;
+            background-color : #fff;
         }
 
         &:nth-child(even) {
-            background-color: darken($color: #fff, $amount: 5%);;
+            background-color : darken($color : #fff, $amount : 5%);;
         }
 
         &:hover {
-            background-color: darken($color: #dde9f5, $amount: 2%);
+            background-color : darken($color : #dde9f5, $amount : 2%);
         }
     }
 
     th {
-        color: white;
-        padding: 5px 10px;
-        background-color: darken($color: #187fe2, $amount: 3%);
-    }
-
-    td {
-        padding: 5px 10px;
+        padding          : 5px 10px;
+        color            : white;
+        background-color : darken($color : #187fe2, $amount : 3%);
     }
 }
 
 button {
     &:focus {
-        outline: none;
+        outline : none;
     }
 }
 </style>
