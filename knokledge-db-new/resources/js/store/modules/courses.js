@@ -1,9 +1,9 @@
 export default {
     state: {
         operations: {
-            write: 'Write',
-            edit: 'Edit',
-            delete: 'Delete'
+            write: 'write',
+            edit: 'edit',
+            delete: 'delete'
         }
     },
     getters: {

@@ -4,14 +4,17 @@
         <td>{{ course.semester }}</td>
         <td>{{ course.year }}</td>
         <td>{{ course.short_name }}</td>
-        <td v-if="getUser != null && getUser.role === 'student'" @click="this.$emit('assign-course', course.id)">
-            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">{{ option }}
+        <td v-if="getUser && option !== ''">
+            <button @click="subjectUtility($event.target.value)" :value="option"
+                    class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
+                {{ option | capitalizer }}
             </button>
         </td>
-        <td v-else-if="getUser != null && getUser.role === 'admin'">
-            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">{{ option }}
-            </button>
-        </td>
+        <!--        <td v-else-if="getUser != null && getUser.role === 'admin'">-->
+        <!--            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">-->
+        <!--                {{ option }}-->
+        <!--            </button>-->
+        <!--        </td>-->
     </tr>
 </template>
 
@@ -31,7 +34,32 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser"])
+        ...mapGetters(["getUser"
+            , "getWriteOperation", "getEditOperation", "getDeleteOperation"
+            , "getStudentRole", "getAdminRole", "getTeacherRole"])
+    },
+    methods: {
+        subjectUtility(value) {
+            // console.log(value);
+            switch (value) {
+                case this.getWriteOperation :
+                    this.$emit('assign-course', this.course.id);
+                    break;
+                case this.getEditOperation :
+                    this.$emit('edit-course', this.course.id);
+                    break;
+                case this.getDeleteOperation :
+                    this.$emit('delete-course-in-user', this.course.id);
+                    break;
+            }
+        }
+    },
+    filters: {
+        capitalizer(value) {
+            return value ? value.replace(/\b\w/g, function (character) {
+                return character.toUpperCase();
+            }) : "";
+        }
     }
 }
 </script>

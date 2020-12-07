@@ -2,7 +2,7 @@
     <div>
         <h1 class="p-2 text-2xl text-white font-semibold">My courses</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-else-if="this.userCourses.length">
+        <div v-else-if="userCourses.length">
             <table class="table-container">
                 <thead>
                 <tr>
@@ -14,13 +14,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="course in userCourses" :key="course.id" :course="course" :option="option"/>
+                <CourseItem v-for="course in userCourses" :key="course.id" :course="course" :option="option"
+                            @edit-course="editCourse" @delete-course-in-user="deleteCourseInUser"/>
                 </tbody>
             </table>
         </div>
-        <p v-else class="p-2 text-xl text-white font-semibold">You don't have any course.
-            <router-link to="" v-if="this.getUser != null && this.getUser.role === 'teacher'">Apply to start a course
-            </router-link>
+        <p v-else class="p-2 text-lg text-white font-semibold">You don't have any course.
+            <span v-if="getUser != null && getUser.role === getStudentRole">
+                Click <router-link to="/dashboard/courseslist" class="link">here</router-link> to write a course.
+            </span>
+            <!--TODO think about teacher's role-->
+            <span v-else-if="getUser != null && getUser.role === getTeacherRole">
+                Click <router-link to="/" class="link">here</router-link> for applying to start a course.
+            </span>
         </p>
     </div>
 </template>
@@ -44,21 +50,18 @@ export default {
     },
     methods: {
         ...mapActions(["saveErrors"]),
+        editCourse(subjectId) {
+            console.log("Course is editing");
+        },
+        async deleteCourseInUser(subjectId) {
+            const userId = this.getUser.id;
+            this.userCourses = this.userCourses.filter(value => value.id !== subjectId);
+            await axios.delete("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
+                .catch(errors => this.saveErrors(errors));
+        }
     },
     computed: {
-        ...mapGetters(['getUser']),
-        setOption() {
-            if (this.getUser != null) {
-                switch (this.getUser.role) {
-                    case 'student' :
-                        this.option = 'delete';
-                        break;
-                    case 'teacher' :
-                        this.option = 'edit';
-                        break;
-                }
-            }
-        }
+        ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation"])
     },
     async mounted() {
         if (this.getUser == null) {
@@ -74,11 +77,11 @@ export default {
                 .catch(errors => this.saveErrors(errors));
 
             switch (this.getUser.role) {
-                case 'student' :
-                    this.option = 'Delete';
+                case this.getStudentRole :
+                    this.option = this.getDeleteOperation;
                     break;
-                case 'teacher' :
-                    this.option = 'Edit';
+                case this.getTeacherRole :
+                    this.option = this.getEditOperation;
                     break;
             }
         }
@@ -128,6 +131,14 @@ $backgroundColor : white;
 button {
     &:focus {
         outline : none;
+    }
+}
+
+.link {
+    color : #cae9ff;
+
+    &:hover {
+        text-decoration : underline #cae9ff;
     }
 }
 </style>
