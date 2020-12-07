@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Confirm :mess="mess"/>
         <h1 class="p-2 text-2xl text-white font-semibold">Courses</h1>
         <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
             <div class="list-group">
@@ -36,11 +37,12 @@
 import {mapActions, mapGetters} from 'vuex';
 import Preloader from "../Preloader";
 import CourseItem from "./CourseItem";
+import Confirm from "../Confirm";
 
 export default {
     name: "Courses",
     components: {
-        Preloader, CourseItem
+        Preloader, CourseItem, Confirm
     },
     data() {
         return {
@@ -48,7 +50,8 @@ export default {
             years: [],
             loading: true,
             btnYearValue: '',
-            option: ''
+            option: '',
+            mess: ''
         }
     },
     methods: {
@@ -63,7 +66,10 @@ export default {
             // console.log(userId);
             //TODO add confirm message
             await axios.post("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
-                .then(() => this.confirm())
+                .then(async () => {
+                    this.mess = "Course has been written.";
+                    this.confirm();
+                })
                 .catch(error => this.saveErrors(error));
         },
         editCourse(subjectId) {

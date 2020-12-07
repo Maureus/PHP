@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Confirm :mess="mess"/>
         <h1 class="p-2 text-2xl text-white font-semibold">My courses</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="userCourses.length">
@@ -35,28 +36,34 @@
 import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
 import CourseItem from "./CourseItem";
+import Confirm from "../Confirm";
 
 export default {
     name: "MyCourses",
     components: {
-        Preloader, CourseItem
+        Preloader, CourseItem, Confirm
     },
     data() {
         return {
             loading: true,
             userCourses: [],
-            option: ''
+            option: '',
+            mess: ''
         }
     },
     methods: {
-        ...mapActions(["saveErrors"]),
+        ...mapActions(["saveErrors", "confirm"]),
         editCourse(subjectId) {
             console.log("Course is editing");
         },
         async deleteCourseInUser(subjectId) {
             const userId = this.getUser.id;
-            this.userCourses = this.userCourses.filter(value => value.id !== subjectId);
             await axios.delete("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
+                .then(async () => {
+                    this.userCourses = this.userCourses.filter(value => value.id !== subjectId);
+                    this.mess = "Course has been deleted.";
+                    this.confirm();
+                })
                 .catch(errors => this.saveErrors(errors));
         }
     },
