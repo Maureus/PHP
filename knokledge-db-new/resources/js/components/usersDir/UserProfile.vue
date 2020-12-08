@@ -223,7 +223,7 @@ export default {
         },
         checkPhone(value) {
             // console.log(value);
-            const phoneRegex = new RegExp(/^(?=(?:\D*\d){9,15}\D*$)\+?[0-9]{1,3}[\s-]?[0-9]{1,5}[-\s]?[0-9][\d\s-]{5,11}?$/);
+            const phoneRegex = new RegExp(/^\+?[0-9-() ]{1,15}$/);
             if (!value.match(phoneRegex)) {
                 this.curUser.phone = value.substr(0, value.length - 1);
             }
