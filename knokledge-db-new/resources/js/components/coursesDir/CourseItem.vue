@@ -10,11 +10,6 @@
                 {{ option | capitalizer }}
             </button>
         </td>
-        <!--        <td v-else-if="getUser != null && getUser.role === 'admin'">-->
-        <!--            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">-->
-        <!--                {{ option }}-->
-        <!--            </button>-->
-        <!--        </td>-->
     </tr>
 </template>
 
