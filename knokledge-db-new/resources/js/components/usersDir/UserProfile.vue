@@ -1,20 +1,8 @@
 <template>
     <div class="flex flex-row pt-4">
-        <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-if="getShowModalConfirm"
-             class="absolute inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-            <div class="flex-column items-center justify-center w-1/5 bg-white border-0 rounded">
-                <p v-if="passwordConfirm" class="text-center pt-4 text-lg">Password has been changed!</p>
-                <p v-if="profileConfirm" class="text-center pt-4 text-lg">Profile has been changed!</p>
-                <div class="flex items-center pt-4 justify-end w-full pr-2">
-                    <button @click="confirmModal"
-                            class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
-                            focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2">
-                        Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
+        <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
+        <Confirm v-if="profileConfirm" :mess="mess"/>
+        <Confirm v-else-if="passwordConfirm" :mess="mess"/>
 
         <div class="h-full w-1/3 flex flex-col items-center justify-center">
             <div class="flex-shrink-0 h-56 w-56 mb-2">
@@ -92,16 +80,15 @@
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="password"
                                        class="block text-sm font-medium leading-5 text-gray-700">Password</label>
-                                <input id="password"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       v-model="password" name="password">
+                                <input id="password" type="password" v-model="password" name="password"
+                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="repeat_password" class="block text-sm font-medium leading-5 text-gray-700">Repeat
-                                    password</label>
-                                <input id="repeat_password"
-                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                       v-model="password_confirmation" name="repeatPassword">
+                                <label for="repeat_password" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Repeat password</label>
+                                <input id="repeat_password" type="password" name="repeatPassword"
+                                       v-model="password_confirmation"
+                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                         </div>
                     </div>
@@ -118,12 +105,15 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState, mapMutations} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
+import Confirm from "../Confirm";
 
 export default {
     name: "UserProfile",
-    components: {Preloader},
+    components: {
+        Preloader, Confirm
+    },
     data() {
         return {
             editProfile: false,
@@ -141,6 +131,7 @@ export default {
             loading: true,
             profileConfirm: false,
             passwordConfirm: false,
+            mess: ''
         }
     },
     methods: {
@@ -183,6 +174,7 @@ export default {
                 this.profileConfirm = true;
                 this.editProfile = false;
                 await this.getLoggedInUser();
+                this.mess = "Profile has been changed!";
                 this.confirmModal();
             }).catch(errors => {
                 this.saveErrors(errors);
@@ -200,6 +192,7 @@ export default {
                 this.passwordConfirm = true;
                 this.profileConfirm = false;
                 this.changePassword = false;
+                this.mess = "Password has been changed!";
                 this.confirmModal();
             }).catch(errors => {
                 this.saveErrors(errors);
@@ -223,7 +216,7 @@ export default {
         },
         checkPhone(value) {
             // console.log(value);
-            const phoneRegex = new RegExp(/^(?=(?:\D*\d){9,15}\D*$)\+?[0-9]{1,3}[\s-]?[0-9]{1,5}[-\s]?[0-9][\d\s-]{5,11}?$/);
+            const phoneRegex = new RegExp(/^\+?[0-9-() ]{1,15}$/);
             if (!value.match(phoneRegex)) {
                 this.curUser.phone = value.substr(0, value.length - 1);
             }

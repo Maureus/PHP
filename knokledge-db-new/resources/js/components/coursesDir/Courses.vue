@@ -10,7 +10,7 @@
             </div>
         </div>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div style="float: left" v-else-if="this.filteredCourses.length">
+        <div style="float: left" v-else-if="filteredCourses.length">
             <table class="table-container">
                 <thead>
                 <tr>

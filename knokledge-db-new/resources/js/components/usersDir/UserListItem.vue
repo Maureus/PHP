@@ -8,7 +8,6 @@
                 </div>
                 <div class="ml-4">
                     <div class="text-base leading-5 font-medium text-gray-900">{{ user.name }}</div>
-                    <!--                    <div class="text-sm leading-5 text-gray-500">{{ user.email }}</div>-->
                 </div>
             </div>
         </td>
@@ -22,9 +21,11 @@
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500">
             {{ user.role }}
         </td>
-        <td v-if="getUser != null && getUser.role === 'admin'"
+        <td v-if="getUser != null && getUser.role === getAdminRole"
             class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+            <button class="px-6 py-4 text-indigo-600 hover:text-indigo-900" @click="$emit('edit-user', user.id)">
+                Edit
+            </button>
         </td>
     </tr>
 </template>
@@ -35,7 +36,7 @@ import {mapGetters} from 'vuex';
 export default {
     name: "UserListItem",
     computed: {
-        ...mapGetters(["getUser"])
+        ...mapGetters(["getUser", "getAdminRole"])
     },
     props: {
         user: {
@@ -55,6 +56,27 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped="scoped" lang="scss">
+$hoverColor : #dde9f5;
+$fontSize   : 18px;
 
+button {
+    font-size : $fontSize;
+
+    &:hover {
+        font-weight                : bold;
+        background-color           : darken($color : $hoverColor, $amount : 10%);
+        box-shadow                 : darken($color: $hoverColor, $amount: 5%) -1px 1px,
+        darken($color: $hoverColor, $amount: 5%) -2px 2px,
+        darken($color: $hoverColor, $amount: 5%) -3px 3px,
+        darken($color: $hoverColor, $amount: 5%) -4px 4px,
+        darken($color: $hoverColor, $amount: 5%) -5px 5px;
+        transform                  : translate3d(5px, -5px, 0);
+
+        transition-delay           : 0s;
+        transition-duration        : 0.5s;
+        transition-property        : all;
+        transition-timing-function : linear;
+    }
+}
 </style>
