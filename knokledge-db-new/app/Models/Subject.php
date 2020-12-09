@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Subject extends Model
 {
@@ -37,5 +38,9 @@ class Subject extends Model
 
     public function users(){
         return $this->belongsToMany(User::class);
+    }
+
+    static public function selectAllSubjectUsers($id) {
+        return DB::select('select * from subject_users_view where subject_id = :id', [':id'=>$id]);
     }
 }
