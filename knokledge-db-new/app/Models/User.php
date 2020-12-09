@@ -116,4 +116,36 @@ class User extends Authenticatable
         );
     }
 
+    static public function insertUser($name, $email, $password, $id) {
+        $result = array();
+
+        $conn = oci_connect('ST58211', 'Andr7265357', '//fei-sql1.upceucebny.cz:1521/IDAS.UPCEUCEBNY.CZ');
+        $sql = 'begin insert_or_update_user(p_id => :id,
+                           p_name => :name,
+                           p_email => :email,
+                           p_password => :password,
+                           p_id_out => :v_id_out,
+                           p_name_out => :v_name_out,
+                           p_email_out => :v_email_out,
+                           p_role_out => :v_role_out,
+                           p_created_at_out => :v_created_at_out,
+                           p_updated_at_out => :v_updated_at_out);
+                        end;';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':id', $id, 255);
+        oci_bind_by_name($stmt, ':name', $name, 255);
+        oci_bind_by_name($stmt, ':email', $email, 255);
+        oci_bind_by_name($stmt, ':password', $password, 255);
+        oci_bind_by_name($stmt, ':v_id_out', $result['id'], 255);
+        oci_bind_by_name($stmt, ':v_name_out', $result['name'], 255);
+        oci_bind_by_name($stmt, ':v_email_out', $result['email'], 255);
+        oci_bind_by_name($stmt, ':v_role_out', $result['role'], 255);
+        oci_bind_by_name($stmt, ':v_created_at_out', $result['created_at'], 255);
+        oci_bind_by_name($stmt, ':v_updated_at_out', $result['updated_at'], 255);
+        oci_execute($stmt);
+        oci_close($conn);
+
+        return $result;
+    }
+
 }
