@@ -43,7 +43,7 @@ class UserController extends Controller
         $name = $request->input("name");
         $email = $request->input("email");
         $password = Hash::make($request->input("password"));
-        $id = null;
+        $id = $request->input("id");
 
         $conn = oci_connect('ST58211', 'Andr7265357', '//fei-sql1.upceucebny.cz:1521/IDAS.UPCEUCEBNY.CZ');
         $sql = 'begin insert_or_update_user(p_id => :id,
