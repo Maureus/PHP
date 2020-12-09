@@ -68,6 +68,11 @@ Route::delete('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
     return UserController::removeSubjectFromUser($id1, $id2);
 })->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
 
+// select all assigned to subject users
+Route::get('/subject/{id}/users', function ($id) {
+    return SubjectController::subjectUsers($id);
+})->whereNumber('id');
+
 
 Route::apiResources([
     'users' => UserController::class,

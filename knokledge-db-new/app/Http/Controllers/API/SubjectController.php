@@ -125,4 +125,10 @@ class SubjectController extends Controller
         $result = DB::delete("delete from SUBJECTS where ID = :id", [':id' => $id]);
         return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
     }
+
+    static public function subjectUsers($id) {
+        return response()->json(Subject::selectAllSubjectUsers($id), 200);
+    }
+
+
 }
