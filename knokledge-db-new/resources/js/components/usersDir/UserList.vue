@@ -19,14 +19,37 @@
                             <th class="px-6 py-3 bg-gray-50 text-left text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Role
                             </th>
-                            <th v-if="getUser != null && getUser.role === 'admin'"
+                            <th v-if="getUser != null && getUser.role === getAdminRole"
                                 class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <user-list-item v-for="user in users" :key="user.id" :user="user"></user-list-item>
+                        <UserListItem v-for="user in users" :key="user.id" :user="user" @edit-user="editUserData"/>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div v-if="editUser"
+             class="absolute inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+            <div class="flex-column items-center justify-center w-1/5 bg-white border-0 rounded">
+                <p class="text-center pt-4 text-lg">Edit user data</p>
+                <div class="flex items-center pt-4 justify-end w-full pr-2">
+                    <button @click=""
+                            class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
+                            focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2">
+                        Confirm
+                    </button>
+                    <button @click="this.editUser = !this.editUser"
+                            class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
+                            focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2">
+                        Cancel
+                    </button>
+                    <button @click="deleteUser"
+                            class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
+                            focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2">
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -46,20 +69,26 @@ export default {
     data() {
         return {
             users: [],
-            loading: true
+            loading: true,
+            editUser: false
         }
     },
     computed: {
-        ...mapGetters(["getUser"])
+        ...mapGetters(["getUser", "getAdminRole"])
     },
     async mounted() {
         await axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
             this.users = value;
             this.loading = false;
         });
-        // console.log(this.users);
-        // console.log(this.getUser);
-        // console.log(this.$store.state.admin); //undef
+    },
+    methods: {
+        editUserData(userEditedId) {
+            this.editUser = true;
+        },
+        deleteUser() {
+
+        }
     }
 }
 </script>
