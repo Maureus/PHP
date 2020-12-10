@@ -84,55 +84,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id) {
         try {
-            if (isset($request->password) && !isset($request->name)) {
-                $request->validate([
-                    'password' => 'required|min:6|confirmed',
-                ]);
-                User::where('id', $id)->update(['password' => Hash::make($request->password)]);
-            } else if (
-                isset($request->name) &&
-                isset($request->phone) &&
-                isset($request->address) &&
-                !isset($request->password)
-            ) {
-                $request->validate([
-                    'name' => 'required|max:255',
-                    'phone' => 'max:255',
-                    'address' => 'max:255'
-                ]);
-                User::where('id', $id)
-                    ->update([
-                        'name' => $request->name,
-                        'avatar' => $request->file('avatar'),
-                        'phone' => $request->phone,
-                        'address' => $request->address
-                    ]);
-                return response()->json(
-                    $request->avatar,
-                    200);
-            } else {
-                $request->validate([
-                    'name' => 'required|max:255',
-                    'phone' => 'max:255',
-                    'address' => 'max:255',
-                    'password' => 'required|min:6|confirmed',
-                ]);
+            $request->validate([
+                'name' => 'required|max:255',
+                'email' => 'required|max:255'
+            ]);
 
-                User::where('id', $id)
-                    ->update([
-                        'name' => $request->name,
-                        'avatar' => $request->file('avatar'),
-                        'phone' => $request->phone,
-                        'address' => $request->address,
-                        'password' => Hash::make($request->password)
-                    ]);
-                return response()->json(
-                    3,
-                    200);
+            $result = DB::update(
+                'update users set name = :name, email = :email, PHONE = :phone, ADDRESS = :address where ID = :id',
+                [':name'=>$request->name, ':email'=>$request->email, ':phone'=>$request->phone,':address'=>$request->address,':id'=>$id,]
+            );
 
-            }
             return response()->json(
-                null,
+                $result,
                 200);
         } catch (QueryException $e) {
             return response()->json(
