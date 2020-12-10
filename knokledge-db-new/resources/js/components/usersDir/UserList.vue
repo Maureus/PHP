@@ -155,18 +155,8 @@ export default {
                     this.confirm();
                 });
         },
-        async saveUserChanges() {
-            const formData = new FormData();
-            formData.append('name', this.curUser.name);
-            formData.append('email', this.curUser.email);
-            // console.log(this.curUser.email);
-            formData.append('phone', this.curUser.phone);
-            formData.append('address', this.curUser.address);
-            formData.append('id', this.curUser.id);
-
-            await axios.post("http://127.0.0.1:8000/api/saveuser", formData, {
-                headers: {'Content-Type': 'multipart/form-data'}
-            })
+        saveUserChanges() {
+            axios.put("http://127.0.0.1:8000/api/users/" + this.curUser.id, this.curUser)
                 .then(() => {
                     axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
                         this.users = value;
