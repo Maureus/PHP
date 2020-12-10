@@ -64,7 +64,6 @@ export default {
             // console.log(subjectId);
             const userId = this.getUser.id;
             // console.log(userId);
-            //TODO add confirm message
             await axios.post("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
                 .then(async () => {
                     this.mess = "Course has been written.";
