@@ -74,6 +74,8 @@ Route::get('/subject/{id}/users', function ($id) {
 })->whereNumber('id');
 
 
+Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
+
 Route::apiResources([
     'users' => UserController::class,
     'subjects' => SubjectController::class,
@@ -108,6 +110,13 @@ Route::get('image/{file_name}', function($filename){
     $image = File::get($path);
     $mime = File::mimeType($path);
     return response($image, 200)->header('Content-Type', $mime);
+});
+
+Route::get('file/{file_name}', function($filename){
+    $path = storage_path("app/public/files/$filename");
+    $file = File::get($path);
+    $mime = File::mimeType($path);
+    return response($file, 200)->header('Content-Type', $mime);
 });
 
 
