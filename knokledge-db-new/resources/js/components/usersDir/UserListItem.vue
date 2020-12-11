@@ -1,31 +1,21 @@
 <template>
     <tr>
-        <td class="px-6 py-4 whitespace-no-wrap">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" alt=""
-                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"/>
-                </div>
-                <div class="ml-4">
-                    <div class="text-base leading-5 font-medium text-gray-900">{{ user.name }}</div>
-                </div>
-            </div>
+        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+            {{ user.name }}
         </td>
-        <td class="px-6 py-4 whitespace-no-wrap">
+        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             <div class="text-base leading-5 text-gray-500">{{ user.email == null ? "No email" : user.email }}</div>
             <div class="text-base leading-5 text-gray-500">{{ user.phone == null ? "" : user.phone }}</div>
         </td>
-        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500">
+        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.created_at | correctDateView }}
         </td>
-        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500">
+        <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.role }}
         </td>
         <td v-if="getUser != null && getUser.role === getAdminRole"
-            class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-            <button class="px-6 py-4 text-indigo-600 hover:text-indigo-900" @click="$emit('edit-user', user.id)">
-                Edit
-            </button>
+            class="px-6 py-4 whitespace-no-wrap text-base leading-5 font-medium text-gray-500 text-center">
+            <button class="px-6 py-4 text-indigo-600" @click="$emit('edit-user', user.id)">Edit</button>
         </td>
     </tr>
 </template>
@@ -62,6 +52,10 @@ $fontSize   : 18px;
 
 button {
     font-size : $fontSize;
+
+    &:focus {
+        outline : none;
+    }
 
     &:hover {
         font-weight                : bold;

@@ -7,16 +7,16 @@
                     <table class="min-w-full divide-y divide-gray-200 text-xl">
                         <thead>
                         <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Name
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Contact info
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Date of registration
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Role
                             </th>
                             <th v-if="getUser != null && getUser.role === getAdminRole"
@@ -66,24 +66,20 @@
                                class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                     </div>
                     <!--                    <div class="flex items-center pt-4 justify-start w-full pr-2">-->
-                    <!--                    </div>-->
-                    <div class="flex flex-wrap items-center pt-4 w-full pr-2">
-                        <div class="flex-1">
-                            <button type="submit"
-                                    class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
-                                            focus:outline-none hover:bg-indigo-600 rounded text-xs">
+                    <!--                    </div>  style="width: 60%; text-align: start"-->
+                    <div class="btn-container">
+                        <div class="btn-box start">
+                            <button type="submit" class="btn">
                                 Confirm
                             </button>
                         </div>
-                        <div class="flex-1 justify-end">
-                            <button @click="cancelEditingUserInfo"
-                                    class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2
-                                            focus:outline-none hover:bg-indigo-600 rounded text-xs">
+                        <div class="btn-box end">
+                            <button @click="cancelEditingUserInfo" class="btn">
                                 Cancel
                             </button>
-                            <button @click="deleteUser"
-                                    class="flex items-center justify-center text-white bg-red-500 border-0 py-1 px-2
-                                            focus:outline-none hover:bg-red-600 rounded text-xs">
+                        </div>
+                        <div class="btn-box end">
+                            <button @click="deleteUser" class="btn red">
                                 Delete
                             </button>
                         </div>
@@ -155,18 +151,8 @@ export default {
                     this.confirm();
                 });
         },
-        async saveUserChanges() {
-            const formData = new FormData();
-            formData.append('name', this.curUser.name);
-            formData.append('email', this.curUser.email);
-            // console.log(this.curUser.email);
-            formData.append('phone', this.curUser.phone);
-            formData.append('address', this.curUser.address);
-            formData.append('id', this.curUser.id);
-
-            await axios.post("http://127.0.0.1:8000/api/saveuser", formData, {
-                headers: {'Content-Type': 'multipart/form-data'}
-            })
+        saveUserChanges() {
+            axios.put("http://127.0.0.1:8000/api/users/" + this.curUser.id, this.curUser)
                 .then(() => {
                     axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
                         this.users = value;
@@ -203,13 +189,46 @@ form {
     margin-right : $margin * 2;
 }
 
-button {
-    width         : 100px;
-    height        : auto;
-    font-size     : 15px;
-    margin-bottom : $margin * 1.5;
-    margin-right  : $margin;
-    //margin-left   : $margin;
+.btn-container {
+    display : flex;
+}
 
+.btn-box {
+    padding-top : 50px;
+
+    &.start {
+        text-align : start;
+        width      : 60%;
+    }
+
+    &.end {
+        text-align : end;
+        width      : 20%;
+    }
+}
+
+.btn {
+    width            : 100px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
+
+    &.red {
+        background-color : #f05252;
+
+        &:hover {
+            background-color : #e02424;
+        }
+    }
+
+    &:hover {
+        background-color : #5850ec;
+    }
+
+    &:focus {
+        outline : none;
+    }
 }
 </style>
