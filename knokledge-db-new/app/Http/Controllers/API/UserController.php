@@ -25,10 +25,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function index() {
-
-        $result = DB::select("select id, name, email, created_at, role, PHONE, ADDRESS, HASAVATAR from USERS order by ID");
-        return response()->json($result, 200);
+    public function index(): \Illuminate\Http\JsonResponse {
+        return response()->json(User::selectAll());
     }
 
     /**
@@ -52,7 +50,7 @@ class UserController extends Controller
         try {
             $result = User::insertUser($name, $email, $password, $id);
         } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json(
@@ -66,13 +64,8 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function show($id) {
-        return response()->json(
-            DB::selectOne(
-                'select id, name, email, created_at, role, PHONE, ADDRESS, HASAVATAR from USERS where id = :id',
-                [':id' => $id]
-            ),
-            200);
+    static public function show($id): \Illuminate\Http\JsonResponse {
+        return response()->json(User::selectById($id));
     }
 
     /**
@@ -91,7 +84,7 @@ class UserController extends Controller
 
             $result = DB::update(
                 'update users set name = :name, email = :email, PHONE = :phone, ADDRESS = :address where ID = :id',
-                [':name'=>$request->name, ':email'=>$request->email, ':phone'=>$request->phone,':address'=>$request->address,':id'=>$id,]
+                [':name' => $request->name, ':email' => $request->email, ':phone' => $request->phone, ':address' => $request->address, ':id' => $id,]
             );
 
             return response()->json(
@@ -112,8 +105,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id) {
-        $result = DB::delete("delete from USERS where ID = :id", [':id' => $id]);
-        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
+        try {
+            User::deleteUser($id);
+        } catch (\Exception $ex) {
+            return response()->json(0, 400);
+        }
+        return response()->json(1);
     }
 
     static public function userSubjects($id) {
@@ -257,7 +254,6 @@ class UserController extends Controller
             $result = DB::insert(
                 "insert into SUBJECT_USER values(:subjectID, :userID)",
                 [':subjectID' => $id2, ':userID' => $id1]);
-
         } catch (\Exception $e) {
             return response()->json(0, 400);
         }
