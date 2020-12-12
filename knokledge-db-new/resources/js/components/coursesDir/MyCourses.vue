@@ -3,7 +3,7 @@
         <Confirm :mess="mess"/>
         <h1 class="p-2 text-2xl text-white font-semibold">My courses</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-else-if="userCourses.length">
+        <div v-else-if="userCourses.length !== 0">
             <table class="table-container">
                 <thead>
                 <tr>
@@ -11,6 +11,7 @@
                     <th scope="col">Semester</th>
                     <th scope="col">Year</th>
                     <th scope="col">Abbreviation</th>
+                    <th scope="col">Study materials</th>
                     <th scope="col">Option</th>
                 </tr>
                 </thead>
@@ -20,7 +21,7 @@
                 </tbody>
             </table>
         </div>
-        <p v-else class="p-2 text-lg text-white font-semibold">You don't have any course.
+        <p v-else-if="loading === false" class="p-2 text-lg text-white font-semibold">You don't have any course.
             <span v-if="getUser != null && getUser.role === getStudentRole">
                 Click <router-link to="/dashboard/courseslist" class="link">here</router-link> to write a course.
             </span>
@@ -52,13 +53,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["saveErrors", "confirm"]),
+        ...mapActions(["saveErrors", "confirm", "getLoggedInUser"]),
         editCourse(subjectId) {
             console.log("Course is editing");
         },
-        async deleteCourseInUser(subjectId) {
+        deleteCourseInUser(subjectId) {
             const userId = this.getUser.id;
-            await axios.delete("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
+            axios.delete("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
                 .then(async () => {
                     this.userCourses = this.userCourses.filter(value => value.id !== subjectId);
                     this.mess = "Course has been deleted.";
@@ -72,26 +73,32 @@ export default {
     },
     async mounted() {
         if (this.getUser == null) {
-            await this.$router.push({name: 'Login'});
-        } else {
-            const userId = this.getUser.id;
-            await axios.get("http://127.0.0.1:8000/api/users/" + userId + "/subjects")
-                .then(resp => resp.data)
-                .then(value => {
-                    this.userCourses = value;
-                    this.loading = false;
-                })
-                .catch(errors => this.saveErrors(errors));
-
-            switch (this.getUser.role) {
-                case this.getStudentRole :
-                    this.option = this.getDeleteOperation;
-                    break;
-                case this.getTeacherRole :
-                    this.option = this.getEditOperation;
-                    break;
-            }
+            await this.getLoggedInUser();
+            // console.log(this.getUser)
+            // if (this.getUser == null) {
+            //TODO change it
+            // await this.$router.push({name: 'Login'});
+            // }
         }
+
+        const userId = this.getUser.id;
+        axios.get("http://127.0.0.1:8000/api/users/" + userId + "/subjects")
+            .then(resp => resp.data)
+            .then(value => {
+                this.userCourses = value;
+                this.loading = false;
+            })
+            .catch(errors => this.saveErrors(errors));
+
+        switch (this.getUser.role) {
+            case this.getStudentRole :
+                this.option = this.getDeleteOperation;
+                break;
+            case this.getTeacherRole :
+                this.option = this.getEditOperation;
+                break;
+        }
+
     }
 }
 </script>

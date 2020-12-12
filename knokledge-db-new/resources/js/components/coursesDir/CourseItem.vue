@@ -4,6 +4,12 @@
         <td>{{ course.semester }}</td>
         <td>{{ course.year }}</td>
         <td>{{ course.short_name }}</td>
+        <td v-if="getUser">
+            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium"
+                    @click="showStudyMats">
+                Watch materials
+            </button>
+        </td>
         <td v-if="getUser && option !== ''">
             <button @click="subjectUtility($event.target.value)" :value="option"
                     class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
@@ -47,6 +53,9 @@ export default {
                     this.$emit('delete-course-in-user', this.course.id);
                     break;
             }
+        },
+        showStudyMats() {
+            this.$router.push({name: 'StudyMats'});
         }
     },
     filters: {
