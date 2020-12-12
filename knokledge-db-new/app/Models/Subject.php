@@ -40,7 +40,25 @@ class Subject extends Model
         return $this->belongsToMany(User::class);
     }
 
-    static public function selectAllSubjectUsers($id) {
+    static public function selectAllSubjectUsers($id): array {
         return DB::select('select * from subject_users_view where subject_id = :id', [':id'=>$id]);
+    }
+
+    static public function selectAll(): array {
+        return DB::select("select * from SUBJECTS_VIEW order by id");
+    }
+
+    static public function selectById($id) {
+        return DB::selectOne("select * from SUBJECTS_VIEW where id = :id",
+            [':id' => $id]);
+    }
+
+    static public function deleteSubject($id) {
+        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $sql = 'begin delete_subject(p_id => :id); end;';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':id', $id, 255);
+        oci_execute($stmt);
+        oci_close($conn);
     }
 }

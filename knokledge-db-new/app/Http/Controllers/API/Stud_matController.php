@@ -13,8 +13,8 @@ class Stud_matController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index() {
-        return response()->json(Study_mat::getAll(), 200);
+    public function index(): \Illuminate\Http\JsonResponse {
+        return response()->json(Study_mat::selectAll());
     }
 
     /**
@@ -23,7 +23,7 @@ class Stud_matController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) {
+    public function store(Request $request): \Illuminate\Http\JsonResponse {
         $result = Study_mat::insert($request);
         return response()->json($result, 200);
     }
@@ -34,8 +34,8 @@ class Stud_matController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id) {
-        return response()->json(Study_mat::getByID($id), 200);
+    public function show($id): \Illuminate\Http\JsonResponse {
+        return response()->json(Study_mat::selectByID($id));
     }
 
     /**
@@ -55,8 +55,13 @@ class Stud_matController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id) {
-        return response()->json(Study_mat::deleteById($id), 200);
+    public function destroy($id): \Illuminate\Http\JsonResponse {
+        try {
+            Study_mat::deleteSM($id);
+        } catch (\Exception $ex) {
+            return response()->json(0, 400);
+        }
+        return response()->json(1);
     }
 
     static public function updateSM(Request $request) {

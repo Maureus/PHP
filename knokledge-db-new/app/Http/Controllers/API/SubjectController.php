@@ -17,10 +17,8 @@ class SubjectController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
-        $result = DB::select("select * from SUBJECTS order by ID");
-        return response()->json($result, 200);
+    public function index(): \Illuminate\Http\JsonResponse {
+        return response()->json(Subject::selectAll());
     }
 
     /**
@@ -29,8 +27,7 @@ class SubjectController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request): \Illuminate\Http\JsonResponse {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255|unique:subjects',
             'semester' => ['required', 'max:2', Rule::in('LS', 'ZS')],
@@ -65,10 +62,8 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        $result = DB::selectOne("select * from SUBJECTS where ID = :id", [':id'=>$id]);
-        return response()->json($result, 200);
+    public function show($id): \Illuminate\Http\JsonResponse {
+        return response()->json(Subject::selectById($id));
     }
 
     /**
@@ -78,8 +73,7 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'semester' => ['required', 'max:2', Rule::in('LS', 'ZS')],
@@ -120,10 +114,13 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        $result = DB::delete("delete from SUBJECTS where ID = :id", [':id' => $id]);
-        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
+    public function destroy($id) {
+        try {
+            Subject::deleteSubject($id);
+        } catch (\Exception $ex) {
+            return response()->json(0, 400);
+        }
+        return response()->json(1);
     }
 
     static public function subjectUsers($id) {
