@@ -13,6 +13,7 @@ import UserProfile from "./components/usersDir/UserProfile";
 import store from './store';
 import Courses from "./components/coursesDir/Courses";
 import MyCourses from "./components/coursesDir/MyCourses";
+import StudyMats from "./components/studyMats/StudyMats";
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,11 @@ export default new VueRouter({
             path: '/dashboard/userlist',
             component: UserList,
             name: 'UserList'
+        },
+        {
+            path: '/study_mats',
+            component: StudyMats,
+            name: 'StudyMats'
         },
         {
             path: '/profile',

@@ -53,29 +53,41 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import {mapGetters, mapState, mapActions} from 'vuex';
 
 export default {
     name: "NavBar",
+    data() {
+        return {
+            loading: true
+        }
+    },
     computed: {
         ...mapGetters(["getUser"]),
         ...mapState(['user', 'errors'])
     },
     watch: {
         'this.$store.state.user': function () {
-            console.log(this.$store.state.user);
+            // console.log(this.$store.state.user);
         }
     },
     methods: {
+        ...mapActions(["getLoggedInUser"]),
         logout() {
             this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
-        },
+        }
+    },
+    mounted() {
+        // this.loading = true;
+        this.getLoggedInUser();
+        this.loading = false;
     }
+
 }
 </script>
 
 <style scoped>
 * {
-    font-size: 18px;
+    font-size : 18px;
 }
 </style>
