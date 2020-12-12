@@ -40,9 +40,9 @@ export default {
     }),
     methods: {
         ...mapActions(['loginUser', 'getLoggedInUser']),
-        async login() {
-            await this.loginUser(this.user)
-                .then(async () => await this.getLoggedInUser())
+        login() {
+            this.loginUser(this.user)
+                .then(() => this.getLoggedInUser())
                 .then(() => this.$router.push({name: "Dashboard"}));
         }
     }
@@ -51,7 +51,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .form-container {
-    width: 500px;
-    transform: translateY(-30%);
+    width     : 500px;
+    transform : translateY(-30%);
 }
 </style>

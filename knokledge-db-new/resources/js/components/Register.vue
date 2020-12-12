@@ -60,11 +60,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['registerUser']),
+        ...mapActions(["registerUser", "saveErrors"]),
         async saveForm() {
             await this.registerUser(this.form).then(() => {
                 this.$router.push({name: "Login"});
             });
+            // .catch(error => this.saveErrors(error));
         }
     },
     watch: {
