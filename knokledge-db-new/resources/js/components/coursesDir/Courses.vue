@@ -1,11 +1,11 @@
 <template>
     <div>
         <Confirm :mess="mess"/>
-        <h1 class="p-2 text-2xl text-white font-semibold">Courses</h1>
+        <h1 class="p-2 text-2xl text-white font-semibold">Subjects</h1>
         <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
             <div class="list-group">
-                <button class="list-group-item list-group-item-action" @click="getYearValue" v-for="(year, id) in years"
-                        :key="id" :value="year">{{ year }}
+                <button class="list-group-item list-group-item-action" @click="getYearValue($event.target.value)"
+                        v-for="(year, id) in years" :key="id" :value="year">{{ year }}
                 </button>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="course in filteredCourses" :key="course.id" :course="course" :option="option"
+                <CourseItem v-for="subject in filteredCourses" :key="subject.id" :subject="subject" :option="option"
                             @assign-course="assignCourse" @edit-course="editCourse"/>
                 </tbody>
             </table>
@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            courses: [],
+            subjects: [],
             years: [],
             loading: true,
             btnYearValue: '',
@@ -58,16 +58,13 @@ export default {
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
-        getYearValue(event) {
-            // console.log(event.target.value);
-            this.btnYearValue = event.target.value;
+        getYearValue(value) {
+            this.btnYearValue = value;
         },
         async assignCourse(subjectId) {
-            // console.log(subjectId);
             const userId = this.getUser.id;
-            // console.log(userId);
             await axios.post("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
-                .then(async () => {
+                .then(() => {
                     this.mess = "Course has been written.";
                     this.confirm();
                 })
@@ -82,7 +79,7 @@ export default {
         await axios.get("http://127.0.0.1:8000/api/subjects")
             .then(resp => resp.data)
             .then(value => {
-                this.courses = value;
+                this.subjects = value;
                 this.loading = false;
             })
             .catch(errors => this.saveErrors(errors));
@@ -91,9 +88,6 @@ export default {
             this.years.push(i + '/' + (i + 1));
         }
         if (this.getUser != null) {
-            // console.log(this.getStudentRole);
-            // console.log(this.getWriteOperation);
-            // console.log(this.getUser.role);
             switch (this.getUser.role) {
                 case this.getStudentRole :
                     this.option = this.getWriteOperation;
@@ -108,7 +102,7 @@ export default {
         ...mapGetters(["getStudentRole", "getStudentRole", "getAdminRole", "getWriteOperation", "getEditOperation", "getUser"]),
         //TODO add more exact year and month filter
         filteredCourses() {
-            return this.courses.filter(value => value.created_at.split("-")[0] === this.btnYearValue.split("/")[0]);
+            return this.subjects.filter(value => value.created_at.split("-")[0] === this.btnYearValue.split("/")[0]);
         }
     }
 }

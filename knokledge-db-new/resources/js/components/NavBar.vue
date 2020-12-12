@@ -20,21 +20,6 @@
                 <router-link v-if="getUser.role === 'teacher'" class="mr-4 text-white" to="/mystudents">My students
                 </router-link>
             </div>
-            <!--            <div v-if="getUser.role === 'student'" class="flex">-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/main">Main</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">Student</router-link>-->
-            <!--            </div>-->
-            <!--            <div v-else-if="getUser.role === 'teacher'" class="flex">-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/main">Main</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mystudents">My students</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">Teacher</router-link>-->
-            <!--            </div>-->
             <div v-if="!getUser" class="flex">
                 <router-link class="mr-4 text-white" to="/login" exact>Login</router-link>
                 <router-link class="mr-4 text-white" to="/register">Register</router-link>

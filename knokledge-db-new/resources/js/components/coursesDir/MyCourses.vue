@@ -16,18 +16,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="course in userCourses" :key="course.id" :course="course" :option="option"
+                <CourseItem v-for="subject in userCourses" :key="subject.id" :subject="subject" :option="option"
                             @edit-course="editCourse" @delete-course-in-user="deleteCourseInUser"/>
                 </tbody>
             </table>
         </div>
-        <p v-else-if="loading === false" class="p-2 text-lg text-white font-semibold">You don't have any course.
+        <p v-else-if="loading === false" class="p-2 text-lg text-white font-semibold">You don't have any subject.
             <span v-if="getUser != null && getUser.role === getStudentRole">
-                Click <router-link to="/dashboard/courseslist" class="link">here</router-link> to write a course.
+                Click <router-link to="/dashboard/courseslist" class="link">here</router-link> to write a subject.
             </span>
             <!--TODO think about teacher's role-->
             <span v-else-if="getUser != null && getUser.role === getTeacherRole">
-                Click <router-link to="/" class="link">here</router-link> for applying to start a course.
+                Click <router-link to="/" class="link">here</router-link> for applying to start a subject.
             </span>
         </p>
     </div>
