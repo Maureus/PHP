@@ -26,7 +26,7 @@ const actions = {
     },
     async getLoggedInUser({commit}) {
         const response = await axios.get('/api/user')
-            .catch((error) => {
+            .catch(async (error) => {
                 commit('setErrors', error);
             });
         commit('setUser', response.data);

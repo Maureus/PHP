@@ -77,7 +77,17 @@ export default new VueRouter({
         {
             path: '/mycourses',
             component: MyCourses,
-            name: 'MyCourses'
+            name: 'MyCourses',
+            beforeEnter: async (to, from, next) => {
+                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
+                if (store.getters.getUser === null) {
+                    next({
+                        path: 'Login'
+                    });
+                } else {
+                    next();
+                }
+            }
         },
         {
             path: '/dashboard/userlist',
@@ -95,10 +105,10 @@ export default new VueRouter({
             name: 'Profile',
             // call user preload
             beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').then(r => console.log(r));
+                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
                 if (store.getters.getUser === null) {
                     next({
-                        path: '/login'
+                        path: 'Login'
                     });
                 } else {
                     next();

@@ -69,16 +69,11 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation"])
+        ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
     },
     async mounted() {
         if (this.getUser == null) {
             await this.getLoggedInUser();
-            // console.log(this.getUser)
-            // if (this.getUser == null) {
-            //TODO change it
-            // await this.$router.push({name: 'Login'});
-            // }
         }
 
         const userId = this.getUser.id;
