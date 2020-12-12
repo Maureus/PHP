@@ -16,8 +16,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="subject in userCourses" :key="subject.id" :subject="subject" :option="option"
-                            @edit-course="editCourse" @delete-course-in-user="deleteCourseInUser"/>
+                <SubjectItem v-for="subject in userCourses" :key="subject.id" :subject="subject" :option="option"
+                             @edit-course="editCourse" @delete-course-in-user="deleteCourseInUser"/>
                 </tbody>
             </table>
         </div>
@@ -36,13 +36,13 @@
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
-import CourseItem from "./CourseItem";
+import SubjectItem from "./SubjectItem";
 import Confirm from "../Confirm";
 
 export default {
-    name: "MyCourses",
+    name: "MySubjects",
     components: {
-        Preloader, CourseItem, Confirm
+        Preloader, SubjectItem, Confirm
     },
     data() {
         return {

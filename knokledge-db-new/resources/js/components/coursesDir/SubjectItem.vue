@@ -23,7 +23,7 @@
 import {mapGetters} from 'vuex';
 
 export default {
-    name: "CourseItem",
+    name: "SubjectItem",
     props: {
         subject: {
             type: Object,

@@ -4,11 +4,13 @@
             <div class="flex">
                 <router-link class="mr-4 text-white" to="/">Home</router-link>
                 <router-link v-if="getUser" class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All subjects</router-link>
-                <router-link v-if="getUser.role !== 'admin'" class="mr-4 text-white" to="/mycourses">My subjects
+                <router-link class="mr-4 text-white" to="/userlist">All users</router-link>
+                <router-link class="mr-4 text-white" to="/subjectlist">All subjects</router-link>
+                <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
+                             to="/mysubjects">My subjects
                 </router-link>
-                <router-link v-if="getUser.role === 'teacher'" class="mr-4 text-white" to="/mystudents">My students
+                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"
+                             to="/mystudents">My students
                 </router-link>
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
@@ -40,13 +42,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
         ...mapState(['user', 'errors'])
-    },
-    watch: {
-        'this.$store.state.user': function () {
-            // console.log(this.$store.state.user);
-        }
     },
     methods: {
         ...mapActions(["getLoggedInUser"]),

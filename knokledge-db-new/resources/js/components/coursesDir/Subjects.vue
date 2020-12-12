@@ -26,7 +26,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <CourseItem v-for="subject in filteredCourses" :key="subject.id" :subject="subject" :option="option"
+                <SubjectItem v-for="subject in filteredCourses" :key="subject.id" :subject="subject" :option="option"
                             @assign-course="assignCourse" @edit-course="editCourse"/>
                 </tbody>
             </table>
@@ -37,13 +37,13 @@
 <script>
 import {mapActions, mapGetters} from 'vuex';
 import Preloader from "../Preloader";
-import CourseItem from "./CourseItem";
+import SubjectItem from "./SubjectItem";
 import Confirm from "../Confirm";
 
 export default {
-    name: "Courses",
+    name: "Subjects",
     components: {
-        Preloader, CourseItem, Confirm
+        Preloader, SubjectItem, Confirm
     },
     data() {
         return {
