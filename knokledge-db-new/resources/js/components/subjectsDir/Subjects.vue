@@ -208,7 +208,7 @@ $backgroundColor : white;
 $margin          : 10px;
 
 .table-container {
-    text-align       : center;
+    text-align : center;
     display          : table;
     background-color : $backgroundColor;
     color            : black;

@@ -170,9 +170,9 @@ export default {
 $margin : 10px;
 
 table {
+    text-align       : center;
     margin-top      : $margin;
     margin-bottom   : $margin;
-    overflow        : hidden;
     border-collapse : collapse;
     border-radius   : 10px;
 }
