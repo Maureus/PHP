@@ -8,15 +8,16 @@
                 <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Semester</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Abbreviation</th>
-<!--                    <th scope="col">Study materials</th>-->
+                    <th scope="col">From</th>
+                    <th scope="col">Till</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Number of questions</th>
+                    <!--                    <th scope="col">Study materials</th>-->
                     <th scope="col">Option</th>
                 </tr>
                 </thead>
                 <tbody>
-                <SubjectItem v-for="subject in userCourses" :key="subject.id" :subject="subject" :option="option"
+                <QuizItem v-for="quiz in quizzes" :key="quiz.id" :quiz="quiz" :option="option"
                              @edit-course="editCourse" @delete-course-in-user="deleteCourseInUser"/>
                 </tbody>
             </table>
@@ -36,24 +37,24 @@
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
-import SubjectItem from "./SubjectItem";
 import Confirm from "../Confirm";
+import QuizItem from "./QuizItem";
 
 export default {
-    name: "MySubjects",
+    name: "Quizzes",
     components: {
-        Preloader, SubjectItem, Confirm
+        Preloader, QuizItem, Confirm
     },
     data() {
         return {
-            loading: true,
-            userCourses: [],
-            option: '',
-            mess: ''
+            loading: false,
+            quizzes: [],
+            subject_id: '',
+            option: ''
         }
     },
     methods: {
-        ...mapActions(["saveErrors", "confirm", "getLoggedInUser"]),
+        ...mapActions(["saveErrors", "confirm"]),
         editCourse(subjectId) {
             console.log("Course is editing");
         },
@@ -72,15 +73,11 @@ export default {
         ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
     },
     async mounted() {
-        if (this.getUser == null) {
-            await this.getLoggedInUser();
-        }
-
+        this.loading = true;
         const userId = this.getUser.id;
         axios.get("http://127.0.0.1:8000/api/users/" + userId + "/subjects")
-            .then(resp => resp.data)
-            .then(value => {
-                this.userCourses = value;
+            .then(resp => {
+                this.quizzes = resp.data;
                 this.loading = false;
             })
             .catch(errors => this.saveErrors(errors));
@@ -98,56 +95,6 @@ export default {
 }
 </script>
 
-<style scoped="scoped" lang="scss">
-$fontSize        : 18px;
-$hoverColor      : #dde9f5;
-$backgroundColor : white;
+<style scoped>
 
-.table-container {
-    text-align       : center;
-    display          : table;
-    background-color : $backgroundColor;
-    color            : black;
-    font-size        : $fontSize;
-    border-radius    : 7px;
-    overflow         : hidden;
-    border-collapse  : collapse;
-
-    tr {
-        margin      : 5px 0;
-        line-height : 2.1875em;
-
-        &:nth-child(odd) {
-            background-color : $backgroundColor;
-        }
-
-        &:nth-child(even) {
-            background-color : darken($color : $backgroundColor, $amount : 5%);
-        }
-
-        &:hover {
-            background-color : darken($color : $hoverColor, $amount : 2%);
-        }
-    }
-
-    th {
-        padding          : 5px 10px;
-        color            : white;
-        background-color : darken($color : #187fe2, $amount : 3%);
-    }
-}
-
-button {
-    &:focus {
-        outline : none;
-    }
-}
-
-.link {
-    color : #cae9ff;
-
-    &:hover {
-        text-decoration : underline #cae9ff;
-    }
-}
 </style>
