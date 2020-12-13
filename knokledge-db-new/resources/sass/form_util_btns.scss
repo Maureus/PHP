@@ -1,0 +1,40 @@
+$margin : 10px;
+
+.btn-container {
+    display : flex;
+}
+
+.btn-box {
+    padding-top : 50px;
+
+    &.start {
+        text-align : start;
+        width      : 54%;
+    }
+
+    &.end {
+        text-align : end;
+        width      : 23%;
+    }
+}
+
+.btn {
+    width            : 95px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
+
+    &.red {
+        background-color : #f05252;
+
+        &:hover {
+            background-color : #e02424;
+        }
+    }
+
+    &:hover {
+        background-color : #5850ec;
+    }
+}
