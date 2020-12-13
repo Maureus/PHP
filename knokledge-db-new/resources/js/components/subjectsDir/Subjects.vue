@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Confirm :mess="mess"/>
         <h1 class="p-2 text-2xl text-white font-semibold">Subjects</h1>
         <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
             <div class="list-group">
@@ -30,8 +29,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="modal fade" id="modalEditingWindow" tabindex="-1" role="dialog"
-             aria-labelledby="modalEditingWindow" aria-hidden="true">
+
+        <Confirm :mess="mess"/>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,17 +82,17 @@
                         </div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
-                                <button type="submit" class="btn">
+                                <button @click="saveSubjectChanges" data-dismiss="modal" class="btn">
                                     Confirm
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="cancelEditingSubjectInfo" type="button" class="btn">
+                                <button @click="cancelEditingSubjectInfo" data-dismiss="modal" class="btn">
                                     Cancel
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="deleteSubject" type="button" class="btn red">
+                                <button @click="deleteSubject" class="btn red">
                                     Delete
                                 </button>
                             </div>
