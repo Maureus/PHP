@@ -14,11 +14,13 @@
             {{ user.role }}
         </td>
 
-        <td v-if="getUser != null && getUser.role === getAdminRole">
+        <td v-if="getUser != null && getUser.role === getAdminRole">    
             <div class="hover-shadow-effect">
-                 <button class="px-6 py-4 text-indigo-600" data-toggle="modal" data-target="#exampleModalCenter" @click="$emit('edit-user', user.id)">Edit</button>
+                <button class="px-3 py-3 whitespace-no-wrap text-right text-base leading-5 font-medium"
+                        data-toggle="modal" data-target="#exampleModalCenter"
+                        @click="$emit('edit-user', user.id)">Edit
+                </button>
             </div>
-
         </td>
     </tr>
 </template>
