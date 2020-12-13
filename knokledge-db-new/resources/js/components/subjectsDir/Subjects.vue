@@ -18,7 +18,7 @@
                     <th scope="col">Semester</th>
                     <th scope="col">Year</th>
                     <th scope="col">Abbreviation</th>
-                    <th scope="col" v-if="getUser">Study materials</th>
+<!--                    <th scope="col" v-if="getUser">Study materials</th>-->
                     <th scope="col"
                         v-if="(getUser != null && (getUser.role === getStudentRole || getUser.role === getAdminRole))">
                         Option
