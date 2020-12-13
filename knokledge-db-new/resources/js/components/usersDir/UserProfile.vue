@@ -26,7 +26,7 @@
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 text-center text-3xl">
                                 <h2>Edit your profile</h2>
-                                <h3 v-if="getErrors">{{ getErrors }}</h3>
+                                <h3 v-if="getProfileErrors">{{ getProfileErrors }}</h3>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
@@ -75,7 +75,7 @@
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 text-center text-3xl">
                                 <h2>Change your password</h2>
-                                <h3 v-if="getErrors">{{ getErrors }}</h3>
+                                <h3 v-if="getProfileErrors">{{ getProfileErrors }}</h3>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="password"
@@ -135,7 +135,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getLoggedInUser', 'saveErrors', 'confirm']),
+        ...mapActions(['getLoggedInUser', 'saveErrors', 'confirm', 'saveProfileErrors']),
         async showEditProfile() {
             if (this.getUser) {
                 this.curUser.name = this.getUser['name'];
@@ -195,7 +195,7 @@ export default {
                 this.mess = "Password has been changed!";
                 this.confirmModal();
             }).catch(errors => {
-                this.saveErrors(errors);
+                this.saveProfileErrors(errors);
             })
         },
         selectAvatar() {
@@ -203,7 +203,9 @@ export default {
         },
         async setAvatarAndUser() {
             this.loading = true;
-            await this.getLoggedInUser();
+            if (this.getUser === undefined) {
+                await this.getLoggedInUser();
+            }
             if (this.getUser['hasavatar'] === "1") {
                 document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg';
             } else {
@@ -226,7 +228,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm']),
+        ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm', 'getProfileErrors']),
     },
     created() {
         // this.fetchData();
