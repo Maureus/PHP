@@ -27,9 +27,70 @@
                 </thead>
                 <tbody>
                 <SubjectItem v-for="subject in filteredCourses" :key="subject.id" :subject="subject" :option="option"
-                            @assign-course="assignCourse" @edit-course="editCourse"/>
+                             @assign-course="assignCourse" @edit-course="editSubjectData"/>
                 </tbody>
             </table>
+        </div>
+        <div v-if="editSubject"
+             class="absolute inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+            <div class="flex-column items-center justify-center w-2/5 bg-white border-0 rounded">
+                <h3 class="text-center pt-4 text-lg">Edit subject</h3>
+                <form @submit.prevent="saveSubjectChanges">
+                    <div class="col-span-6 sm:col-span-4">
+                        <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                            Subject's name
+                        </label>
+                        <input id="name" v-model="curSubject.name" name="name" required
+                               class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-4">
+                        <label for="semester" class="block text-sm font-medium leading-5 text-gray-700">
+                            Semester
+                        </label>
+                        <input id="semester" name="semester" v-model="curSubject.semester" required
+                               class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-4">
+                        <label for="year" class="block text-sm font-medium leading-5 text-gray-700">
+                            Year
+                        </label>
+                        <input id="year" name="year" v-model="curSubject.year" required
+                               class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-4">
+                        <label for="short_name" class="block text-sm font-medium leading-5 text-gray-700">
+                            Short name
+                        </label>
+                        <input id="short_name" name="short_name" v-model="curSubject.short_name" required
+                               class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                    </div>
+                    <div class="col-span-6 sm:col-span-4">
+                        <label for="subject_desc" class="block text-sm font-medium leading-5 text-gray-700">
+                            Subject description
+                        </label>
+                        <textarea id="subject_desc" name="subject_desc" v-model="curSubject.subject_desc" required
+                                  class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            </textarea>
+                    </div>
+                    <div class="btn-container">
+                        <div class="btn-box start">
+                            <button type="submit" class="btn">
+                                Confirm
+                            </button>
+                        </div>
+                        <div class="btn-box end">
+                            <button @click="cancelEditingSubjectInfo" class="btn">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="btn-box end">
+                            <button @click="deleteSubject" class="btn red">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>
@@ -50,10 +111,11 @@ export default {
             subjects: [],
             years: [],
             loading: true,
-            btnYearValue: '',
-            option: '',
-            mess: '',
-            ifEditCourse: false
+            btnYearValue: "",
+            option: "",
+            mess: "",
+            editSubject: false,
+            curSubject: {},
         }
     },
     methods: {
@@ -70,9 +132,41 @@ export default {
                 })
                 .catch(error => this.saveErrors(error));
         },
-        editCourse(subjectId) {
-            this.ifEditCourse = true;
-            console.log("Course is editing");
+        editSubjectData(subjectId) {
+            this.editSubject = true;
+            axios.get("http://127.0.0.1:8000/api/subjects/" + subjectId)
+                .then(value => value.data)
+                .then(value => {
+                    this.curSubject = value;
+                })
+                .catch(error => this.saveErrors(error));
+        },
+        saveSubjectChanges() {
+            axios.put("http://127.0.0.1:8000/api/subjects/" + this.curSubject.id, this.curSubject)
+                .then(() => {
+                    axios.get("http://127.0.0.1:8000/api/subjects").then(resp => resp.data).then(value => {
+                        this.subjects = value;
+                        this.loading = false;
+                    });
+                    this.editSubject = false;
+                    this.curSubject = {};
+                    this.mess = "User has been changed.";
+                    this.confirm();
+                });
+        },
+        cancelEditingSubjectInfo() {
+            this.editSubject = false;
+            this.curSubject = {};
+        },
+        deleteSubject() {
+            axios.delete("http://127.0.0.1:8000/api/subjects/" + this.curSubject.id)
+                .then(() => {
+                    this.subjects = this.subjects.filter(subject => subject.id !== this.curSubject.id);
+                    this.editSubject = false;
+                    this.curSubject = {};
+                    this.mess = "Subject has been deleted.";
+                    this.confirm();
+                });
         }
     },
     async mounted() {
@@ -112,6 +206,7 @@ export default {
 $fontSize        : 18px;
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
+$margin          : 10px;
 
 .table-container {
     text-align       : center;
@@ -151,5 +246,58 @@ button {
     &:focus {
         outline : none;
     }
+}
+
+input {
+    margin-bottom : $margin;
+    margin-top    : 0;
+}
+
+form {
+    margin-left  : $margin * 2;
+    margin-right : $margin * 2;
+}
+
+.btn-container {
+    display : flex;
+}
+
+.btn-box {
+    padding-top : 50px;
+
+    &.start {
+        text-align : start;
+        width      : 60%;
+    }
+
+    &.end {
+        text-align : end;
+        width      : 20%;
+    }
+}
+
+.btn {
+    width            : 100px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
+
+    &.red {
+        background-color : #f05252;
+
+        &:hover {
+            background-color : #e02424;
+        }
+    }
+
+    &:hover {
+        background-color : #5850ec;
+    }
+
+    //&:focus {
+    //    outline : none;
+    //}
 }
 </style>

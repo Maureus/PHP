@@ -1,6 +1,6 @@
 <template>
     <div>
-        <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
+        <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="users.length" class="flex flex-col">
             <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -65,8 +65,6 @@
                         <input id="address" v-model="curUser.address" name="address"
                                class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                     </div>
-                    <!--                    <div class="flex items-center pt-4 justify-start w-full pr-2">-->
-                    <!--                    </div>  style="width: 60%; text-align: start"-->
                     <div class="btn-container">
                         <div class="btn-box start">
                             <button type="submit" class="btn">
