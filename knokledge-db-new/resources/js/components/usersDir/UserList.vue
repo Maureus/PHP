@@ -4,29 +4,31 @@
         <div v-else-if="users.length" class="flex flex-col">
             <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <table class="min-w-full divide-y divide-gray-200 text-xl">
-                        <thead>
-                        <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Name
-                            </th>
-                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Contact info
-                            </th>
-                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Date of registration
-                            </th>
-                            <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Role
-                            </th>
-                            <th v-if="getUser != null && getUser.role === getAdminRole"
-                                class="px-6 py-3 bg-gray-50"></th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                        <UserListItem v-for="user in users" :key="user.id" :user="user" @edit-user="editUserData"/>
-                        </tbody>
-                    </table>
+                    <div class="table-container">
+                        <table class="min-w-full divide-y divide-gray-200 text-xl">
+                            <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Contact info
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Date of registration
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Role
+                                </th>
+                                <th v-if="getUser != null && getUser.role === getAdminRole"
+                                    class="px-6 py-3 bg-gray-50"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                            <UserListItem v-for="user in users" :key="user.id" :user="user" @edit-user="editUserData"/>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,9 +192,9 @@ table {
     text-align      : center;
     margin-top      : $margin;
     margin-bottom   : $margin;
-    border-collapse : collapse;
     border-radius   : 10px;
-    border-style    : hidden;
+    overflow        : hidden;
+    border-collapse : collapse;
 }
 
 input {
