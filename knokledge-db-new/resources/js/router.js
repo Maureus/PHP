@@ -50,14 +50,19 @@ export default new VueRouter({
             name: 'Dashboard',
             // call user preload
             beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
-                if (store.getters.getUser === null) {
+                await store.dispatch('getLoggedInUser').then(() => {
+                    if (store.getters.getUser === null) {
+                        next({
+                            path: '/login'
+                        });
+                    } else {
+                        next();
+                    }
+                }).catch(() => {
                     next({
                         path: '/login'
                     });
-                } else {
-                    next();
-                }
+                });
             }
         },
         {
@@ -100,14 +105,19 @@ export default new VueRouter({
             name: 'Profile',
             // call user preload
             beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
-                if (store.getters.getUser === null) {
+                await store.dispatch('getLoggedInUser').then(() => {
+                    if (store.getters.getUser === null) {
+                        next({
+                            path: '/login'
+                        });
+                    } else {
+                        next();
+                    }
+                }).catch(() => {
                     next({
                         path: 'Login'
                     });
-                } else {
-                    next();
-                }
+                });
             }
         }
     ]
