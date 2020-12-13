@@ -78,12 +78,12 @@
                             </button>
                         </div>
                         <div class="btn-box end">
-                            <button @click="cancelEditingSubjectInfo" class="btn">
+                            <button @click="cancelEditingSubjectInfo" type="button" class="btn">
                                 Cancel
                             </button>
                         </div>
                         <div class="btn-box end">
-                            <button @click="deleteSubject" class="btn red">
+                            <button @click="deleteSubject" type="button" class="btn red">
                                 Delete
                             </button>
                         </div>
