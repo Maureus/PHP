@@ -5,14 +5,13 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import Rand from "./components/Rand";
-import Modal from "./components/Modal";
 import Vue from 'vue';
 import VueRouter from "vue-router";
 import UserList from "./components/usersDir/UserList";
 import UserProfile from "./components/usersDir/UserProfile";
 import store from './store';
-import Courses from "./components/coursesDir/Courses";
-import MyCourses from "./components/coursesDir/MyCourses";
+import Subjects from "./components/coursesDir/Subjects";
+import MySubjects from "./components/coursesDir/MySubjects";
 import StudyMats from "./components/studyMats/StudyMats";
 
 Vue.use(VueRouter);
@@ -38,6 +37,7 @@ export default new VueRouter({
         {
             path: '/register',
             component: Register,
+            name: 'Register'
         },
         {
             path: '/login',
@@ -50,7 +50,7 @@ export default new VueRouter({
             name: 'Dashboard',
             // call user preload
             beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').then(r => console.log(r));
+                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
                 if (store.getters.getUser === null) {
                     next({
                         path: '/login'
@@ -65,22 +65,27 @@ export default new VueRouter({
             component: Rand,
         },
         {
-            path: '/modal',
-            component: Modal,
-            name: 'Modal'
+            path: '/subjectlist',
+            component: Subjects,
+            name: 'Subjects'
         },
         {
-            path: '/dashboard/courseslist',
-            component: Courses,
-            name: 'Courses'
+            path: '/mysubjects',
+            component: MySubjects,
+            name: 'MySubjects',
+            beforeEnter: async (to, from, next) => {
+                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
+                if (store.getters.getUser === null) {
+                    next({
+                        path: 'Login'
+                    });
+                } else {
+                    next();
+                }
+            }
         },
         {
-            path: '/mycourses',
-            component: MyCourses,
-            name: 'MyCourses'
-        },
-        {
-            path: '/dashboard/userlist',
+            path: '/userlist',
             component: UserList,
             name: 'UserList'
         },
@@ -95,10 +100,10 @@ export default new VueRouter({
             name: 'Profile',
             // call user preload
             beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').then(r => console.log(r));
+                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
                 if (store.getters.getUser === null) {
                     next({
-                        path: '/login'
+                        path: 'Login'
                     });
                 } else {
                     next();

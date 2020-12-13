@@ -1,40 +1,19 @@
 <template>
     <div class="flex py-4 border-b border-white-300">
         <div class="container mx-auto flex items-center justify-between">
-            <div v-if="!getUser" class="flex">
-                <router-link class="mr-4 text-white" to="/" exact>Home</router-link>
-                <!--                <router-link class="mr-4 text-white" to="/rand/10">User 10</router-link>-->
-                <!--                <router-link class="mr-4 text-white" to="/rand/12">User 12</router-link>-->
-                <!--                <router-link class="mr-4 text-white" to="/modal">Modal</router-link>-->
-                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
+            <div class="flex">
+                <router-link class="mr-4 text-white" to="/">Home</router-link>
+                <router-link v-if="getUser" class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
+                <router-link class="mr-4 text-white" to="/userlist">All users</router-link>
+                <router-link class="mr-4 text-white" to="/subjectlist">All subjects</router-link>
+                <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
+                             to="/mysubjects">My subjects
+                </router-link>
+                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"
+                             to="/mystudents">My students
+                </router-link>
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
-            <div v-if="getUser" class="flex">
-                <router-link class="mr-4 text-white" to="/">Home</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>
-                <router-link class="mr-4 text-white" to="/dashboard/courseslist">All courses</router-link>
-                <router-link v-if="getUser.role !== 'admin'" class="mr-4 text-white" to="/mycourses">My courses
-                </router-link>
-                <router-link v-if="getUser.role === 'teacher'" class="mr-4 text-white" to="/mystudents">My students
-                </router-link>
-            </div>
-            <!--            <div v-if="getUser.role === 'student'" class="flex">-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/main">Main</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">Student</router-link>-->
-            <!--            </div>-->
-            <!--            <div v-else-if="getUser.role === 'teacher'" class="flex">-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/main">Main</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mycourses">My courses</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/mystudents">My students</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">All users</router-link>-->
-            <!--                <router-link class="mr-4 text-white" to="/dashboard/userlist">Teacher</router-link>-->
-            <!--            </div>-->
             <div v-if="!getUser" class="flex">
                 <router-link class="mr-4 text-white" to="/login" exact>Login</router-link>
                 <router-link class="mr-4 text-white" to="/register">Register</router-link>
@@ -63,13 +42,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
         ...mapState(['user', 'errors'])
-    },
-    watch: {
-        'this.$store.state.user': function () {
-            // console.log(this.$store.state.user);
-        }
     },
     methods: {
         ...mapActions(["getLoggedInUser"]),
