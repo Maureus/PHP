@@ -33,14 +33,13 @@ use Symfony\Component\HttpFoundation\Response;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+
 
 // Cookie auth (sanctum)
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 
 // For token auth
@@ -62,8 +61,6 @@ Route::apiResources([
 
 
 
-
-// TODO check if working properly
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     //Logged in user
     Route::get('/user', function () {
