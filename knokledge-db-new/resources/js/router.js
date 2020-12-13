@@ -90,6 +90,10 @@ export default new VueRouter({
             name: 'Subjects'
         },
         {
+            path: '/subject/:subject_id',
+            component: Subjects,
+        },
+        {
             path: '/mysubjects',
             component: MySubjects,
             name: 'MySubjects',
