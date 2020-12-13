@@ -225,9 +225,9 @@ $margin          : 10px;
     background-color : $backgroundColor;
     color            : black;
     font-size        : $fontSize;
-    border-radius    : 7px;
-    overflow         : hidden;
-    border-collapse  : collapse;
+    border-radius   : 7px;
+    overflow        : hidden;
+    border-collapse : collapse;
 
     tr {
         margin      : 5px 0;
