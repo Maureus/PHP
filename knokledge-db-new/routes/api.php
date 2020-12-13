@@ -112,6 +112,7 @@ Route::get('image/{file_name}', function($filename){
     return response($image, 200)->header('Content-Type', $mime);
 });
 
+// Get
 Route::get('file/{file_name}', function($filename){
     $path = storage_path("app/public/files/$filename");
     $file = File::get($path);

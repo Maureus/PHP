@@ -1,6 +1,7 @@
 const state = {
     user: null,
     errors: null,
+    profileErrors: null,
     showModalConfirm: false,
 };
 
@@ -13,6 +14,9 @@ const getters = {
     },
     getShowModalConfirm: state => {
         return state.showModalConfirm;
+    },
+    getProfileErrors: state => {
+        return state.profileErrors;
     }
 };
 const actions = {
@@ -47,6 +51,9 @@ const actions = {
     async saveErrors({commit}, errors) {
         commit('setErrors', errors);
     },
+    async saveProfileErrors({commit}, errors) {
+        commit('setProfileErrors', errors);
+    },
     confirm({commit}) {
         commit('setShowModalConfirm');
     }
@@ -60,11 +67,13 @@ const mutations = {
     },
     setShowModalConfirm(state) {
         state.showModalConfirm = !state.showModalConfirm;
+    },
+    setProfileErrors(state, payload) {
+        state.errors = payload;
     }
 };
 
 export default {
-    // namespaced: true,
     state,
     getters,
     actions,
