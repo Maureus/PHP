@@ -49,13 +49,30 @@ export default {
         ...mapActions(["getLoggedInUser"]),
         logout() {
             this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
+        },
+        async fetchData() {
+            // if (this.getUser === undefined) {
+            //     this.loading = true;
+            //     await this.getLoggedInUser();
+            //     this.loading = false;
+            // }
+        },
+    },
+    async mounted() {
+        // if (this.getUser === undefined) {
+        //     this.loading = true;
+        //     await this.getLoggedInUser();
+        //     this.loading = false;
+        // }
+    },
+    watch: {
+        // call again the method if the route changes
+        // '$route': 'fetchData'
+        preload: {
+            handler: 'fetchData',
+            immediate: true
         }
     },
-    mounted() {
-        // this.loading = true;
-        this.getLoggedInUser();
-        this.loading = false;
-    }
 
 }
 </script>

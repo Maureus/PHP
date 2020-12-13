@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div v-if="show" class="preloader">
-            <p>Welcome!</p>
+            <h3 class="text-3xl text-white">Loading...</h3>
             <div class="circles">
                 <div class="circle"></div>
                 <div class="circle"></div>

@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-col flex-wrap w-full justify-center items-center pt-56">
         <preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-if="getErrors" class="flex items-center justify-center">
-            <p class="text-3xl text-red-800 text-center">{{ getErrors }}</p>
-        </div>
+<!--        <div v-if="getErrors" class="flex items-center justify-center">-->
+<!--            <p class="text-3xl text-red-800 text-center">{{ getErrors }}</p>-->
+<!--        </div>-->
 
         <div v-if="getUser" class="flex items-center justify-center">
             <div class="pt-4">
@@ -31,14 +31,14 @@ export default {
             dropDown: false,
         }
     },
-    // watch: {
-    //     // call again the method if the route changes
-    //     //'$route': 'fetchData'
-    //     // preload: {
-    //     //     handler: 'fetchData',
-    //     //     immediate: true
-    //     // }
-    // },
+    watch: {
+        // call again the method if the route changes
+        // '$route': 'fetchData'
+        preload: {
+            handler: 'fetchData',
+            immediate: true
+        }
+    },
     methods: {
         ...mapActions(['getLoggedInUser']),
         async logout() {
@@ -51,9 +51,11 @@ export default {
                 );
         },
         async fetchData() {
-            // this.loading = true;
-            await this.getLoggedInUser();
-            // this.loading = false;
+            if (this.getUser === undefined) {
+                this.loading = true;
+                await this.getLoggedInUser();
+                this.loading = false;
+            }
         },
         showDropDown() {
             this.dropDown = !this.dropDown;

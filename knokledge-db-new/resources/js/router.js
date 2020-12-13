@@ -16,6 +16,7 @@ import StudyMats from "./components/studyMats/StudyMats";
 
 Vue.use(VueRouter);
 
+
 export default new VueRouter({
     model: 'history',
     mode: 'history',
@@ -49,20 +50,14 @@ export default new VueRouter({
             component: Dashboard,
             name: 'Dashboard',
             // call user preload
-            beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').then(() => {
-                    if (store.getters.getUser === null) {
-                        next({
-                            path: '/login'
-                        });
-                    } else {
-                        next();
-                    }
-                }).catch(() => {
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
                     next({
                         path: '/login'
                     });
-                });
+                } else {
+                    next();
+                }
             }
         },
         {
@@ -78,8 +73,7 @@ export default new VueRouter({
             path: '/mysubjects',
             component: MySubjects,
             name: 'MySubjects',
-            beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').catch(err => console.log(err));
+            beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
                         path: 'Login'
@@ -104,20 +98,14 @@ export default new VueRouter({
             component: UserProfile,
             name: 'Profile',
             // call user preload
-            beforeEnter: async (to, from, next) => {
-                await store.dispatch('getLoggedInUser').then(() => {
-                    if (store.getters.getUser === null) {
-                        next({
-                            path: '/login'
-                        });
-                    } else {
-                        next();
-                    }
-                }).catch(() => {
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
                     next({
-                        path: 'Login'
+                        path: '/login'
                     });
-                });
+                } else {
+                    next();
+                }
             }
         }
     ]
