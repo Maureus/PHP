@@ -15,7 +15,7 @@
         </td>
         <td v-if="getUser != null && getUser.role === getAdminRole"
             class="px-6 py-4 whitespace-no-wrap text-base leading-5 font-medium text-gray-500 text-center">
-            <button class="px-6 py-4 text-indigo-600" @click="$emit('edit-user', user.id)">Edit</button>
+            <button class="px-6 py-4 text-indigo-600" data-toggle="modal" data-target="#exampleModalCenter" @click="$emit('edit-user', user.id)">Edit</button>
         </td>
     </tr>
 </template>

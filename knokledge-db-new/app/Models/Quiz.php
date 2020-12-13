@@ -149,4 +149,9 @@ class Quiz extends Model
     static public function deleteQuiz($id): int {
         return DB::delete('delete from quizzes where id = :id', [':id'=>$id]);
     }
+
+    static public function selectSubjectQuizzes($id): array {
+        return DB::select("select * from QUIZZES_VIEW where SUBJECT_ID = :id order by ID",
+            [':id' => $id]);
+    }
 }

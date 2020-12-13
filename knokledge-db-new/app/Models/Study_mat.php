@@ -175,7 +175,7 @@ class Study_mat extends Model
     }
 
     static public function selectSubjectSM($id) {
-        return DB::select("select * from STUDY_MATS_VIEW where SUBJECT_ID = :id",
+        return DB::select("select * from STUDY_MATS_VIEW where SUBJECT_ID = :id order by ID",
             [':id' => $id]);
     }
 }
