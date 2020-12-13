@@ -3,7 +3,7 @@
         <td>
             <div v-if="getUser" class="hover-shadow-effect" style="padding: 1rem 1.25rem">
                 <router-link
-                    class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
+                    class="whitespace-no-wrap text-right text-base leading-5 font-medium"
                     title="Click to open subject's detail"
                     :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
                 </router-link>
@@ -13,15 +13,10 @@
         <td>{{ subject.semester }}</td>
         <td>{{ subject.year }}</td>
         <td>{{ subject.short_name }}</td>
-        <!--        <td v-if="getUser">-->
-        <!--            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium"-->
-        <!--                    @click="showStudyMats">-->
-        <!--                Watch materials-->
-        <!--            </button>-->
-        <!--        </td>-->
         <td v-if="getUser && option !== ''">
             <div class="hover-shadow-effect">
-                <button @click="subjectUtility($event.target.value)" :value="option"
+                <button @click="subjectUtility($event.target.value)" :value="option" data-toggle="modal"
+                        data-target="#exampleModalCenter"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
                     {{ option | capitalizer }}
                 </button>

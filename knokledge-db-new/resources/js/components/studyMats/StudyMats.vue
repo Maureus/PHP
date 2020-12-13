@@ -10,7 +10,6 @@
                     <th scope="col">Last update</th>
                     <th scope="col">Creator</th>
                     <th scope="col">Editor</th>
-                    <th scope="col"></th>
                     <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
                         scope="col"></th>
                 </tr>
@@ -24,37 +23,47 @@
         <div v-else>
             <p class="p-2 text-lg text-white font-semibold">This subject has not had study materials yet.</p>
         </div>
+
         <Confirm :mess="mess"/>
-        <div v-if="editStudyMat"
-             class="absolute inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-            <div class="flex-column items-center justify-center w-2/5 bg-white border-0 rounded">
-                <h3 class="text-center pt-4 text-lg">Edit study material</h3>
-                <form @submit.prevent="saveStudyMaterialChanges">
-                    <div class="col-span-6 sm:col-span-4">
-                        <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
-                            Study material's name
-                        </label>
-                        <input id="name" v-model="curStudyMat.name" name="name" required
-                               class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                        </button>
                     </div>
-                    <div class="btn-container">
-                        <div class="btn-box start">
-                            <button type="submit" class="btn">
-                                Confirm
-                            </button>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                                Study material's name
+                            </label>
+                            <input id="name" v-model="curStudyMat.name" name="name" required
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="btn-box end">
-                            <button @click="cancelEditingSubjectInfo" type="button" class="btn">
-                                Cancel
-                            </button>
-                        </div>
-                        <div class="btn-box end">
-                            <button @click="deleteStudyMaterials" type="button" class="btn red">
-                                Delete
-                            </button>
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start">
+                                <button @click="saveStudyMaterialChanges" data-dismiss="modal" class="btn">
+                                    Confirm
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button @click="cancelEditingSubjectInfo" data-dismiss="modal" class="btn">
+                                    Cancel
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button @click="deleteStudyMaterials" data-dismiss="modal" class="btn red">
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -100,16 +109,16 @@ export default {
                 });
         },
         saveStudyMaterialChanges() {
-            axios.put("http://127.0.0.1:8000/api/study_mats/" + this.curStudyMat.id, this.curStudyMat)
-                .then(() => {
-                    axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
-                        this.study_mats = value;
-                    });
-                    this.editStudyMat = false;
-                    this.curStudyMat = {};
-                    this.mess = "Study material has been changed.";
-                    this.confirm();
-                });
+            // axios.put("http://127.0.0.1:8000/api/study_mats/" + this.curStudyMat.id, this.curStudyMat)
+            //     .then(() => {
+            //         axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
+            //             this.study_mats = value;
+            //         });
+            //         this.editStudyMat = false;
+            //         this.curStudyMat = {};
+            //         this.mess = "Study material has been changed.";
+            //         this.confirm();
+            //     });
         },
         cancelEditingSubjectInfo() {
             this.editStudyMat = false;
@@ -134,6 +143,8 @@ $fontSize        : 18px;
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
+
+@import "./resources/sass/form_util_btns";
 
 .table-container {
     text-align       : center;
@@ -177,53 +188,5 @@ $margin          : 10px;
 input {
     margin-bottom : $margin;
     margin-top    : 0;
-}
-
-form {
-    margin-left  : $margin * 2;
-    margin-right : $margin * 2;
-}
-
-.btn-container {
-    display : flex;
-}
-
-.btn-box {
-    padding-top : 50px;
-
-    &.start {
-        text-align : start;
-        width      : 60%;
-    }
-
-    &.end {
-        text-align : end;
-        width      : 20%;
-    }
-}
-
-.btn {
-    width            : 100px;
-    height           : auto;
-    font-size        : 14px;
-    margin-bottom    : $margin * 1.5;
-    color            : white;
-    background-color : #6875f5;
-
-    &.red {
-        background-color : #f05252;
-
-        &:hover {
-            background-color : #e02424;
-        }
-    }
-
-    &:hover {
-        background-color : #5850ec;
-    }
-
-    &:focus {
-        outline : none;
-    }
 }
 </style>
