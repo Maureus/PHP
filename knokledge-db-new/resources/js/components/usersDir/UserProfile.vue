@@ -165,21 +165,20 @@ export default {
             formData.append('phone', this.curUser.phone);
             formData.append('address', this.curUser.address);
             formData.append('id', this.getUser['id']);
-            // formData.append('_method', 'put');
 
             await axios.post('api/saveuser', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(async () => {
+                this.setAvatarAndUser();
                 this.passwordConfirm = false;
                 this.profileConfirm = true;
                 this.editProfile = false;
                 await this.getLoggedInUser();
                 this.mess = "Profile has been changed!";
                 this.confirmModal();
-                await this.setAvatarAndUser();
             }).catch(errors => {
-                this.saveErrors(errors);
-            })
+                this.saveProfileErrors(errors);
+            });
         },
         async saveUserPassword() {
             let formData = new FormData();
@@ -202,13 +201,11 @@ export default {
         selectAvatar() {
             this.curUser.avatar = this.$refs.myFile.files[0];
         },
-        async setAvatarAndUser() {
+        setAvatarAndUser() {
             this.loading = true;
-            if (this.getUser === undefined) {
-                await this.getLoggedInUser();
-            }
             if (this.getUser['hasavatar'] === "1") {
-                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg';
+                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand='+Date.now()+'';
+                console.log('changing avatar');
             } else {
                 document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatarP.jpg';
             }
@@ -218,7 +215,6 @@ export default {
             this.confirm();
         },
         checkPhone(value) {
-            // console.log(value);
             const phoneRegex = new RegExp(/^\+?[0-9-() ]{1,15}$/);
             if (!value.match(phoneRegex)) {
                 this.curUser.phone = value.substr(0, value.length - 1);
@@ -232,7 +228,7 @@ export default {
         ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm', 'getProfileErrors']),
     },
     created() {
-        // this.fetchData();
+
     },
     async mounted() {
         await this.setAvatarAndUser();

@@ -14,6 +14,7 @@ import Subjects from "./components/subjectsDir/Subjects";
 import MySubjects from "./components/subjectsDir/MySubjects";
 import SubjectContent from "./components/subjectsDir/SubjectContent";
 
+
 Vue.use(VueRouter);
 
 
@@ -101,7 +102,7 @@ export default new VueRouter({
             beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
-                        path: 'Login'
+                        path: '/login'
                     });
                 } else {
                     next();
