@@ -10,9 +10,9 @@ import VueRouter from "vue-router";
 import UserList from "./components/usersDir/UserList";
 import UserProfile from "./components/usersDir/UserProfile";
 import store from './store';
-import Subjects from "./components/coursesDir/Subjects";
-import MySubjects from "./components/coursesDir/MySubjects";
-import StudyMats from "./components/studyMats/StudyMats";
+import Subjects from "./components/subjectsDir/Subjects";
+import MySubjects from "./components/subjectsDir/MySubjects";
+import SubjectContent from "./components/subjectsDir/SubjectContent";
 
 Vue.use(VueRouter);
 
@@ -21,8 +21,8 @@ export default new VueRouter({
     model: 'history',
     mode: 'history',
     linkActiveClass: 'font-semibold',
-    scrollBehavior (to, from, savedPosition) {
-        return { x: 0, y: 0 }
+    scrollBehavior(to, from, savedPosition) {
+        return {x: 0, y: 0}
     },
     routes: [
         {
@@ -91,7 +91,8 @@ export default new VueRouter({
         },
         {
             path: '/subject/:subject_id',
-            component: Subjects,
+            component: SubjectContent,
+            name: "SubjectContent"
         },
         {
             path: '/mysubjects',
@@ -111,11 +112,6 @@ export default new VueRouter({
             path: '/userlist',
             component: UserList,
             name: 'UserList'
-        },
-        {
-            path: '/study_mats',
-            component: StudyMats,
-            name: 'StudyMats'
         },
         {
             path: '/profile',
