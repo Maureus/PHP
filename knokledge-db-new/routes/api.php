@@ -47,34 +47,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Users
-Route::get('/users/{id}/subjects', function ($id) {
-    return UserController::userSubjects($id);
-})->where('id', '[0-9]+');
-Route::get('/users/{id}/courses', function ($id) {
-    return UserController::userCourses($id);
-})->where('id', '[0-9]+');
-Route::get('/users/{id}/quizzes', function ($id) {
-    return UserController::userQuizResults($id);
-})->where('id', '[0-9]+');
 
-
-// assign and delete Subject to user
-Route::post('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
-    return UserController::assignSubjectToUser($id1, $id2);
-})->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
-
-Route::delete('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
-    return UserController::removeSubjectFromUser($id1, $id2);
-})->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
-
-// select all assigned to subject users
-Route::get('/subject/{id}/users', function ($id) {
-    return SubjectController::subjectUsers($id);
-})->whereNumber('id');
-
-
-Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
 Route::apiResources([
     'users' => UserController::class,
@@ -87,7 +60,17 @@ Route::apiResources([
     'comments' => CommentController::class
 ]);
 
-//Subjects
+
+
+
+// TODO check if working properly
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
+    //Logged in user
+    Route::get('/user', function () {
+        return request()->user();
+    });
+
+    //Subjects
 
 //Courses
 
@@ -98,40 +81,61 @@ Route::apiResources([
 //Questions
 
 //quizzes
-Route::get('/subject/{id}/quizzes', function ($id) {
-    return QuizController::showQuizzesBySubjectID($id);
-})->whereNumber('id');
+    Route::get('/subject/{id}/quizzes', function ($id) {
+        return QuizController::showQuizzesBySubjectID($id);
+    })->whereNumber('id');
 
 //Study_mats
-Route::get('/subject/{id}/study_mats', function ($id) {
-    return Stud_matController::showSMBySubjectID($id);
-})->whereNumber('id');
+    Route::get('/subject/{id}/study_mats', function ($id) {
+        return Stud_matController::showSMBySubjectID($id);
+    })->whereNumber('id');
 
-Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
+    Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
 // Get image on server by url
-Route::get('image/{file_name}', function($filename){
-    $path = storage_path("app/public/avatars/$filename");
-    $image = File::get($path);
-    $mime = File::mimeType($path);
-    return response($image, 200)->header('Content-Type', $mime);
-});
+    Route::get('image/{file_name}', function($filename){
+        $path = storage_path("app/public/avatars/$filename");
+        $image = File::get($path);
+        $mime = File::mimeType($path);
+        return response($image, 200)->header('Content-Type', $mime);
+    });
 
 // Get
-Route::get('file/{file_name}', function($filename){
-    $path = storage_path("app/public/files/$filename");
-    $file = File::get($path);
-    $mime = File::mimeType($path);
-    return response($file, 200)->header('Content-Type', $mime);
-});
-
-
-// TODO check if working properly
-Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
-    //Logged in user
-    Route::get('/user', function () {
-        return request()->user();
+    Route::get('file/{file_name}', function($filename){
+        $path = storage_path("app/public/files/$filename");
+        $file = File::get($path);
+        $mime = File::mimeType($path);
+        return response($file, 200)->header('Content-Type', $mime);
     });
+
+    // Users
+    Route::get('/users/{id}/subjects', function ($id) {
+        return UserController::userSubjects($id);
+    })->where('id', '[0-9]+');
+    Route::get('/users/{id}/courses', function ($id) {
+        return UserController::userCourses($id);
+    })->where('id', '[0-9]+');
+    Route::get('/users/{id}/quizzes', function ($id) {
+        return UserController::userQuizResults($id);
+    })->where('id', '[0-9]+');
+
+
+// assign and delete Subject to user
+    Route::post('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
+        return UserController::assignSubjectToUser($id1, $id2);
+    })->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
+
+    Route::delete('/users/{id1}/subjects/{id2}', function ($id1, $id2) {
+        return UserController::removeSubjectFromUser($id1, $id2);
+    })->where(['id1' => '[0-9]+', 'id2' => '[0-9]+']);
+
+// select all assigned to subject users
+    Route::get('/subject/{id}/users', function ($id) {
+        return SubjectController::subjectUsers($id);
+    })->whereNumber('id');
+
+
+    Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
     Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 

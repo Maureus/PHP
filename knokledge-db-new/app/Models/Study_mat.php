@@ -60,7 +60,7 @@ class Study_mat extends Model
             values (?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
-        $created_by = 'test';
+        $created_by = Auth::user()->getAuthIdentifierName();
 
         $statement->bindValue(1, $request->name, PDO::PARAM_STR);
         $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
