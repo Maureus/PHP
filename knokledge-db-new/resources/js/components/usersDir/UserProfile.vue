@@ -176,6 +176,7 @@ export default {
                 await this.getLoggedInUser();
                 this.mess = "Profile has been changed!";
                 this.confirmModal();
+                await this.setAvatarAndUser();
             }).catch(errors => {
                 this.saveErrors(errors);
             })
