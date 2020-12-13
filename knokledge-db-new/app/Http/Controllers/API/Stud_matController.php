@@ -68,4 +68,8 @@ class Stud_matController extends Controller
         Study_mat::updateById($request);
         return response()->json(1, 200);
     }
+
+    static public function showSMBySubjectID($id): \Illuminate\Http\JsonResponse {
+        return response()->json(Study_mat::selectSubjectSM($id));
+    }
 }
