@@ -100,7 +100,9 @@ Route::apiResources([
 //Quizzes
 
 //Study_mats
-
+Route::get('/subject/{id}/study_mats', function ($id) {
+    return Stud_matController::showSMBySubjectID($id);
+})->whereNumber('id');
 
 Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
