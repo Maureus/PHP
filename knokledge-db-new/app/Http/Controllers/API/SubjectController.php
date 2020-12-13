@@ -17,7 +17,7 @@ class SubjectController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): \Illuminate\Http\JsonResponse {
+    static public function index(): \Illuminate\Http\JsonResponse {
         return response()->json(Subject::selectAll());
     }
 
@@ -27,7 +27,7 @@ class SubjectController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse {
+    static public function store(Request $request): \Illuminate\Http\JsonResponse {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255|unique:subjects',
             'semester' => ['required', 'max:2', Rule::in('LS', 'ZS')],
@@ -62,7 +62,7 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id): \Illuminate\Http\JsonResponse {
+    static public function show($id): \Illuminate\Http\JsonResponse {
         return response()->json(Subject::selectById($id));
     }
 
@@ -114,7 +114,7 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id) {
+    static public function destroy($id) {
         try {
             Subject::deleteSubject($id);
         } catch (\Exception $ex) {

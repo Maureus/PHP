@@ -3,7 +3,6 @@
         <h1 class="p-2 text-2xl text-white font-semibold">Study materials</h1>
         <StudyMats class="pb-4"/>
         <Quizzes/>
-        <button @click="getAppSize">SIZE</button>
     </div>
 </template>
 
@@ -21,9 +20,6 @@ export default {
         }
     },
     methods: {
-        getAppSize() {
-            console.log(document.getElementById('app').clientHeight);
-        }
     }
 }
 </script>

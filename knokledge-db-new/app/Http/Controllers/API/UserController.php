@@ -25,7 +25,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function index(): \Illuminate\Http\JsonResponse {
+    static public function index(): \Illuminate\Http\JsonResponse {
         return response()->json(User::selectAll());
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) {
+    static public function store(Request $request) {
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|max:255',
@@ -75,7 +75,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id) {
+    static public function update(Request $request, $id) {
         try {
             $request->validate([
                 'name' => 'required|max:255',
@@ -104,7 +104,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id) {
+    static public function destroy($id) {
         try {
             User::deleteUser($id);
         } catch (\Exception $ex) {
