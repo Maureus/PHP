@@ -13,7 +13,6 @@ Vue.component('navbar-component', require('./components/NavBar.vue').default);
 Vue.component('welcome-component', require('./components/Welcome').default);
 Vue.component('user-list-item', require('./components/usersDir/UserListItem').default);
 Vue.component('user-list', require('./components/usersDir/UserList').default);
-Vue.component('modal-component', require('./components/Modal').default);
 
 const app = new Vue({
     el: '#app',
