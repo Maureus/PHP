@@ -94,12 +94,30 @@ export default new VueRouter({
         {
             path: '/subject/:subject_id',
             component: SubjectContent,
-            name: "SubjectContent"
+            name: "SubjectContent",
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
+                    next({
+                        path: '/login'
+                    });
+                } else {
+                    next();
+                }
+            }
         },
         {
             path: '/quiz/:quiz_id',
             component: Quiz,
-            name: "Quiz"
+            name: "Quiz",
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
+                    next({
+                        path: '/login'
+                    });
+                } else {
+                    next();
+                }
+            }
         },
         {
             path: '/mysubjects',

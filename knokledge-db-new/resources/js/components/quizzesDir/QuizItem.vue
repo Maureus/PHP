@@ -1,29 +1,29 @@
 <template>
     <tr>
-        <td>
-            <div class="hover-shadow-effect" style="padding: 1rem 1.25rem">
-                <router-link v-if="getUser"
-                             class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
-                             title="Click to open subject's detail"
-                             :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
-                </router-link>
-            </div>
-            <span v-if="!getUser">{{ subject.name }}</span>
-        </td>
-        <td>{{ subject.semester }}</td>
-        <td>{{ subject.year }}</td>
-        <td>{{ subject.short_name }}</td>
-        <!--        <td v-if="getUser">-->
-        <!--            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium"-->
-        <!--                    @click="showStudyMats">-->
-        <!--                Watch materials-->
-        <!--            </button>-->
-        <!--        </td>-->
-        <td v-if="getUser && option !== ''">
+        <td>{{ quiz.name }}</td>
+        <td>{{ quiz.date_from }}</td>
+        <td>{{ quiz.date_till }}</td>
+        <td>{{ quiz.quiz_desc }}</td>
+        <td>{{ quiz.num_questions }}</td>
+        <td v-if="getUser && option === 'student'">
             <div class="hover-shadow-effect">
-                <button @click="subjectUtility($event.target.value)" :value="option" title="Click to write this subject"
+                <button @click="subjectUtility($event.target.value)" :value="take"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-                    {{ option | capitalizer }}
+                    {{ "take" | capitalizer }}
+                </button>
+            </div>
+        </td>
+        <td v-if="getUser && (option === 'teacher' || option === 'admin')">
+            <div class="hover-shadow-effect">
+                <button @click="subjectUtility($event.target.value)" :value="edit"
+                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium btn-">
+                    {{ 'edit' | capitalizer }}
+                </button>
+            </div>
+            <div class="hover-shadow-effect">
+                <button @click="subjectUtility($event.target.value)" :value="option"
+                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
+                    {{ 'delete' | capitalizer }}
                 </button>
             </div>
         </td>
@@ -31,10 +31,17 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: "QuizItem",
+    data () {
+        return  {
+            edit: 'edit',
+            delete: 'delete',
+            take: 'take'
+        }
+    },
     props: {
         quiz: {
             type: Object,
@@ -48,26 +55,21 @@ export default {
     computed: {
         ...mapGetters(["getUser"
             , "getWriteOperation", "getEditOperation", "getDeleteOperation"
-            , "getStudentRole", "getAdminRole", "getTeacherRole"])
+            , "getStudentRole", "getAdminRole", "getTeacherRole", "getQuiz"])
     },
     methods: {
+        ...mapActions(['saveQuiz']),
         subjectUtility(value) {
-            // console.log(value);
             switch (value) {
-                case this.getWriteOperation :
-                    this.$emit('assign-course', this.subject.id);
+                case this.edit :
+                    this.$emit('edit-quiz', this.quiz.id);
                     break;
-                case this.getEditOperation :
-                    this.$emit('edit-course', this.subject.id);
+                case this.delete :
+                    this.$emit('delete-quiz', this.quiz.id);
                     break;
-                case this.getDeleteOperation :
-                    this.$emit('delete-course-in-user', this.subject.id);
+                case this.take :
+                    this.$router.push({name: 'Quiz', params: {quiz_id: this.quiz.id} });
                     break;
-            }
-        },
-        showStudyMats() {
-            if (this.subject != null && this.subject.id) {
-                this.$router.push({name: "SubjectContent", params: {subject_id: this.subject.id}});
             }
         }
     },
@@ -81,6 +83,47 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped="scoped" lang="scss">
+$fontSize   : 18px;
+$hoverColor : #dde9f5;
 
+* {
+    font-size : $fontSize;
+}
+
+.hover-shadow-effect {
+    background-color: #6cb2eb;
+    color: white;
+    &:hover {
+        font-weight                : bold;
+        background-color           : darken($color : $hoverColor, $amount : 10%);
+        box-shadow                 : darken($color: $hoverColor, $amount: 5%) -1px 1px,
+        darken($color: $hoverColor, $amount: 5%) -2px 2px,
+        darken($color: $hoverColor, $amount: 5%) -3px 3px,
+        darken($color: $hoverColor, $amount: 5%) -4px 4px,
+        darken($color: $hoverColor, $amount: 5%) -5px 5px;
+        transform                  : translate3d(5px, -5px, 0);
+
+        transition-delay           : 0s;
+        transition-duration        : 0.5s;
+        transition-property        : all;
+        transition-timing-function : linear;
+    }
+}
+
+th {
+    color            : white;
+    padding          : 5px 10px;
+    background-color : darken($color : #187fe2, $amount : 3%);
+}
+
+td {
+    padding : 5px 10px;
+}
+
+button {
+    &:focus {
+        outline : none;
+    }
+}
 </style>

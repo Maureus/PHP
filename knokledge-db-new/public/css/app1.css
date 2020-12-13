@@ -1,0 +1,33 @@
+* {
+  font-size: 18px;
+}
+
+.hover-shadow-effect {
+  background-color: #6cb2eb;
+  color: white;
+}
+
+.hover-shadow-effect:hover {
+  font-weight: bold;
+  background-color: #b6d0e9;
+  box-shadow: #c9dcef -1px 1px, #c9dcef -2px 2px, #c9dcef -3px 3px, #c9dcef -4px 4px, #c9dcef -5px 5px;
+  transform: translate3d(5px, -5px, 0);
+  transition-delay: 0s;
+  transition-duration: 0.5s;
+  transition-property: all;
+  transition-timing-function: linear;
+}
+
+th {
+  color: white;
+  padding: 5px 10px;
+  background-color: #1777d4;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+button:focus {
+  outline: none;
+}
