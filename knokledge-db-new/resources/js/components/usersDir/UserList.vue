@@ -72,12 +72,12 @@
                             </button>
                         </div>
                         <div class="btn-box end">
-                            <button @click="cancelEditingUserInfo" class="btn">
+                            <button @click="cancelEditingUserInfo" type="button" class="btn">
                                 Cancel
                             </button>
                         </div>
                         <div class="btn-box end">
-                            <button @click="deleteUser" class="btn red">
+                            <button @click="deleteUser" type="button" class="btn red">
                                 Delete
                             </button>
                         </div>

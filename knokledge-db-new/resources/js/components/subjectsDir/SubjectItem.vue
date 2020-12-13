@@ -1,11 +1,11 @@
 <template>
     <tr>
         <td>
-            <div class="hover-shadow-effect" style="padding: 1rem 1.25rem">
-                <router-link v-if="getUser"
-                             class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
-                             title="Click to open subject's detail"
-                             :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
+            <div v-if="getUser" class="hover-shadow-effect" style="padding: 1rem 1.25rem">
+                <router-link
+                    class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
+                    title="Click to open subject's detail"
+                    :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
                 </router-link>
             </div>
             <span v-if="!getUser">{{ subject.name }}</span>
@@ -21,7 +21,7 @@
         <!--        </td>-->
         <td v-if="getUser && option !== ''">
             <div class="hover-shadow-effect">
-                <button @click="subjectUtility($event.target.value)" :value="option" title="Click to write this subject"
+                <button @click="subjectUtility($event.target.value)" :value="option"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
                     {{ option | capitalizer }}
                 </button>
