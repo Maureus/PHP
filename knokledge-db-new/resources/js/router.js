@@ -13,6 +13,7 @@ import store from './store';
 import Subjects from "./components/subjectsDir/Subjects";
 import MySubjects from "./components/subjectsDir/MySubjects";
 import SubjectContent from "./components/subjectsDir/SubjectContent";
+import Quiz from "./components/quizzesDir/Quiz";
 
 
 Vue.use(VueRouter);
@@ -94,6 +95,11 @@ export default new VueRouter({
             path: '/subject/:subject_id',
             component: SubjectContent,
             name: "SubjectContent"
+        },
+        {
+            path: '/quiz/:quiz_id',
+            component: Quiz,
+            name: "Quiz"
         },
         {
             path: '/mysubjects',
