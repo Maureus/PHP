@@ -4,19 +4,7 @@
         <h1 class="p-2 text-2xl text-white font-semibold">Quizzes</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="quizzes.length !== 0">
-<!--            <div v-if=""-->
-<!--                 class="w-100 h-100 inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">-->
-<!--                <div class="flex-column items-center justify-center w-1/5 bg-white border-0 rounded">-->
-<!--                    <p class="text-center pt-4 text-lg">{{ mess }}</p>-->
-<!--                    <div class="flex items-center pt-4 justify-end w-full pr-2">-->
-<!--                        <button @click="confirm"-->
-<!--                                class="flex items-center justify-center text-white bg-indigo-500 border-0 py-1 px-2-->
-<!--                            focus:outline-none hover:bg-indigo-600 rounded text-xs mb-2">-->
-<!--                            Confirm-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+
             <table class="table-container">
                 <thead>
                 <tr>
@@ -26,13 +14,111 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of questions</th>
                     <th scope="col"></th>
+                    <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                        scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <QuizItem v-for="quiz in quizzes" :key="quiz.id" :quiz="quiz" :option="option"
-                             @edit-quiz="editQuiz" @delete-quiz="deleteQuiz"/>
+                          @edit-quiz="editQuiz" @delete-quiz="reformList"/>
                 </tbody>
             </table>
+        </div>
+        <div class="flex w-100 justify-content-end pt-2">
+            <button data-toggle="modal" data-target="#modalAddQuiz"
+                    class="btn-primary bg-danger btn-lg">
+                Add Quiz
+            </button>
+        </div>
+        <div class="modal fade" id="modalAddQuiz" tabindex="-1" role="dialog"
+             aria-labelledby="modalAddQuiz" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddQuizTitle">Add quiz</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Quiz name
+                            </label>
+                            <input v-model="newQuiz.name" name="name" required
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Quiz type
+                            </label>
+                            <input v-model="newQuiz.type" name="type" required
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Date from
+                            </label>
+                            <input name="email" v-model="newQuiz.date_from" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Date till
+                            </label>
+                            <input v-model="newQuiz.date_till" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Description
+                            </label>
+                            <input v-model="newQuiz.quiz_desc" name="quiz_desc"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Number of questions
+                            </label>
+                            <input v-model="newQuiz.num_questions" name="num_questions"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Points for question
+                            </label>
+                            <input v-model="newQuiz.points_fq" name="points_fq"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Category
+                            </label>
+                            <select v-model="newQuiz.category_id" class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                    name="category_id">
+                                <option value = "1">Category 1</option>
+                                <option value = "2">Category 2</option>
+                                <option value = "3">Category 3</option>
+                                <option value = "4">Category 4</option>
+                            </select>
+                        </div>
+                        <div class="btn-container">
+                            <div class="btn-box start">
+                                <button @click="addQuiz" data-dismiss="modal" class="btn">
+                                    Confirm
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button data-dismiss="modal" class="btn red">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -55,25 +141,40 @@ export default {
             option: '',
             mess: '',
             subject_id: this.$route.params.subject_id,
+            newQuiz: {}
         }
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
-        editQuiz(quizID) {
-            console.log("Quiz is editing");
+        editQuiz() {
+            this.mess = "Quiz has been edited.";
+            this.confirm();
         },
-        deleteQuiz(quizID) {
-            axios.delete("http://127.0.0.1:8000/api/quizzes/" + quizID)
-                .then(async () => {
-                    this.quizzes = this.quizzes.filter(value => value.id !== quizID);
-                    this.mess = "Quiz has been deleted.";
-                    this.confirm();
-                })
-                .catch(errors => this.saveErrors(errors));
+        reformList(quiz_id) {
+            this.quizzes = this.quizzes.filter(quiz => quiz.id !== quiz_id);
+            this.mess = "Quiz has been deleted.";
+            this.confirm();
+        },
+        async addQuiz() {
+            this.newQuiz.subject_id = this.subject_id;
+            this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ") + ":00";
+            this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ") + ":00";
+            console.log(this.newQuiz);
+            await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then( async () => {
+                 await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
+                    .then(resp => {
+                        this.quizzes = resp.data;
+                        this.mess = "Quiz has been added.";
+                        this.confirm();
+                    })
+                    .catch(errors => this.saveErrors(errors));
+            }).catch(err => {
+                this.saveErrors(err);
+            });
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
     },
     async mounted() {
         axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
@@ -138,6 +239,50 @@ $margin          : 10px;
             max-width        : 250px;
             min-width        : 100px;
         }
+    }
+}
+
+.btn-container {
+    display: flex;
+}
+
+.btn-box {
+    padding-top: 50px;
+
+    &.start {
+        text-align: start;
+        width: 80%;
+    }
+
+    &.end {
+        text-align: end;
+        margin-right: 0.5rem;
+        width: 20%;
+    }
+}
+
+.btn {
+    width: 100px;
+    height: auto;
+    font-size: 14px;
+    margin-bottom: $margin * 1.5;
+    color: white;
+    background-color: #6875f5;
+
+    &.red {
+        background-color: #f05252;
+
+        &:hover {
+            background-color: #e02424;
+        }
+    }
+
+    &:hover {
+        background-color: #5850ec;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
