@@ -1,11 +1,11 @@
 <template>
     <tr>
         <td>
-            <div class="hover-shadow-effect" style="padding: 1rem 1.25rem">
-                <router-link v-if="getUser"
-                             class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
-                             title="Click to open subject's detail"
-                             :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
+            <div v-if="getUser" class="hover-shadow-effect" style="padding: 1rem 1.25rem">
+                <router-link
+                    class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
+                    title="Click to open subject's detail"
+                    :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
                 </router-link>
             </div>
             <span v-if="!getUser">{{ subject.name }}</span>
@@ -21,7 +21,7 @@
         <!--        </td>-->
         <td v-if="getUser && option !== ''">
             <div class="hover-shadow-effect">
-                <button @click="subjectUtility($event.target.value)" :value="option" title="Click to write this subject"
+                <button @click="subjectUtility($event.target.value)" :value="option"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
                     {{ option | capitalizer }}
                 </button>
@@ -82,36 +82,8 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize   : 18px;
-$hoverColor : #dde9f5;
 
-* {
-    font-size : $fontSize;
-}
-
-.hover-shadow-effect {
-    &:hover {
-        font-weight                : bold;
-        background-color           : darken($color : $hoverColor, $amount : 10%);
-        box-shadow                 : darken($color: $hoverColor, $amount: 5%) -1px 1px,
-        darken($color: $hoverColor, $amount: 5%) -2px 2px,
-        darken($color: $hoverColor, $amount: 5%) -3px 3px,
-        darken($color: $hoverColor, $amount: 5%) -4px 4px,
-        darken($color: $hoverColor, $amount: 5%) -5px 5px;
-        transform                  : translate3d(5px, -5px, 0);
-
-        transition-delay           : 0s;
-        transition-duration        : 0.5s;
-        transition-property        : all;
-        transition-timing-function : linear;
-    }
-}
-
-th {
-    color            : white;
-    padding          : 5px 10px;
-    background-color : darken($color : #187fe2, $amount : 3%);
-}
+@import "./resources/sass/hover_effects";
 
 td {
     padding : 5px 10px;

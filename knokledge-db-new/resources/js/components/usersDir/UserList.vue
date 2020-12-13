@@ -43,6 +43,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
                     <div class="pr-2 pl-2 pt-2">
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
@@ -89,6 +90,7 @@
                                     </button>
                                 </div>
                             </div>
+
                     </div>
                 </div>
             </div>
@@ -184,11 +186,13 @@ $margin: 10px;
 }
 
 table {
-    margin-top: $margin;
-    margin-bottom: $margin;
-    overflow: hidden;
-    border-collapse: collapse;
-    border-radius: 10px;
+
+    text-align       : center;
+    margin-top      : $margin;
+    margin-bottom   : $margin;
+    border-collapse : collapse;
+    border-radius   : 10px;
+
 }
 
 input {
