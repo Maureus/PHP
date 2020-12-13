@@ -1,20 +1,31 @@
 <template>
     <tr>
-        <td>{{ subject.name }}</td>
+        <td>
+            <div class="hover-shadow-effect" style="padding: 1rem 1.25rem">
+                <router-link v-if="getUser"
+                             class="whitespace-no-wrap text-right text-base leading-5 font-medium underline"
+                             title="Click to open subject's detail"
+                             :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
+                </router-link>
+            </div>
+            <span v-if="!getUser">{{ subject.name }}</span>
+        </td>
         <td>{{ subject.semester }}</td>
         <td>{{ subject.year }}</td>
         <td>{{ subject.short_name }}</td>
-        <td v-if="getUser">
-            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium"
-                    @click="showStudyMats">
-                Watch materials
-            </button>
-        </td>
+        <!--        <td v-if="getUser">-->
+        <!--            <button class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium"-->
+        <!--                    @click="showStudyMats">-->
+        <!--                Watch materials-->
+        <!--            </button>-->
+        <!--        </td>-->
         <td v-if="getUser && option !== ''">
-            <button @click="subjectUtility($event.target.value)" :value="option"
-                    class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-                {{ option | capitalizer }}
-            </button>
+            <div class="hover-shadow-effect">
+                <button @click="subjectUtility($event.target.value)" :value="option" title="Click to write this subject"
+                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
+                    {{ option | capitalizer }}
+                </button>
+            </div>
         </td>
     </tr>
 </template>
@@ -55,7 +66,9 @@ export default {
             }
         },
         showStudyMats() {
-            this.$router.push({name: 'StudyMats'});
+            if (this.subject != null && this.subject.id) {
+                this.$router.push({name: "SubjectContent", params: {subject_id: this.subject.id}});
+            }
         }
     },
     filters: {
@@ -72,9 +85,11 @@ export default {
 $fontSize   : 18px;
 $hoverColor : #dde9f5;
 
-button {
+* {
     font-size : $fontSize;
+}
 
+.hover-shadow-effect {
     &:hover {
         font-weight                : bold;
         background-color           : darken($color : $hoverColor, $amount : 10%);
@@ -99,8 +114,7 @@ th {
 }
 
 td {
-    font-size : $fontSize;
-    padding   : 5px 10px;
+    padding : 5px 10px;
 }
 
 button {
