@@ -84,4 +84,8 @@ class QuizController extends Controller
             400);
     }
 
+    static public function showQuizzesBySubjectID($id): \Illuminate\Http\JsonResponse {
+        return response()->json(Quiz::selectSubjectQuizzes($id));
+    }
+
 }

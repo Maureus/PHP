@@ -97,7 +97,10 @@ Route::apiResources([
 
 //Questions
 
-//quizzesDir
+//quizzes
+Route::get('/subject/{id}/quizzes', function ($id) {
+    return QuizController::showQuizzesBySubjectID($id);
+})->whereNumber('id');
 
 //Study_mats
 Route::get('/subject/{id}/study_mats', function ($id) {

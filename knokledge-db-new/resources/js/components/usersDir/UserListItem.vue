@@ -13,13 +13,12 @@
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.role }}
         </td>
+
         <td v-if="getUser != null && getUser.role === getAdminRole">
             <div class="hover-shadow-effect">
-                <button class="px-4 py-3 whitespace-no-wrap text-right text-base leading-5 font-medium"
-                        @click="$emit('edit-user', user.id)"
-                        title="Click to edit user's data">Edit
-                </button>
+                 <button class="px-6 py-4 text-indigo-600" data-toggle="modal" data-target="#exampleModalCenter" @click="$emit('edit-user', user.id)">Edit</button>
             </div>
+
         </td>
     </tr>
 </template>

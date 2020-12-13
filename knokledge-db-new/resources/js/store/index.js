@@ -5,6 +5,7 @@ import currentUser from "./modules/currentUser";
 import subjects from "./modules/subjects";
 import roles from "./modules/roles";
 import preloader from "./modules/preloader";
+import quiz from "./modules/quiz";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         currentUser,
         subjects,
         preloader,
-        roles
+        roles,
+        quiz
     }
 })
