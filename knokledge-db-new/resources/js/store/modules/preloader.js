@@ -7,6 +7,7 @@ const getters = {
         return state.preloader;
     }
 };
+
 const actions = {
     preloaderTrue({commit}) {
         commit('setPreloaderTrue');
@@ -15,6 +16,7 @@ const actions = {
         commit('setPreloaderFalse');
     },
 };
+
 const mutations = {
     setPreloaderTrue(state) {
         state.preloader = true;

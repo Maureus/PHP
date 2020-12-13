@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
             store.dispatch('preloaderFalse');
             next();
         });
-})
+});
 
 const app = new Vue({
     el: '#app',
