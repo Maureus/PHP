@@ -13,6 +13,7 @@ import store from './store';
 import Subjects from "./components/coursesDir/Subjects";
 import MySubjects from "./components/coursesDir/MySubjects";
 import StudyMats from "./components/studyMats/StudyMats";
+import Subject from "./components/subject/Subject";
 
 Vue.use(VueRouter);
 
@@ -91,7 +92,7 @@ export default new VueRouter({
         },
         {
             path: '/subject/:subject_id',
-            component: Subjects,
+            component: Subject,
         },
         {
             path: '/mysubjects',
@@ -100,7 +101,7 @@ export default new VueRouter({
             beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
-                        path: 'Login'
+                        path: '/login'
                     });
                 } else {
                     next();
