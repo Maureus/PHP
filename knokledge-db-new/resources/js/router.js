@@ -41,18 +41,35 @@ export default new VueRouter({
         {
             path: '/register',
             component: Register,
-            name: 'Register'
+            name: 'Register',
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
+                    next();
+                } else {
+                    next({
+                        path: '/'
+                    });
+                }
+            }
         },
         {
             path: '/login',
             component: Login,
-            name: 'Login'
+            name: 'Login',
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUser === null) {
+                    next();
+                } else {
+                    next({
+                        path: '/'
+                    });
+                }
+            }
         },
         {
             path: '/dashboard',
             component: Dashboard,
             name: 'Dashboard',
-            // call user preload
             beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
@@ -100,7 +117,6 @@ export default new VueRouter({
             path: '/profile',
             component: UserProfile,
             name: 'Profile',
-            // call user preload
             beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
