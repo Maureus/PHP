@@ -155,7 +155,6 @@ export default {
             this.changePassword === false ? this.changePassword = true : this.changePassword = false;
         },
         async saveUserProfile() {
-
             let formData = new FormData();
             formData.append('name', this.curUser.name);
             formData.append('email', this.curUser.email);
@@ -168,12 +167,12 @@ export default {
 
             await axios.post('api/saveuser', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
-            }).then(async () => {
+            }).then(() => {
                 this.setAvatarAndUser();
                 this.passwordConfirm = false;
                 this.profileConfirm = true;
                 this.editProfile = false;
-                await this.getLoggedInUser();
+                this.getLoggedInUser();
                 this.mess = "Profile has been changed!";
                 this.confirmModal();
             }).catch(errors => {
@@ -212,7 +211,7 @@ export default {
             this.loading = false;
         },
         confirmModal() {
-            this.confirm();
+           this.confirm();
         },
         checkPhone(value) {
             const phoneRegex = new RegExp(/^\+?[0-9-() ]{1,15}$/);
