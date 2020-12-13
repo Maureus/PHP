@@ -65,11 +65,11 @@ export default {
                     break;
             }
         },
-        showStudyMats() {
-            if (this.subject != null && this.subject.id) {
-                this.$router.push({name: "SubjectContent", params: {subject_id: this.subject.id}});
-            }
-        }
+        // showStudyMats() {
+        //     if (this.subject != null && this.subject.id) {
+        //         this.$router.push({name: "SubjectContent", params: {subject_id: this.subject.id}});
+        //     }
+        // }
     },
     filters: {
         capitalizer(value) {
