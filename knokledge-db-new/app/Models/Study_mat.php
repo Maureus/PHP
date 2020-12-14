@@ -60,7 +60,7 @@ class Study_mat extends Model
             values (?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
-        $created_by = Auth::user()->getAuthIdentifierName();
+        $created_by = $request->created_by;
 
         $statement->bindValue(1, $request->name, PDO::PARAM_STR);
         $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
@@ -94,7 +94,7 @@ class Study_mat extends Model
                       EDITED_BY = ?,
                       UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
         );
-        $created_by = Auth::user()->getAuthIdentifierName();
+        $created_by = $request->created_by;
 
         $statement->bindValue(1, $request->name, PDO::PARAM_STR);
         $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
@@ -129,7 +129,7 @@ class Study_mat extends Model
                         end;';
         $stmt = oci_parse($conn, $sql);
         $fileContent = file_get_contents($file);
-        $created_by = 'Test';
+        $created_by = $request->created_by;
         $name = $request->name;
         $blob = oci_new_descriptor($conn, OCI_DTYPE_LOB);
         $dateFrom = $request->date_from;
