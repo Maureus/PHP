@@ -13,7 +13,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of questions</th>
                     <th scope="col"></th>
-                    <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                    <th v-if="getUser.role === getAdminRole || getUser.role === getTeacherRole"
                         scope="col"></th>
                 </tr>
                 </thead>
@@ -26,7 +26,7 @@
         <div v-else>
             <p class="p-2 text-lg text-white font-semibold">No quizzes</p>
         </div>
-        <div v-if="loading === false" class="flex w-100 justify-content-end pt-2">
+        <div v-if="loading === false && (getUser.role === getTeacherRole || getUser.role === getAdminRole)" class="flex w-100 justify-content-end pt-2">
             <button data-toggle="modal" data-target="#modalAddQuiz"
                     class="btn-primary bg-danger btn-lg">
                 Add Quiz
