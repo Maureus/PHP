@@ -1,11 +1,12 @@
 //$hoverColor : #6cb2eb;
 //$bgcolor    : #8fd8e7;
 //$hoverColor : #8fd8e7;
-$bgcolor : #6cb2eb;
+//$bgcolor : #6cb2eb;
+$bgcolor : #b1d7f1;
 
 .hover-shadow-effect {
     background-color : $bgcolor;
-    color            : white;
+    color            : whitesmoke;
 
     &:hover {
         font-weight                : bold;
@@ -25,11 +26,10 @@ $bgcolor : #6cb2eb;
 }
 
 a {
-    color   : white;
-    padding : 0.9rem 1.5rem;
+    color   : whitesmoke;
+    padding : 1rem 1rem;
 
     &:hover {
         text-decoration : none;
-        color           : white;
     }
 }

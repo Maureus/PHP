@@ -294,22 +294,21 @@ $backgroundColor: white;
 $margin: 10px;
 
 .table-container {
-    text-align: center;
-    display: table;
-    background-color: $backgroundColor;
-    color: black;
-    font-size: $fontSize;
-    border-radius: 7px;
-    overflow: hidden;
-    border-collapse: collapse;
-    //white-space      : nowrap;
-    margin: auto;
-    //table-layout     : fixed;
-    width: 100%;
+
+    text-align       : center;
+    display          : table;
+    background-color : $backgroundColor;
+    color            : black;
+    font-size        : $fontSize;
+    border-radius    : 7px;
+    overflow         : hidden;
+    border-collapse  : collapse;
+    margin           : auto;
+    width            : 100%;
 
     tr {
-        //margin      : $margin/2 0;
-        line-height: 2.1875em;
+        line-height : 2.1875em;
+
 
         &:nth-child(odd) {
             background-color: $backgroundColor;
