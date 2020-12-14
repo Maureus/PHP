@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row pt-4">
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <Confirm :mess="mess"/>
+        <Confirm/>
 
 
         <div class="h-full w-1/3 flex flex-col items-center justify-center">
@@ -218,9 +218,6 @@ export default {
     },
     computed: {
         ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm', 'getProfileErrors']),
-    },
-    created() {
-
     },
     async mounted() {
         await this.setAvatarAndUser();

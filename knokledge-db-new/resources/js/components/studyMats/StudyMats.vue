@@ -24,7 +24,7 @@
             <p class="p-2 text-lg text-white font-semibold">This subject has not had study materials yet.</p>
         </div>
 
-        <Confirm :mess="mess"/>
+        <Confirm/>
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
