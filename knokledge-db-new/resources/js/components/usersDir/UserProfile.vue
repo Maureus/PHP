@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-row pt-4">
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <Confirm v-if="profileConfirm" :mess="mess"/>
-        <Confirm v-else-if="passwordConfirm" :mess="mess"/>
+        <Confirm :mess="mess"/>
+
 
         <div class="h-full w-1/3 flex flex-col items-center justify-center">
             <div class="flex-shrink-0 h-56 w-56 mb-2">
@@ -169,8 +169,6 @@ export default {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(() => {
                 this.setAvatarAndUser();
-                this.passwordConfirm = false;
-                this.profileConfirm = true;
                 this.editProfile = false;
                 this.getLoggedInUser();
                 this.mess = "Profile has been changed!";
@@ -188,8 +186,6 @@ export default {
             await axios.post('api/saveuser', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(() => {
-                this.passwordConfirm = true;
-                this.profileConfirm = false;
                 this.changePassword = false;
                 this.mess = "Password has been changed!";
                 this.confirmModal();
@@ -203,8 +199,8 @@ export default {
         setAvatarAndUser() {
             this.loading = true;
             if (this.getUser['hasavatar'] === "1") {
-                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand=' + Date.now() + '';
-                console.log('changing avatar');
+                document.getElementById("ava").
+                    src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand=' + Date.now() + '';
             } else {
                 document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatarP.jpg';
             }

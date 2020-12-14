@@ -225,12 +225,12 @@ export default {
         },
         editQuiz() {
             Object.assign(this.quizzes[this.quizzes.findIndex(quiz => quiz.id === this.getQuiz.id)], this.getQuiz);
-            this.mess = "Quiz has been edited.";
+            // this.mess = "Quiz has been edited.";
             this.confirm();
         },
         reformList(quiz_id) {
             this.quizzes = this.quizzes.filter(quiz => quiz.id !== quiz_id);
-            this.mess = "Quiz has been deleted.";
+            // this.mess = "Quiz has been deleted.";
             this.confirm();
         },
         async addQuiz() {
@@ -242,7 +242,7 @@ export default {
                 await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
                     .then(resp => {
                         this.quizzes = resp.data;
-                        this.mess = "Quiz has been added.";
+                        // this.mess = "Quiz has been added.";
                         this.confirm();
                     })
                     .catch(errors => this.saveErrors(errors));
