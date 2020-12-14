@@ -5,7 +5,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Created at</th>
+                    <th scope="col">Accessible from</th>
                     <th scope="col">Accessible to</th>
                     <th scope="col">Last update</th>
                     <th scope="col">Creator</th>
@@ -42,9 +42,31 @@
                             <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
                                 Study material's name
                             </label>
-                            <input id="name" v-model="curStudyMat.name" name="name" required
+                            <input id="name" v-model="curStudyMat.name"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="file" class="block text-sm font-medium leading-5 text-gray-700">
+                                Choose a new file
+                            </label>
+                            <input id="file" type="file" ref="myFile" @change="selectFile"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="date_from" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible from
+                            </label>
+                            <input id="date_from" type="datetime-local" v-model="curStudyMat.date_from"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="date_till" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible to
+                            </label>
+                            <input id="date_till" type="datetime-local" v-model="curStudyMat.date_till"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
                                 <button @click="saveStudyMaterialChanges" data-dismiss="modal" class="btn">
@@ -100,25 +122,44 @@ export default {
     },
     methods: {
         ...mapActions(["confirm"]),
-        editStudyMatData(studyMatId) {
+        async editStudyMatData(studyMatId) {
             this.editStudyMat = true;
-            axios.get("http://127.0.0.1:8000/api/study_mats/" + studyMatId)
+            await axios.get("http://127.0.0.1:8000/api/study_mats/" + studyMatId)
                 .then(value => value.data)
                 .then(value => {
                     this.curStudyMat = value;
                 });
+
         },
-        saveStudyMaterialChanges() {
-            // axios.put("http://127.0.0.1:8000/api/study_mats/" + this.curStudyMat.id, this.curStudyMat)
-            //     .then(() => {
-            //         axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
-            //             this.study_mats = value;
-            //         });
-            //         this.editStudyMat = false;
-            //         this.curStudyMat = {};
-            //         this.mess = "Study material has been changed.";
-            //         this.confirm();
-            //     });
+        async saveStudyMaterialChanges() {
+            const formData = new FormData();
+            formData.append('name', this.curStudyMat.name);
+            if (this.curStudyMat.file_name) {
+                formData.append('file_name', this.curStudyMat.file_name);
+                const splittedFileName = this.curStudyMat.file_name.split(".");
+                formData.append('file_type', splittedFileName[splittedFileName.length - 1]);
+            }
+            if (this.curStudyMat.date_from.includes("T")) {
+                console.log(this.curStudyMat.date_from);
+                formData.append('date_from', this.curStudyMat.date_from.split("T").join(" ") + ":00");
+            }
+            if (this.curStudyMat.date_till.includes("T")) {
+                console.log(this.curStudyMat.date_till);
+                formData.append('date_till', this.curStudyMat.date_till.split("T").join(" ") + ":00");
+            }
+            formData.append('edited_by', this.getUser.name);
+
+            await axios.post("http://127.0.0.1:8000/api/study_mats/update"
+                , formData, {headers: {'Content-Type': 'multipart/form-data'}})
+                .then(async () => {
+                    await axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
+                        this.study_mats = value;
+                    });
+                    this.editStudyMat = false;
+                    this.curStudyMat = {};
+                    this.mess = "Study material has been changed.";
+                    this.confirm();
+                });
         },
         cancelEditingSubjectInfo() {
             this.editStudyMat = false;
@@ -133,7 +174,10 @@ export default {
                     this.mess = "Study material has been deleted.";
                     this.confirm();
                 });
-        }
+        },
+        selectFile() {
+            this.curStudyMat.file_name = this.$refs.myFile.files[0];
+        },
     }
 }
 </script>

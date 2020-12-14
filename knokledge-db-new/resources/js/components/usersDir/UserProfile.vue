@@ -32,7 +32,7 @@
                                 <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
                                     Your name
                                 </label>
-                                <input id="name" v-model="curUser.name" @change="checkName" name="name"
+                                <input id="name" v-model="curUser.name" name="name"
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
@@ -155,7 +155,7 @@ export default {
             this.changePassword === false ? this.changePassword = true : this.changePassword = false;
         },
         async saveUserProfile() {
-            let formData = new FormData();
+            const formData = new FormData();
             formData.append('name', this.curUser.name);
             formData.append('email', this.curUser.email);
             if (this.curUser.avatar) {
@@ -203,7 +203,7 @@ export default {
         setAvatarAndUser() {
             this.loading = true;
             if (this.getUser['hasavatar'] === "1") {
-                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand='+Date.now()+'';
+                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand=' + Date.now() + '';
                 console.log('changing avatar');
             } else {
                 document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatarP.jpg';
@@ -211,16 +211,13 @@ export default {
             this.loading = false;
         },
         confirmModal() {
-           this.confirm();
+            this.confirm();
         },
         checkPhone(value) {
             const phoneRegex = new RegExp(/^\+?[0-9-() ]{1,15}$/);
             if (!value.match(phoneRegex)) {
                 this.curUser.phone = value.substr(0, value.length - 1);
             }
-        },
-        checkName() {
-
         }
     },
     computed: {

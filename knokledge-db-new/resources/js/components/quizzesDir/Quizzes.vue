@@ -4,7 +4,6 @@
         <h1 class="p-2 text-2xl text-white font-semibold">Quizzes</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="quizzes.length !== 0">
-
             <table class="table-container">
                 <thead>
                 <tr>
@@ -24,7 +23,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="flex w-100 justify-content-end pt-2">
+        <div v-else>
+            <p>No quizzes</p>
+        </div>
+        <div v-if="loading === false" class="flex w-100 justify-content-end pt-2">
             <button data-toggle="modal" data-target="#modalAddQuiz"
                     class="btn-primary bg-danger btn-lg">
                 Add Quiz
@@ -95,12 +97,13 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Category
                             </label>
-                            <select v-model="newQuiz.category_id" class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                            <select v-model="newQuiz.category_id"
+                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                     name="category_id">
-                                <option value = "1">Category 1</option>
-                                <option value = "2">Category 2</option>
-                                <option value = "3">Category 3</option>
-                                <option value = "4">Category 4</option>
+                                <option value="1">Category 1</option>
+                                <option value="2">Category 2</option>
+                                <option value="3">Category 3</option>
+                                <option value="4">Category 4</option>
                             </select>
                         </div>
                         <div class="btn-container">
@@ -160,8 +163,8 @@ export default {
             this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ") + ":00";
             this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ") + ":00";
             console.log(this.newQuiz);
-            await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then( async () => {
-                 await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
+            await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then(async () => {
+                await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
                     .then(resp => {
                         this.quizzes = resp.data;
                         this.mess = "Quiz has been added.";
@@ -243,46 +246,46 @@ $margin          : 10px;
 }
 
 .btn-container {
-    display: flex;
+    display : flex;
 }
 
 .btn-box {
-    padding-top: 50px;
+    padding-top : 50px;
 
     &.start {
-        text-align: start;
-        width: 80%;
+        text-align : start;
+        width      : 80%;
     }
 
     &.end {
-        text-align: end;
-        margin-right: 0.5rem;
-        width: 20%;
+        text-align   : end;
+        margin-right : 0.5rem;
+        width        : 20%;
     }
 }
 
 .btn {
-    width: 100px;
-    height: auto;
-    font-size: 14px;
-    margin-bottom: $margin * 1.5;
-    color: white;
-    background-color: #6875f5;
+    width            : 100px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
 
     &.red {
-        background-color: #f05252;
+        background-color : #f05252;
 
         &:hover {
-            background-color: #e02424;
+            background-color : #e02424;
         }
     }
 
     &:hover {
-        background-color: #5850ec;
+        background-color : #5850ec;
     }
 
     &:focus {
-        outline: none;
+        outline : none;
     }
 }
 
