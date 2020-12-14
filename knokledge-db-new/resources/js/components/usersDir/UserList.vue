@@ -139,7 +139,6 @@ export default {
         ...mapActions(["saveErrors", "confirm"]),
         editUserData(userEditedId) {
             this.editUser = true;
-
             axios.get("http://127.0.0.1:8000/api/users/" + userEditedId)
                 .then(value => value.data)
                 .then(value => {
