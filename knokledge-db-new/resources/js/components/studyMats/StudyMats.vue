@@ -148,9 +148,11 @@ export default {
                 formData.append('date_till', this.curStudyMat.date_till.split("T").join(" ") + ":00");
             }
             formData.append('edited_by', this.getUser.name);
+            formData.append('id', this.curStudyMat.id);
 
-            await axios.post("http://127.0.0.1:8000/api/study_mats/update"
-                , formData, {headers: {'Content-Type': 'multipart/form-data'}})
+            await axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            })
                 .then(async () => {
                     await axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
                         this.study_mats = value;
