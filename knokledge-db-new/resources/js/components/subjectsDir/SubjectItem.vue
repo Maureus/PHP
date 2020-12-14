@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td>
-            <div v-if="getUser" class="hover-shadow-effect" style="padding: 1rem 1.25rem">
+            <div v-if="getUser" class="hover-shadow-effect" style="padding: 0.75rem">
                 <router-link
                     class="whitespace-no-wrap text-right text-base leading-5 font-medium"
                     title="Click to open subject's detail"

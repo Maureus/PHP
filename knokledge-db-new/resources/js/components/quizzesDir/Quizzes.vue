@@ -24,7 +24,7 @@
             </table>
         </div>
         <div v-else>
-            <p>No quizzes</p>
+            <p class="p-2 text-lg text-white font-semibold">No quizzes</p>
         </div>
         <div v-if="loading === false" class="flex w-100 justify-content-end pt-2">
             <button data-toggle="modal" data-target="#modalAddQuiz"

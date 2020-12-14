@@ -78,7 +78,5 @@ export default {
 </script>
 
 <style scoped>
-* {
-    font-size : 18px;
-}
+
 </style>

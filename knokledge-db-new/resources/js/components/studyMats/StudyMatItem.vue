@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$padding : 5px;
+$padding : 10px;
 
 @import "./resources/sass/hover_effects";
 
