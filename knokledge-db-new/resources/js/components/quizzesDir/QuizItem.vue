@@ -157,92 +157,68 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize: 18px;
-$hoverColor: #dde9f5;
-$margin: 10px;
+$hoverColor : #dde9f5;
+$margin     : 10px;
 
-* {
-    font-size: $fontSize;
-}
-
-.hover-shadow-effect {
-    background-color: #6cb2eb;
-    color: white;
-
-    &:hover {
-        font-weight: bold;
-        background-color: darken($color: $hoverColor, $amount: 10%);
-        box-shadow: darken($color: $hoverColor, $amount: 5%) -1px 1px,
-        darken($color: $hoverColor, $amount: 5%) -2px 2px,
-        darken($color: $hoverColor, $amount: 5%) -3px 3px,
-        darken($color: $hoverColor, $amount: 5%) -4px 4px,
-        darken($color: $hoverColor, $amount: 5%) -5px 5px;
-        transform: translate3d(5px, -5px, 0);
-
-        transition-delay: 0s;
-        transition-duration: 0.5s;
-        transition-property: all;
-        transition-timing-function: linear;
-    }
-}
+@import "./resources/sass/hover_effects";
 
 th {
-    color: white;
-    padding: 5px 10px;
-    background-color: darken($color: #187fe2, $amount: 3%);
+    color            : white;
+    padding          : 5px 10px;
+    background-color : darken($color : #187fe2, $amount : 3%);
 }
 
 td {
-    padding: 5px 10px;
+    padding : 5px 10px;
 }
 
 button {
     &:focus {
-        outline: none;
+        outline : none;
     }
 }
 
 .btn-container {
-    display: flex;
+    display : flex;
 }
 
 .btn-box {
-    padding-top: 50px;
+    padding-top : 50px;
 
     &.start {
-        text-align: start;
-        width: 80%;
+        text-align : start;
+        width      : 80%;
     }
 
     &.end {
-        text-align: end;
-        margin-right: 0.5rem;
-        width: 20%;
+        text-align   : end;
+        margin-right : 0.5rem;
+        width        : 20%;
     }
 }
 
 .btn {
-    width: 100px;
-    height: auto;
-    font-size: 14px;
-    margin-bottom: $margin * 1.5;
-    color: white;
-    background-color: #6875f5;
+    width            : 100px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
 
     &.red {
-        background-color: #f05252;
+        background-color : #f05252;
 
         &:hover {
-            background-color: #e02424;
+            background-color : #e02424;
         }
     }
 
     &:hover {
-        background-color: #5850ec;
+        background-color : #5850ec;
     }
 
     &:focus {
-        outline: none;
+        outline : none;
     }
 }
 </style>
