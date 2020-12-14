@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -38,22 +39,9 @@ class SubjectController extends Controller
 
         if ($validation->fails()) {
             return response()->json(0, 400);
-        } else {
-            $result = DB::insert(
-                'insert into ' . Subject::SUBJECTS_TABLE . '( name, semester, year, short_name, subject_desc)
-                values (:name, :semester, :year, :short_name, :subject_desc)',
-                [
-                    ':name' => $request->input('name'),
-                    ':semester' => $request->input('semester'),
-                    ':year' => $request->input('year'),
-                    ':short_name' => $request->input('short_name'),
-                    ':subject_desc' => $request->input('subject_desc')
-                ]);
-
-            if ($result == true) {
-                return response()->json(1, 200);
-            }
         }
+
+        return response()->json(Subject::insertSubject($request));
     }
 
     /**
@@ -86,26 +74,7 @@ class SubjectController extends Controller
             return response()->json(0, 400);
         }
 
-        $result = DB::update(
-            "update subjects set
-                    name = :name,
-                    semester = :semester,
-                    year = :year,
-                    SHORT_NAME = :short_name,
-                    SUBJECT_DESC = :subject_desc,
-                    UPDATED_AT = CURRENT_TIMESTAMP(6)
-                    where ID = :id
-                    ",
-            [
-                ':name' => $request->input('name'),
-                ':semester' => $request->input('semester'),
-                ':year' => $request->input('year'),
-                ':short_name' => $request->input('short_name'),
-                ':subject_desc' => $request->input('subject_desc'),
-                ':id' => $id,
-            ]);
-
-        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
+        return response()->json(Subject::updateSubject($request, $id));
     }
 
     /**
