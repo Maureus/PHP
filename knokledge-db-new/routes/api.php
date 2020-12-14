@@ -59,6 +59,7 @@ Route::apiResources([
     'comments' => CommentController::class
 ]);
 
+Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
 
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
@@ -132,7 +133,7 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     })->whereNumber('id');
 
 
-    Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
+
 
     Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 
