@@ -26,12 +26,15 @@
         <div v-else>
             <p class="p-2 text-lg text-white font-semibold">No quizzes</p>
         </div>
-        <div v-if="loading === false && (getUser.role === getTeacherRole || getUser.role === getAdminRole)" class="flex w-100 justify-content-end pt-2">
+
+        <div v-if="loading === false && (getUser.role === getTeacherRole || getUser.role === getAdminRole)"
+             class="flex w-100 justify-content-end pt-2">
             <button data-toggle="modal" data-target="#modalAddQuiz"
                     class="btn-primary bg-danger btn-lg">
                 Add Quiz
             </button>
         </div>
+
         <div class="modal fade" id="modalAddQuiz" tabindex="-1" role="dialog"
              aria-labelledby="modalAddQuiz" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -42,7 +45,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="pr-2 pl-2 pt-2">
                         <div class="col-span-6 sm:col-span-4">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
@@ -118,6 +120,70 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalQuiz" tabindex="-1" role="dialog"
+             aria-labelledby="modalQuiz" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalQuizTitle">Edit quiz</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Quiz name
+                            </label>
+                            <input v-model="getQuiz.name" name="name" required
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Date from
+                            </label>
+                            <input name="email" v-model="getQuiz.date_from" type="date"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Date till
+                            </label>
+                            <input v-model="getQuiz.date_till" type="date"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Description
+                            </label>
+                            <input v-model="getQuiz.quiz_desc" name="address"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Number of questions
+                            </label>
+                            <input v-model="getQuiz.num_questions" name="address"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="btn-container">
+                            <div class="btn-box start">
+                                <button @click="saveQuiz" data-dismiss="modal" class="btn">
+                                    Confirm
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button data-dismiss="modal" class="btn red">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -144,12 +210,21 @@ export default {
             option: '',
             mess: '',
             subject_id: this.$route.params.subject_id,
-            newQuiz: {}
+            newQuiz: {},
+            loadedQuiz: {}
         }
     },
     methods: {
-        ...mapActions(["saveErrors", "confirm"]),
+        ...mapActions(["saveErrors", "confirm", 'saveQuiz']),
+        async saveQuiz() {
+            await axios.put('http://127.0.0.1:8000/api/quizzes/' + this.getQuiz.id, this.getQuiz).then(async () => {
+                await this.editQuiz();
+            }).catch(err => {
+                this.saveErrors(err);
+            });
+        },
         editQuiz() {
+            Object.assign(this.quizzes[this.quizzes.findIndex(quiz => quiz.id === this.getQuiz.id)], this.getQuiz);
             this.mess = "Quiz has been edited.";
             this.confirm();
         },
@@ -162,7 +237,7 @@ export default {
             this.newQuiz.subject_id = this.subject_id;
             this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ") + ":00";
             this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ") + ":00";
-            console.log(this.newQuiz);
+
             await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then(async () => {
                 await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
                     .then(resp => {
@@ -174,10 +249,20 @@ export default {
             }).catch(err => {
                 this.saveErrors(err);
             });
+
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
+        ...mapGetters([
+            "getUser",
+            "getAdminRole",
+            "getTeacherRole",
+            "getStudentRole",
+            "getDeleteOperation",
+            "getEditOperation",
+            "getErrors",
+            'getQuiz'
+        ])
     },
     async mounted() {
         axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
@@ -203,12 +288,13 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize        : 18px;
-$hoverColor      : #dde9f5;
-$backgroundColor : white;
-$margin          : 10px;
+$fontSize: 18px;
+$hoverColor: #dde9f5;
+$backgroundColor: white;
+$margin: 10px;
 
 .table-container {
+
     text-align       : center;
     display          : table;
     background-color : $backgroundColor;
@@ -223,69 +309,70 @@ $margin          : 10px;
     tr {
         line-height : 2.1875em;
 
+
         &:nth-child(odd) {
-            background-color : $backgroundColor;
+            background-color: $backgroundColor;
         }
 
         &:nth-child(even) {
-            background-color : darken($color : $backgroundColor, $amount : 5%);
+            background-color: darken($color: $backgroundColor, $amount: 5%);
         }
 
         &:hover {
-            background-color : darken($color : $hoverColor, $amount : 2%);
+            background-color: darken($color: $hoverColor, $amount: 2%);
         }
 
         th {
-            color            : white;
-            background-color : darken($color : #187fe2, $amount : 3%);
-            overflow-wrap    : break-word;
-            max-width        : 250px;
-            min-width        : 100px;
+            color: white;
+            background-color: darken($color: #187fe2, $amount: 3%);
+            overflow-wrap: break-word;
+            max-width: 250px;
+            min-width: 100px;
         }
     }
 }
 
 .btn-container {
-    display : flex;
+    display: flex;
 }
 
 .btn-box {
-    padding-top : 50px;
+    padding-top: 50px;
 
     &.start {
-        text-align : start;
-        width      : 80%;
+        text-align: start;
+        width: 80%;
     }
 
     &.end {
-        text-align   : end;
-        margin-right : 0.5rem;
-        width        : 20%;
+        text-align: end;
+        margin-right: 0.5rem;
+        width: 20%;
     }
 }
 
 .btn {
-    width            : 100px;
-    height           : auto;
-    font-size        : 14px;
-    margin-bottom    : $margin * 1.5;
-    color            : white;
-    background-color : #6875f5;
+    width: 100px;
+    height: auto;
+    font-size: 14px;
+    margin-bottom: $margin * 1.5;
+    color: white;
+    background-color: #6875f5;
 
     &.red {
-        background-color : #f05252;
+        background-color: #f05252;
 
         &:hover {
-            background-color : #e02424;
+            background-color: #e02424;
         }
     }
 
     &:hover {
-        background-color : #5850ec;
+        background-color: #5850ec;
     }
 
     &:focus {
-        outline : none;
+        outline: none;
     }
 }
 

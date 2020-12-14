@@ -55,7 +55,7 @@ const actions = {
         commit('setProfileErrors', errors);
     },
     confirm({commit}) {
-        commit('setShowModalConfirm');
+        $('#myModal').modal('show');
     }
 };
 const mutations = {
