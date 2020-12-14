@@ -57,8 +57,12 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Quiz type
                             </label>
-                            <input v-model="newQuiz.type" name="type" required
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                            <select v-model="newQuiz.type"
+                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                    name="category_id">
+                                <option value="list">list</option>
+                                <option value="manual">manual</option>
+                            </select>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
@@ -85,14 +89,14 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Number of questions
                             </label>
-                            <input v-model="newQuiz.num_questions" name="num_questions"
+                            <input v-model="newQuiz.num_questions" name="num_questions" type="number" min="1" max="30"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Points for question
                             </label>
-                            <input v-model="newQuiz.points_fq" name="points_fq"
+                            <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
@@ -148,14 +152,14 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date from
                             </label>
-                            <input name="email" v-model="getQuiz.date_from" type="date"
+                            <input name="email" v-model="getQuiz.date_from" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date till
                             </label>
-                            <input v-model="getQuiz.date_till" type="date"
+                            <input v-model="getQuiz.date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
@@ -169,7 +173,14 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Number of questions
                             </label>
-                            <input v-model="getQuiz.num_questions" name="address"
+                            <input v-model="getQuiz.num_questions" name="address" type="number" min="1" max="30"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="block text-sm font-medium leading-5 text-gray-700">
+                                Number of questions
+                            </label>
+                            <input v-model="getQuiz.points_fq" name="address" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="btn-container">
@@ -217,6 +228,8 @@ export default {
     methods: {
         ...mapActions(["saveErrors", "confirm", 'saveQuiz']),
         async saveQuiz() {
+            this.getQuiz.date_from = this.getQuiz.date_from.split("T").join(" ") + ":00";
+            this.getQuiz.date_till = this.getQuiz.date_till.split("T").join(" ") + ":00";
             await axios.put('http://127.0.0.1:8000/api/quizzes/' + this.getQuiz.id, this.getQuiz).then(async () => {
                 await this.editQuiz();
             }).catch(err => {
