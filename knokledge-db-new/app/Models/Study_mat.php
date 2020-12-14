@@ -95,7 +95,7 @@ class Study_mat extends Model
                       UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
             );
 
-            $created_by = Auth::user()->getAuthIdentifierName();
+            $created_by = Auth::user()->name;
 
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
@@ -120,7 +120,7 @@ class Study_mat extends Model
                       UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
             );
 
-            $created_by = Auth::user()->getAuthIdentifierName();
+            $created_by = Auth::user()->name;
 
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $request->date_from);
