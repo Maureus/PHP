@@ -59,6 +59,11 @@ Route::apiResources([
     'comments' => CommentController::class
 ]);
 
+// select all teacher assigned to subject
+Route::get('/subject/{id}/teachers', function ($id) {
+    return SubjectController::subjectTeachers($id);
+})->whereNumber('id');
+
 Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
 

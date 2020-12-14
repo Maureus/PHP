@@ -137,7 +137,7 @@ class Study_mat extends Model
         $file = $request->file('file');
         $id = null;
 
-        $conn = oci_connect('ST58211', 'Andr7265357', '//fei-sql1.upceucebny.cz:1521/IDAS.UPCEUCEBNY.CZ');
+        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
         $sql = 'begin insert_or_update_study_mat(
                             p_id=> :id,
                            p_name => :name,

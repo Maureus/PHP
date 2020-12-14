@@ -118,7 +118,7 @@ class User extends Authenticatable
     static public function insertUser($name, $email, $password, $id) {
         $result = array();
 
-        $conn = oci_connect('ST58211', 'Andr7265357', '//fei-sql1.upceucebny.cz:1521/IDAS.UPCEUCEBNY.CZ');
+        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
         $sql = 'begin insert_or_update_user(p_id => :id,
                            p_name => :name,
                            p_email => :email,

@@ -36,12 +36,19 @@ class Subject extends Model
         'updated_at',
     ];
 
-    public function users(){
+    public function users() {
         return $this->belongsToMany(User::class);
     }
 
     static public function selectAllSubjectUsers($id): array {
-        return DB::select('select * from subject_users_view where subject_id = :id', [':id'=>$id]);
+        return DB::select('select * from subject_users_view where subject_id = :id', [':id' => $id]);
+    }
+
+    static public function selectAllSubjectTeachers($id): array {
+        return DB::select(
+            'select * from subject_users_view where subject_id = :id and ROLE = :role',
+            [':id' => $id, ":role" => 'teacher']
+        );
     }
 
     static public function selectAll(): array {
@@ -60,5 +67,54 @@ class Subject extends Model
         oci_bind_by_name($stmt, ':id', $id, 255);
         oci_execute($stmt);
         oci_close($conn);
+    }
+
+    static public function insertSubject($request) {
+//        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
+        $sql = 'begin insert_or_update_subject(p_id => :id,
+                           p_name => :name,
+                           p_semester => :semester,
+                           p_year => :year,
+                           p_short_name => :short_name,
+                           p_subject_desc => :subject_desc,
+                           p_id_out => :v_id_out);
+                        end;';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':name', $request->name, -1);
+        oci_bind_by_name($stmt, ':semester', $request->semester, -1);
+        oci_bind_by_name($stmt, ':year', $request->year, -1);
+        oci_bind_by_name($stmt, ':short_name', $request->short_name, -1);
+        oci_bind_by_name($stmt, ':subject_desc', $request->subject_desc, -1);
+        oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
+        oci_execute($stmt);
+        oci_close($conn);
+
+        return $idOut;
+    }
+
+    static public function updateSubject($request, $id) {
+        $conn = DBC::getConnection();
+        $sql = 'begin insert_or_update_subject(p_id => :id,
+                           p_name => :name,
+                           p_semester => :semester,
+                           p_year => :year,
+                           p_short_name => :short_name,
+                           p_subject_desc => :subject_desc,
+                           p_id_out => :v_id_out);
+                        end;';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':name', $request->name, -1);
+        oci_bind_by_name($stmt, ':semester', $request->semester, -1);
+        oci_bind_by_name($stmt, ':year', $request->year, -1);
+        oci_bind_by_name($stmt, ':short_name', $request->short_name, -1);
+        oci_bind_by_name($stmt, ':subject_desc', $request->subject_desc, -1);
+        oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
+        oci_execute($stmt);
+        oci_close($conn);
+
+        return $idOut;
     }
 }
