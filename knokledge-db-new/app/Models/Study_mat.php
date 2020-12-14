@@ -77,14 +77,14 @@ class Study_mat extends Model
     }
 
     static public function updateById($request) {
-        $name = DB::selectOne('select file_name from STUDY_MATS_VIEW where id = :id', [':id' => $request->id]);
-        Storage::delete('public/files/' . $name->file_name);
+        if (isset($request->file)) {
+            $name = DB::selectOne('select file_name from STUDY_MATS_VIEW where id = :id', [':id' => $request->id]);
+            Storage::delete('public/files/' . $name->file_name);
+            $file = $request->file('file');
+            $pdo = DB::getPdo();
 
-        $file = $request->file('file');
-        $pdo = DB::getPdo();
-
-        $statement = $pdo->prepare(
-            'update STUDY_MATS set
+            $statement = $pdo->prepare(
+                'update STUDY_MATS set
                       NAME = ?,
                       FILE_NAME = ?,
                       FILE_TYPE = ?,
@@ -93,20 +93,43 @@ class Study_mat extends Model
                       DATE_TILL = ?,
                       EDITED_BY = ?,
                       UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
-        );
-        $created_by = Auth::user()->getAuthIdentifierName();
+            );
 
-        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
-        $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
-        $statement->bindValue(3, $file->getClientOriginalExtension(), PDO::PARAM_STR);
-        $statement->bindValue(4, file_get_contents($file), PDO::PARAM_LOB);
-        $statement->bindValue(5, $request->date_from);
-        $statement->bindValue(6, $request->date_till);
-        $statement->bindValue(7, $created_by, PDO::PARAM_STR);
-        $statement->bindValue(8, $request->id, PDO::PARAM_STR);
-        $statement->execute();
+            $created_by = Auth::user()->getAuthIdentifierName();
 
-        $file->storeAs('public/files', $file->getClientOriginalName());
+            $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+            $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
+            $statement->bindValue(3, $file->getClientOriginalExtension(), PDO::PARAM_STR);
+            $statement->bindValue(4, file_get_contents($file), PDO::PARAM_LOB);
+            $statement->bindValue(5, $request->date_from);
+            $statement->bindValue(6, $request->date_till);
+            $statement->bindValue(7, $created_by, PDO::PARAM_STR);
+            $statement->bindValue(8, $request->id, PDO::PARAM_STR);
+            $statement->execute();
+
+            $file->storeAs('public/files', $file->getClientOriginalName());
+        } else {
+            $pdo = DB::getPdo();
+
+            $statement = $pdo->prepare(
+                'update STUDY_MATS set
+                      NAME = ?,
+                      DATE_FROM = ?,
+                      DATE_TILL = ?,
+                      EDITED_BY = ?,
+                      UPDATED_AT = CURRENT_TIMESTAMP(6) where id = ?'
+            );
+
+            $created_by = Auth::user()->getAuthIdentifierName();
+
+            $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+            $statement->bindValue(2, $request->date_from);
+            $statement->bindValue(3, $request->date_till);
+            $statement->bindValue(4, $created_by, PDO::PARAM_STR);
+            $statement->bindValue(5, $request->id, PDO::PARAM_STR);
+            $statement->execute();
+        }
+
     }
 
     static public function insertFromProc($request): int {
