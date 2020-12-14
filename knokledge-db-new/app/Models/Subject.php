@@ -70,7 +70,7 @@ class Subject extends Model
     }
 
     static public function insertSubject($request) {
-        $conn = DBC::getConnection();
+        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
         $sql = 'begin insert_or_update_subject(
                            p_name => :name,
                            p_semester => :semester,
@@ -99,7 +99,7 @@ class Subject extends Model
     }
 
     static public function updateSubject($request, $id) {
-        $conn = DBC::getConnection();
+        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
         $sql = 'begin insert_or_update_subject(p_id => :id,
                            p_name => :name,
                            p_semester => :semester,
