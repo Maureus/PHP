@@ -3,7 +3,7 @@
         <Confirm/>
         <h1 class="p-2 text-2xl text-white font-semibold">My subjects</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-else-if="userCourses.length !== 0">
+        <div v-else-if="userSubjects.length !== 0">
             <table class="table-container">
                 <thead>
                 <tr>
@@ -15,22 +15,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                <SubjectItem v-for="subject in userCourses" :key="subject.id" :subject="subject" :option="option"
+                <SubjectItem v-for="subject in userSubjects" :key="subject.id" :subject="subject" :option="option"
                              @edit-course="editCourseData" @delete-course-in-user="deleteCourseInUser"/>
                 </tbody>
             </table>
         </div>
-        <p class="p-2 text-lg text-white font-semibold">You don't have any subject.
+        <p v-else class="p-2 text-lg text-white font-semibold">You don't have any subject.
             <span v-if="getUser != null && getUser.role === getStudentRole">
                 Click <router-link to="/subjectlist" class="link">here</router-link> to write a subject.
             </span>
-            <span v-else-if="getUser != null && getUser.role === getTeacherRole">
-                Click <button id="openModalCreateSubjectWindowBtn" class="link" data-toggle="modal"
-                              data-target="#exampleModalCenter">here</button> for applying to start a new subject.
-            </span>
+            <!--            <span v-else-if="getUser != null && getUser.role === getTeacherRole">-->
+            <!--                Click <button id="openModalCreateSubjectWindowBtn" class="link" data-toggle="modal"-->
+            <!--                              data-target="#createSubjectModal">here</button> for applying to start a new subject.-->
+            <!--            </span>-->
         </p>
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        <button v-if="getUser != null && getUser.role === getTeacherRole" id="openModalCreateSubjectWindowBtn"
+                class="link" data-toggle="modal" data-target="#createSubjectModal">Create new subject
+        </button>
+
+        <div class="modal fade" id="createSubjectModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -115,7 +119,7 @@ export default {
     data() {
         return {
             loading: true,
-            userCourses: [],
+            userSubjects: [],
             option: "",
             curSubject: {
                 name: "",
@@ -136,28 +140,40 @@ export default {
             const userId = this.getUser.id;
             axios.delete("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
                 .then(async () => {
-                    this.userCourses = this.userCourses.filter(value => value.id !== subjectId);
+                    this.userSubjects = this.userSubjects.filter(value => value.id !== subjectId);
                     this.mess = "Course has been deleted.";
                     this.confirm();
                 })
                 .catch(errors => this.saveErrors(errors));
         },
-        createNewSubject() {
+        async createNewSubject() {
             if (this.curSubject.name.trim() === "" || this.curSubject.short_name.trim() === ""
                 || this.curSubject.subject_desc.trim() === "") {
                 document.getElementById("warnMess").innerText = "All fields must be completed.";
             } else {
-                axios.post("http://127.0.0.1:8000/api/subjects", this.curSubject).then(() => this.curSubject = {});
-                document.getElementById("createBtn").click();
-                document.getElementById("warnMess").innerText = "";
-                $('#exampleModalCenter').modal('hide');
+                await axios.post("http://127.0.0.1:8000/api/subjects", this.curSubject)
+                    .then(async (resp) => {
+                        await axios.post("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects/" + resp.data);
+                    }).then(async () => {
+                        await axios.get("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects")
+                            .then(resp => resp.data).then(value => {
+                                this.userSubjects = value;
+                            })
+                        document.getElementById("createBtn").click();
+                        document.getElementById("warnMess").innerText = "";
+                        $('#createSubjectModal').modal('hide');
+                        this.clearForm();
+                    });
             }
         },
         cancelCreation() {
+            this.clearForm();
+            document.getElementById("warnMess").innerText = "";
+        },
+        clearForm() {
             this.curSubject.name = this.curSubject.short_name = this.curSubject.subject_desc = "";
             this.curSubject.semester = "ZS";
             this.curSubject.year = 1;
-            document.getElementById("warnMess").innerText = "";
         }
     }
     ,
@@ -175,7 +191,7 @@ export default {
         axios.get("http://127.0.0.1:8000/api/users/" + userId + "/subjects")
             .then(resp => resp.data)
             .then(value => {
-                this.userCourses = value;
+                this.userSubjects = value;
                 this.loading = false;
             })
             .catch(errors => this.saveErrors(errors));
@@ -208,7 +224,6 @@ $margin          : 10px;
     border-radius    : 7px;
     overflow         : hidden;
     border-collapse  : collapse;
-    margin           : auto;
 
     tr {
         margin      : 5px 0;
