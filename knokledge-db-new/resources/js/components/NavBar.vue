@@ -26,8 +26,6 @@
                 </button>
             </div>
         </div>
-        <!--        <p v-if="getUser.role === 'student'">Student</p>-->
-        <!--        <p v-else-if="getUser.role === 'teacher'">Teacher</p>-->
     </div>
 </template>
 
@@ -42,7 +40,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole"]),
         ...mapState(['user', 'errors'])
     },
     methods: {
