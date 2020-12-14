@@ -7,7 +7,7 @@
                 </a>
             </div>
         </td>
-        <td>{{ study_mat.created_at }}</td>
+        <td>{{ study_mat.date_from }}</td>
         <td>{{ study_mat.date_till }}</td>
         <td>{{ study_mat.updated_at == null ? "No updates" : study_mat.updated_at }}</td>
         <td>{{ study_mat.created_by }}</td>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$padding : 5px;
+$padding : 10px;
 
 @import "./resources/sass/hover_effects";
 
