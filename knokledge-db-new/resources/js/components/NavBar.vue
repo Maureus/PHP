@@ -4,7 +4,7 @@
             <div class="flex">
                 <router-link class="mr-4 text-white" to="/">Home</router-link>
                 <router-link v-if="getUser" class="mr-4 text-white" to="/dashboard" exact>Dashboard</router-link>
-                <router-link class="mr-4 text-white" to="/userlist">All users</router-link>
+                <router-link v-if="getUser" class="mr-4 text-white" to="/userlist">All users</router-link>
                 <router-link class="mr-4 text-white" to="/subjectlist">All subjects</router-link>
                 <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
                              to="/mysubjects">My subjects
