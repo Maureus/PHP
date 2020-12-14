@@ -1,7 +1,7 @@
 <template>
     <div>
         <Confirm :mess="mess"/>
-        <h1 class="p-2 text-2xl text-white font-semibold">My courses</h1>
+        <h1 class="p-2 text-2xl text-white font-semibold">My subjects</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="userCourses.length !== 0">
             <table class="table-container">
@@ -111,6 +111,7 @@ $backgroundColor : white;
     border-radius    : 7px;
     overflow         : hidden;
     border-collapse  : collapse;
+    margin           : auto;
 
     tr {
         margin      : 5px 0;

@@ -56,14 +56,14 @@
                             <label for="date_from" class="block text-sm font-medium leading-5 text-gray-700">
                                 Accessible from
                             </label>
-                            <input id="date_from" type="datetime-local" v-model="curStudyMat.date_from"
+                            <input id="date_from" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label for="date_till" class="block text-sm font-medium leading-5 text-gray-700">
                                 Accessible to
                             </label>
-                            <input id="date_till" type="datetime-local" v-model="curStudyMat.date_till"
+                            <input id="date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
 
@@ -128,41 +128,31 @@ export default {
                 .then(value => value.data)
                 .then(value => {
                     this.curStudyMat = value;
+                    document.getElementById('date_from').value = this.curStudyMat.date_from.split(" ").join("T");
+                    document.getElementById('date_till').value = this.curStudyMat.date_till.split(" ").join("T");
                 });
-
         },
-        async saveStudyMaterialChanges() {
+        saveStudyMaterialChanges() {
             const formData = new FormData();
             formData.append('name', this.curStudyMat.name);
-            if (this.curStudyMat.file_name) {
-                formData.append('file_name', this.curStudyMat.file_name);
-                const splittedFileName = this.curStudyMat.file_name.split(".");
-                formData.append('file_type', splittedFileName[splittedFileName.length - 1]);
+            if (this.curStudyMat.file) {
+                formData.append('file', this.curStudyMat.file, this.curStudyMat.file.name);
             }
-            if (this.curStudyMat.date_from.includes("T")) {
-                console.log(this.curStudyMat.date_from);
-                formData.append('date_from', this.curStudyMat.date_from.split("T").join(" ") + ":00");
-            }
-            if (this.curStudyMat.date_till.includes("T")) {
-                console.log(this.curStudyMat.date_till);
-                formData.append('date_till', this.curStudyMat.date_till.split("T").join(" ") + ":00");
-            }
-            formData.append('created_by', this.curStudyMat.created_by);
-            formData.append('edited_by', this.getUser.name);
+            formData.append('date_from', document.getElementById('date_from').value.split("T").join(" "));
+            formData.append('date_till', document.getElementById('date_till').value.split("T").join(" "));
             formData.append('id', this.curStudyMat.id);
 
-            await axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
+            axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
-            })
-                .then(async () => {
-                    await axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
-                        this.study_mats = value;
-                    });
-                    this.editStudyMat = false;
-                    this.curStudyMat = {};
-                    this.mess = "Study material has been changed.";
-                    this.confirm();
+            }).then(() => {
+                axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
+                    this.study_mats = value;
                 });
+                this.editStudyMat = false;
+                this.curStudyMat = {};
+                this.mess = "Study material has been changed.";
+                this.confirm();
+            });
         },
         cancelEditingSubjectInfo() {
             this.editStudyMat = false;
@@ -179,7 +169,8 @@ export default {
                 });
         },
         selectFile() {
-            this.curStudyMat.file_name = this.$refs.myFile.files[0];
+            this.curStudyMat.file = this.$refs.myFile.files[0];
+            // console.log(this.curStudyMat.file);
         },
     }
 }
