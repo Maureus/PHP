@@ -3,7 +3,8 @@ export default {
         operations: {
             write: 'write',
             edit: 'edit',
-            delete: 'delete'
+            delete: 'delete',
+            take: 'take'
         }
     },
     getters: {
@@ -15,6 +16,9 @@ export default {
         },
         getDeleteOperation: state => {
             return state.operations.delete;
+        },
+        getTakeOperation: state => {
+            return state.operations.take;
         }
     },
     // actions: {},

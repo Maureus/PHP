@@ -147,6 +147,7 @@ export default {
                 console.log(this.curStudyMat.date_till);
                 formData.append('date_till', this.curStudyMat.date_till.split("T").join(" ") + ":00");
             }
+            formData.append('created_by', this.curStudyMat.created_by);
             formData.append('edited_by', this.getUser.name);
             formData.append('id', this.curStudyMat.id);
 
