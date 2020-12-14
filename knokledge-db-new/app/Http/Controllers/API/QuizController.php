@@ -55,7 +55,13 @@ class QuizController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id): \Illuminate\Http\JsonResponse {
-        return response()->json(Quiz::deleteQuiz($id));
+        try {
+            Quiz::deleteQuiz($id);
+        } catch (\Exception $ex) {
+            return response()->json(0, 400);
+        }
+        return response()->json(1);
+//        return response()->json(Quiz::deleteQuiz($id));
     }
 
     public function quizQuestions($id)
