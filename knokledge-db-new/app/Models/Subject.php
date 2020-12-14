@@ -70,9 +70,8 @@ class Subject extends Model
     }
 
     static public function insertSubject($request) {
-//        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
         $conn = DBC::getConnection();
-        $sql = 'begin insert_or_update_subject(p_id => :id,
+        $sql = 'begin insert_or_update_subject(
                            p_name => :name,
                            p_semester => :semester,
                            p_year => :year,
@@ -81,12 +80,17 @@ class Subject extends Model
                            p_id_out => :v_id_out);
                         end;';
         $stmt = oci_parse($conn, $sql);
+        $name = $request->name;
+        $semester = $request->semester;
+        $year = $request->year;
+        $short_name = $request->short_name;
+        $subject_desc = $request->subject_desc;
 
-        oci_bind_by_name($stmt, ':name', $request->name, -1);
-        oci_bind_by_name($stmt, ':semester', $request->semester, -1);
-        oci_bind_by_name($stmt, ':year', $request->year, -1);
-        oci_bind_by_name($stmt, ':short_name', $request->short_name, -1);
-        oci_bind_by_name($stmt, ':subject_desc', $request->subject_desc, -1);
+        oci_bind_by_name($stmt, ':name', $name, -1);
+        oci_bind_by_name($stmt, ':semester', $semester, -1);
+        oci_bind_by_name($stmt, ':year', $year, -1);
+        oci_bind_by_name($stmt, ':short_name', $short_name, -1);
+        oci_bind_by_name($stmt, ':subject_desc', $subject_desc, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
         oci_close($conn);
@@ -105,12 +109,18 @@ class Subject extends Model
                            p_id_out => :v_id_out);
                         end;';
         $stmt = oci_parse($conn, $sql);
+        $name = $request->name;
+        $semester = $request->semester;
+        $year = $request->year;
+        $short_name = $request->short_name;
+        $subject_desc = $request->subject_desc;
 
-        oci_bind_by_name($stmt, ':name', $request->name, -1);
-        oci_bind_by_name($stmt, ':semester', $request->semester, -1);
-        oci_bind_by_name($stmt, ':year', $request->year, -1);
-        oci_bind_by_name($stmt, ':short_name', $request->short_name, -1);
-        oci_bind_by_name($stmt, ':subject_desc', $request->subject_desc, -1);
+        oci_bind_by_name($stmt, ':id', $id, -1);
+        oci_bind_by_name($stmt, ':name', $name, -1);
+        oci_bind_by_name($stmt, ':semester', $semester, -1);
+        oci_bind_by_name($stmt, ':year', $year, -1);
+        oci_bind_by_name($stmt, ':short_name', $short_name, -1);
+        oci_bind_by_name($stmt, ':subject_desc', $subject_desc, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
         oci_close($conn);
