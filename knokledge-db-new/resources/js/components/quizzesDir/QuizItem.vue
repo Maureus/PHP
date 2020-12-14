@@ -5,7 +5,7 @@
         <td>{{ quiz.date_till }}</td>
         <td>{{ quiz.quiz_desc }}</td>
         <td>{{ quiz.num_questions }}</td>
-        <td v-if="getUser && option === 'student'">
+        <td v-if="getUser.role === getStudentRole">
             <div class="hover-shadow-effect">
                 <button @click="takeQuiz" :value="take"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
@@ -13,7 +13,7 @@
                 </button>
             </div>
         </td>
-        <td v-if="getUser && (option === 'teacher' || option === 'admin')">
+        <td v-if="getUser.role === getTeacherRole || getUser.role === getAdminRole">
             <div class="hover-shadow-effect">
                 <button :value="edit"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium btn-"
@@ -23,7 +23,7 @@
                 </button>
             </div>
         </td>
-        <td v-if="getUser && (option === 'teacher' || option === 'admin')">
+        <td v-if="getUser.role === getTeacherRole || getUser.role === getAdminRole">
             <div class="hover-shadow-effect">
                 <button @click="deleteQuiz"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">

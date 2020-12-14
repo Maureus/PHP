@@ -13,7 +13,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of questions</th>
                     <th scope="col"></th>
-                    <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                    <th v-if="getUser.role === getAdminRole || getUser.role === getTeacherRole"
                         scope="col"></th>
                 </tr>
                 </thead>
