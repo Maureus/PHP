@@ -193,6 +193,9 @@ export default {
             case this.getTeacherRole :
                 this.option = "teacher";
                 break;
+            case this.getAdminRole :
+                this.option = "admin";
+                break;
         }
 
     }

@@ -15,7 +15,7 @@
         <td>{{ subject.short_name }}</td>
         <td v-if="getUser && option !== ''">
             <div class="hover-shadow-effect">
-                <button @click="subjectUtility($event.target.value)" :value="option" data-toggle="modal"
+                <button @click="buttonUtility($event.target.value)" :value="option" data-toggle="modal"
                         data-target="#exampleModalCenter"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
                     {{ option | capitalizer }}
@@ -46,7 +46,7 @@ export default {
             , "getStudentRole", "getAdminRole", "getTeacherRole"])
     },
     methods: {
-        subjectUtility(value) {
+        buttonUtility(value) {
             // console.log(value);
             switch (value) {
                 case this.getWriteOperation :
