@@ -24,7 +24,7 @@ class QuizController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse {
-        return response()->json(Quiz::insert($request));
+        return response()->json(Quiz::insertQuiz($request));
     }
 
     /**
