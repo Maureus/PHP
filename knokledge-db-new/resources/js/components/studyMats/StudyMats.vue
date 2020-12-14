@@ -206,7 +206,6 @@ $margin          : 10px;
     width            : 100%;
 
     tr {
-        //margin      : $margin/2 0;
         line-height : 2.1875em;
 
         &:nth-child(odd) {
