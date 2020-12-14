@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Confirm :mess="mess"/>
+        <Confirm />
         <h1 class="p-2 text-2xl text-white font-semibold">My subjects</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="userCourses.length !== 0">
