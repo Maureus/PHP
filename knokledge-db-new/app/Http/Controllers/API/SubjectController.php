@@ -100,5 +100,8 @@ class SubjectController extends Controller
         return response()->json(Subject::selectAllSubjectTeachers($id));
     }
 
+    static public function subjectStudents($id) {
+        return response()->json(Subject::selectAllSubjectStudents($id));
+    }
 
 }

@@ -64,6 +64,11 @@ Route::get('/subject/{id}/teachers', function ($id) {
     return SubjectController::subjectTeachers($id);
 })->whereNumber('id');
 
+// select all students assigned to subject
+Route::get('/subject/{id}/students', function ($id) {
+    return SubjectController::subjectStudents($id);
+})->whereNumber('id');
+
 Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
 
