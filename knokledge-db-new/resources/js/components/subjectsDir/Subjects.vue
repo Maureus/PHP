@@ -126,7 +126,6 @@ export default {
             loading: true,
             btnYearValue: "",
             option: "",
-            mess: "",
             editSubject: false,
             curSubject: {},
         }
@@ -140,7 +139,6 @@ export default {
             const userId = this.getUser.id;
             await axios.post("http://127.0.0.1:8000/api/users/" + userId + "/subjects/" + subjectId)
                 .then(() => {
-                    this.mess = "Course has been written.";
                     this.confirm();
                 })
                 .catch(error => this.saveErrors(error));
@@ -163,7 +161,6 @@ export default {
                     });
                     this.editSubject = false;
                     this.curSubject = {};
-                    this.mess = "User has been changed.";
                     this.confirm();
                 });
         },
@@ -177,7 +174,6 @@ export default {
                     this.subjects = this.subjects.filter(subject => subject.id !== this.curSubject.id);
                     this.editSubject = false;
                     this.curSubject = {};
-                    this.mess = "Subject has been deleted.";
                     this.confirm();
                 });
         }
