@@ -51,6 +51,13 @@ class Subject extends Model
         );
     }
 
+    static public function selectAllSubjectStudents($id): array {
+        return DB::select(
+            'select * from subject_users_view where subject_id = :id and ROLE = :role',
+            [':id' => $id, ":role" => 'student']
+        );
+    }
+
     static public function selectAll(): array {
         return DB::select("select * from SUBJECTS_VIEW order by id");
     }
