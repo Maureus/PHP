@@ -24,10 +24,6 @@
             <span v-if="getUser != null && getUser.role === getStudentRole">
                 Click <router-link to="/subjectlist" class="link">here</router-link> to write a subject.
             </span>
-            <!--            <span v-else-if="getUser != null && getUser.role === getTeacherRole">-->
-            <!--                Click <button id="openModalCreateSubjectWindowBtn" class="link" data-toggle="modal"-->
-            <!--                              data-target="#createSubjectModal">here</button> for applying to start a new subject.-->
-            <!--            </span>-->
         </p>
 
         <button v-if="getUser != null && getUser.role === getTeacherRole" id="openModalCreateSubjectWindowBtn"
@@ -151,6 +147,8 @@ export default {
                 || this.curSubject.subject_desc.trim() === "") {
                 document.getElementById("warnMess").innerText = "All fields must be completed.";
             } else {
+                // this.userSubjects.push(this.curSubject);
+                // console.log(this.curSubject);
                 await axios.post("http://127.0.0.1:8000/api/subjects", this.curSubject)
                     .then(async (resp) => {
                         await axios.post("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects/" + resp.data);
@@ -159,7 +157,7 @@ export default {
                             .then(resp => resp.data).then(value => {
                                 this.userSubjects = value;
                             })
-                        document.getElementById("createBtn").click();
+
                         document.getElementById("warnMess").innerText = "";
                         $('#createSubjectModal').modal('hide');
                         this.clearForm();

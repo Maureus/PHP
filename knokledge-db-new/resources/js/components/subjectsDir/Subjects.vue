@@ -48,35 +48,39 @@
                             <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
                                 Subject's name
                             </label>
-                            <input id="name" v-model="curSubject.name" name="name" required
+                            <input id="name" v-model="curSubject.name" name="name"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label for="semester" class="block text-sm font-medium leading-5 text-gray-700">
                                 Semester
                             </label>
-                            <input id="semester" name="semester" v-model="curSubject.semester" required
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                            <select id="semester" v-model="curSubject.semester"
+                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <option>ZS</option>
+                                <option>LS</option>
+                            </select>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label for="year" class="block text-sm font-medium leading-5 text-gray-700">
                                 Year
                             </label>
-                            <input id="year" name="year" v-model="curSubject.year" required
+                            <input id="year" name="year" v-model="curSubject.year" type="number" min="1" max="5"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label for="short_name" class="block text-sm font-medium leading-5 text-gray-700">
                                 Short name
                             </label>
-                            <input id="short_name" name="short_name" v-model="curSubject.short_name" required
+                            <input id="short_name" name="short_name" v-model="curSubject.short_name" maxlength="5"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label for="subject_desc" class="block text-sm font-medium leading-5 text-gray-700">
                                 Subject description
                             </label>
-                            <textarea id="subject_desc" name="subject_desc" v-model="curSubject.subject_desc" required
+                            <textarea id="subject_desc" name="subject_desc" v-model="curSubject.subject_desc"
+                                      maxlength="255"
                                       class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </textarea>
                         </div>
@@ -92,7 +96,7 @@
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="deleteSubject" class="btn red">
+                                <button @click="deleteSubject" data-dismiss="modal" class="btn red">
                                     Delete
                                 </button>
                             </div>
@@ -259,7 +263,7 @@ button {
     }
 }
 
-input {
+input, select {
     margin-bottom : $margin;
     margin-top    : 0;
 }
