@@ -9,9 +9,9 @@
                 <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
                              to="/mysubjects">My subjects
                 </router-link>
-                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"
-                             to="/mystudents">My students
-                </router-link>
+<!--                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"-->
+<!--                             to="/mystudents">My students-->
+<!--                </router-link>-->
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
             <div v-if="!getUser" class="flex">
