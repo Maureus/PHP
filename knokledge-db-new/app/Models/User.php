@@ -119,8 +119,7 @@ class User extends Authenticatable
 
     static public function insertUser($name, $email, $password, $id) {
         $result = array();
-
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin insert_or_update_user(p_id => :id,
                            p_name => :name,
                            p_email => :email,
@@ -152,7 +151,7 @@ class User extends Authenticatable
     }
 
     static public function deleteUser($id) {
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin delete_user(p_id => :id); end;';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':id', $id, 255);
@@ -160,12 +159,31 @@ class User extends Authenticatable
         oci_close($conn);
     }
 
+    static public function updateUserChangeNamePhoneAddressAvatarPassword($request) {
+        $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
+        $pdo = DB::getPdo();
+
+        $statement = $pdo->prepare(
+            'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?,
+                 PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?'
+        );
+
+        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
+        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
+        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
+        $statement->bindValue(5, Hash::make($request->password), PDO::PARAM_STR);
+        $statement->bindValue(6, $request->id, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
     static public function updateUserChangeNamePhoneAddressAvatar($request) {
         $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
 
         $pdo = DB::getPdo();
 
-        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?');
+        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?,
+                 UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?');
 
         $statement->bindValue(1, $request->name, PDO::PARAM_STR);
         $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
@@ -187,8 +205,17 @@ class User extends Authenticatable
         );
     }
 
-    static public function updateUser($request, $id): int {
+    static public function updateUserChangePassword($request): int {
+        return DB::update(
+            'update users set password = :password where id = :id',
+            [
+                ':password' => Hash::make($request->password),
+                ':id' => $request->id
+            ]
+        );
+    }
 
+    static public function updateUser($request, $id): int {
         return $result = DB::update(
             'update users set name = :name, email = :email, ROLE = :role,
                  PHONE = :phone, ADDRESS = :address where ID = :id',
