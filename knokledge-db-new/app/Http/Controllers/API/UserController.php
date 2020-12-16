@@ -101,39 +101,15 @@ class UserController extends Controller
     }
 
     static public function userSubjects($id) {
-        if (is_numeric($id) && !empty($id)) {
-            return response()->json(
-                User::selectAllUserSubjects($id),
-                200);
-        }
-
-        return response()->json(
-            null,
-            400);
+        return response()->json(User::selectAllUserSubjects($id));
     }
 
     static public function userCourses($id) {
-        if (is_numeric($id) && !empty($id)) {
-            return response()->json(
-                User::selectAllUserCourses($id),
-                200);
-        }
-
-        return response()->json(
-            null,
-            400);
+        return response()->json(User::selectAllUserCourses($id));
     }
 
     static public function userQuizResults($id) {
-        if (is_numeric($id) && !empty($id)) {
-            return response()->json(
-                User::selectAllUserQuizResults($id),
-                200);
-        }
-
-        return response()->json(
-            null,
-            400);
+        return response()->json(User::selectAllUserQuizResults($id));
     }
 
     static public function updateUserProfile(Request $request) {
@@ -142,11 +118,9 @@ class UserController extends Controller
                 $request->validate([
                     'password' => 'required|min:6|confirmed',
                 ]);
-                User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
 
-                return response()->json(
-                    4,
-                    200);
+                return response()->json(User::updateUserChangePassword($request));
+
             } else if (
                 isset($request->name) &&
                 isset($request->phone) &&
@@ -160,7 +134,11 @@ class UserController extends Controller
                     'address' => 'max:255'
                 ]);
 
-                User::updateUserChangeNamePhoneAddressAvatar($request);
+                try {
+                    User::updateUserChangeNamePhoneAddressAvatar($request);
+                } catch (\Exception $ex) {
+                    return response()->json(0, 400);
+                }
 
                 return response()->json(1);
 
@@ -187,51 +165,40 @@ class UserController extends Controller
                     'password' => 'required|min:6|confirmed',
                 ]);
 
-                $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
-                $pdo = DB::getPdo();
+                try {
+                    User::updateUserChangeNamePhoneAddressAvatarPassword($request);
+                } catch (\Exception $ex) {
+                    return response()->json(0, 400);
+                }
 
-                $statement = $pdo->prepare(
-                    'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?,
-                 PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?'
-                );
-
-                $statement->bindValue(1, $request->name, PDO::PARAM_STR);
-                $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
-                $statement->bindValue(3, $request->address, PDO::PARAM_STR);
-                $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
-                $statement->bindValue(5, Hash::make($request->password), PDO::PARAM_STR);
-                $statement->bindValue(6, $request->id, PDO::PARAM_INT);
-                $statement->execute();
-
-                return response()->json(
-                    3,
-                    200);
-
+                return response()->json(1);
             }
         } catch (QueryException | FileNotFoundException $e) {
-            return response()->json(
-                null,
-                400);
+            return response()->json(0, 400);
         }
     }
 
     static public function assignSubjectToUser($id1, $id2) {
-        try {
-            $result = DB::insert(
-                "insert into SUBJECT_USER values(:subjectID, :userID)",
-                [':subjectID' => $id2, ':userID' => $id1]);
-        } catch (\Exception $e) {
-            return response()->json(0, 400);
-        }
+        $result = DB::insert(
+            "insert into SUBJECT_USER values(:subjectID, :userID)",
+            [
+                ':subjectID' => $id2,
+                ':userID' => $id1
+            ]
+        );
 
-        return $result ? response()->json(null, 200) : response()->json(null, 400);
+        return $result ? response()->json(1) : response()->json(0, 400);
     }
 
     static public function removeSubjectFromUser($id1, $id2) {
         $result = DB::delete(
             "delete from SUBJECT_USER where SUBJECT_ID=:subjectID and USER_ID = :userID",
-            [':subjectID' => $id2, ':userID' => $id1]);
+            [
+                ':subjectID' => $id2,
+                ':userID' => $id1
+            ]
+        );
 
-        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
+        return $result == 1 ? response()->json($result) : response()->json($result, 400);
     }
 }

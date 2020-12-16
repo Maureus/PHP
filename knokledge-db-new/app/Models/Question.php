@@ -58,10 +58,10 @@ class Question extends Model
         $category_id = $request->category_id;
 
         oci_bind_by_name($stmt, ':name', $name, -1);
-        oci_bind_by_name($stmt, ':semester', $answer_1, -1);
-        oci_bind_by_name($stmt, ':year', $answer_2, -1);
-        oci_bind_by_name($stmt, ':short_name', $answer_correct, -1);
-        oci_bind_by_name($stmt, ':subject_desc', $category_id, -1);
+        oci_bind_by_name($stmt, ':answer_1', $answer_1, -1);
+        oci_bind_by_name($stmt, ':answer_2', $answer_2, -1);
+        oci_bind_by_name($stmt, ':answer_correct', $answer_correct, -1);
+        oci_bind_by_name($stmt, ':category_id', $category_id, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
         oci_close($conn);
@@ -71,7 +71,7 @@ class Question extends Model
 
     static public function updateQuestion($request, $id) {
         $conn = DBC::getConnection();
-        $sql = 'begin insert_or_update_question(p_id => :id
+        $sql = 'begin insert_or_update_question(p_id => :id,
                            p_name => :name,
                            p_answer_1 => :answer_1,
                            p_answer_2 => :answer_2,
@@ -88,10 +88,10 @@ class Question extends Model
 
         oci_bind_by_name($stmt, ':id', $id, -1);
         oci_bind_by_name($stmt, ':name', $name, -1);
-        oci_bind_by_name($stmt, ':semester', $answer_1, -1);
-        oci_bind_by_name($stmt, ':year', $answer_2, -1);
-        oci_bind_by_name($stmt, ':short_name', $answer_correct, -1);
-        oci_bind_by_name($stmt, ':subject_desc', $category_id, -1);
+        oci_bind_by_name($stmt, ':answer_1', $answer_1, -1);
+        oci_bind_by_name($stmt, ':answer_2', $answer_2, -1);
+        oci_bind_by_name($stmt, ':answer_correct', $answer_correct, -1);
+        oci_bind_by_name($stmt, ':category_id', $category_id, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
         oci_close($conn);
