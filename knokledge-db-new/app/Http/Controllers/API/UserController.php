@@ -76,26 +76,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     static public function update(Request $request, $id) {
-        try {
-            $request->validate([
-                'name' => 'required|max:255',
-                'email' => 'required|max:255'
-            ]);
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'role' => ['required', Rule::in('student', 'admin', 'teacher')]
+        ]);
 
-            $result = DB::update(
-                'update users set name = :name, email = :email, PHONE = :phone, ADDRESS = :address where ID = :id',
-                [':name' => $request->name, ':email' => $request->email, ':phone' => $request->phone, ':address' => $request->address, ':id' => $id,]
-            );
-
-            return response()->json(
-                $result,
-                200);
-        } catch (QueryException $e) {
-            return response()->json(
-                null,
-                400);
-        }
-
+        return response()->json(User::updateUser($request, $id));
     }
 
     /**
@@ -173,22 +160,10 @@ class UserController extends Controller
                     'address' => 'max:255'
                 ]);
 
-                $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
+                User::updateUserChangeNamePhoneAddressAvatar($request);
 
-                $pdo = DB::getPdo();
+                return response()->json(1);
 
-                $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?');
-
-                $statement->bindValue(1, $request->name, PDO::PARAM_STR);
-                $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
-                $statement->bindValue(3, $request->address, PDO::PARAM_STR);
-                $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
-                $statement->bindValue(5, $request->id, PDO::PARAM_INT);
-                $statement->execute();
-
-                return response()->json(
-                    1,
-                    200);
             } else if (
                 isset($request->name) &&
                 isset($request->phone) &&
@@ -201,15 +176,9 @@ class UserController extends Controller
                     'phone' => 'max:255',
                     'address' => 'max:255'
                 ]);
-                User::where('id', $request->id)
-                    ->update([
-                        'name' => $request->name,
-                        'phone' => $request->phone,
-                        'address' => $request->address
-                    ]);
-                return response()->json(
-                    2,
-                    200);
+
+                return response()->json(User::updateUserChangeNamePhoneAddress($request));
+
             } else {
                 $request->validate([
                     'name' => 'required|max:255',
@@ -222,7 +191,8 @@ class UserController extends Controller
                 $pdo = DB::getPdo();
 
                 $statement = $pdo->prepare(
-                    'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?'
+                    'update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?,
+                 PASSWORD = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?'
                 );
 
                 $statement->bindValue(1, $request->name, PDO::PARAM_STR);
@@ -238,11 +208,7 @@ class UserController extends Controller
                     200);
 
             }
-        } catch (QueryException $e) {
-            return response()->json(
-                null,
-                400);
-        } catch (FileNotFoundException $e) {
+        } catch (QueryException | FileNotFoundException $e) {
             return response()->json(
                 null,
                 400);
