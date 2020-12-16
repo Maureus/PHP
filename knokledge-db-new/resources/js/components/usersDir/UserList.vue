@@ -87,7 +87,7 @@
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="deleteUser" class="btn red">
+                                <button @click="deleteUser" data-dismiss="modal" class="btn red">
                                     Delete
                                 </button>
                             </div>
