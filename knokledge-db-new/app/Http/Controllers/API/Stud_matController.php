@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Study_mat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class Stud_matController extends Controller
 {
@@ -24,8 +26,20 @@ class Stud_matController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse {
-        $result = Study_mat::insert($request);
-        return response()->json($result, 200);
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'file' => 'required',
+            'date_from' => 'required',
+            'date_till' => 'required',
+            'subject_id' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        $result = Study_mat::insertSM($request);
+        return response()->json($result);
     }
 
     /**
@@ -65,8 +79,18 @@ class Stud_matController extends Controller
     }
 
     static public function updateSM(Request $request) {
-        Study_mat::updateById($request);
-        return response()->json(1, 200);
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'date_from' => 'required',
+            'date_till' => 'required',
+            'id' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        return response()->json(Study_mat::updateById($request));
     }
 
     static public function showSMBySubjectID($id): \Illuminate\Http\JsonResponse {

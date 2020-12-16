@@ -14,6 +14,7 @@ Vue.component('welcome-component', require('./components/Welcome').default);
 Vue.component('user-list-item', require('./components/usersDir/UserListItem').default);
 Vue.component('user-list', require('./components/usersDir/UserList').default);
 
+
 router.beforeEach(async (to, from, next) => {
     await store.dispatch('preloaderTrue');
     await store.dispatch('getLoggedInUser')
@@ -26,6 +27,7 @@ router.beforeEach(async (to, from, next) => {
             next();
         });
 });
+
 
 const app = new Vue({
     el: '#app',
