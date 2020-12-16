@@ -34,18 +34,15 @@ use Symfony\Component\HttpFoundation\Response;
 */
 
 
-
 // Cookie auth (sanctum)
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-
 // For token auth
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-
 
 
 Route::apiResources([
@@ -71,8 +68,13 @@ Route::get('/subject/{id}/students', function ($id) {
 
 Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
+//subject all subject comments
+Route::get('/subject/{id}/comments', function ($id) {
+    return SubjectController::subjectComments($id);
+})->whereNumber('id');
 
-Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
+
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     //Logged in user
     Route::get('/user', function () {
         return request()->user();
@@ -80,36 +82,36 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
 
     //Subjects
 
-//Courses
+    //Courses
 
-//Categories
+    //Categories
 
-//Comments
+    //Comments
 
-//Questions
+    //Questions
 
-//quizzes
+    //subject quizzes
     Route::get('/subject/{id}/quizzes', function ($id) {
         return QuizController::showQuizzesBySubjectID($id);
     })->whereNumber('id');
 
-//Study_mats
+    //Study_mats
     Route::get('/subject/{id}/study_mats', function ($id) {
         return Stud_matController::showSMBySubjectID($id);
     })->whereNumber('id');
 
     Route::post('/users/test/', [UserController::class, 'updateUserProfile']);
 
-// Get image on server by url
-    Route::get('image/{file_name}', function($filename){
+    // Get image on server by url
+    Route::get('image/{file_name}', function ($filename) {
         $path = storage_path("app/public/avatars/$filename");
         $image = File::get($path);
         $mime = File::mimeType($path);
         return response($image, 200)->header('Content-Type', $mime);
     });
 
-// Get
-    Route::get('file/{file_name}', function($filename){
+    // Get
+    Route::get('file/{file_name}', function ($filename) {
         $path = storage_path("app/public/files/$filename");
         $file = File::get($path);
         $mime = File::mimeType($path);
@@ -141,9 +143,6 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function (){
     Route::get('/subject/{id}/users', function ($id) {
         return SubjectController::subjectUsers($id);
     })->whereNumber('id');
-
-
-
 
     Route::post('/saveuser', [UserController::class, 'updateUserProfile']);
 

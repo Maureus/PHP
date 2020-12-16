@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use PDO;
 use yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
 
 class User extends Authenticatable
@@ -156,6 +158,49 @@ class User extends Authenticatable
         oci_bind_by_name($stmt, ':id', $id, 255);
         oci_execute($stmt);
         oci_close($conn);
+    }
+
+    static public function updateUserChangeNamePhoneAddressAvatar($request) {
+        $request->file('avatar')->storeAs('public/avatars', 'avatar' . Auth::id() . '.jpg');
+
+        $pdo = DB::getPdo();
+
+        $statement = $pdo->prepare('update users set name = ?, PHONE = ?, ADDRESS = ?, AVATAR = ?, UPDATED_AT = CURRENT_TIMESTAMP(6), HASAVATAR = 1 where id = ?');
+
+        $statement->bindValue(1, $request->name, PDO::PARAM_STR);
+        $statement->bindValue(2, $request->phone, PDO::PARAM_STR);
+        $statement->bindValue(3, $request->address, PDO::PARAM_STR);
+        $statement->bindValue(4, file_get_contents($request->file("avatar")), PDO::PARAM_LOB);
+        $statement->bindValue(5, $request->id, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
+    static public function updateUserChangeNamePhoneAddress($request): int {
+        return DB::update(
+            'update users set name = :name, phone = :phone, address = :address where id = :id',
+            [
+                ':name' => $request->name,
+                ':phone' => $request->phone,
+                ':address' => $request->address,
+                ':id' => $request->id
+            ]
+        );
+    }
+
+    static public function updateUser($request, $id): int {
+
+        return $result = DB::update(
+            'update users set name = :name, email = :email, ROLE = :role,
+                 PHONE = :phone, ADDRESS = :address where ID = :id',
+            [
+                ':name' => $request->name,
+                ':email' => $request->email,
+                ':phone' => $request->phone,
+                ':address' => $request->address,
+                ':role' => $request->role,
+                ':id' => $id,
+            ]
+        );
     }
 
 }

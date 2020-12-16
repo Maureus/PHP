@@ -68,7 +68,7 @@ class Subject extends Model
     }
 
     static public function deleteSubject($id) {
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin delete_subject(p_id => :id); end;';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':id', $id, 255);
@@ -77,7 +77,7 @@ class Subject extends Model
     }
 
     static public function insertSubject($request) {
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin insert_or_update_subject(
                            p_name => :name,
                            p_semester => :semester,
@@ -106,7 +106,7 @@ class Subject extends Model
     }
 
     static public function updateSubject($request, $id) {
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin insert_or_update_subject(p_id => :id,
                            p_name => :name,
                            p_semester => :semester,
