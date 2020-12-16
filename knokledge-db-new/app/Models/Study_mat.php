@@ -51,7 +51,7 @@ class Study_mat extends Model
             [':id' => $id]);
     }
 
-    static public function insert($request) {
+    static public function insertSM($request) {
         $file = $request->file('file');
         $pdo = DB::getPdo();
 
@@ -60,7 +60,8 @@ class Study_mat extends Model
             values (?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
-        $created_by = Auth::user()->getAuthIdentifierName();
+        $created_by = Auth::user()->name;
+//        $created_by = 'test';
 
         $statement->bindValue(1, $request->name, PDO::PARAM_STR);
         $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
@@ -96,6 +97,7 @@ class Study_mat extends Model
             );
 
             $created_by = Auth::user()->name;
+//            $created_by = 'test';
 
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
@@ -108,6 +110,8 @@ class Study_mat extends Model
             $statement->execute();
 
             $file->storeAs('public/files', $file->getClientOriginalName());
+
+            return 1;
         } else {
             $pdo = DB::getPdo();
 
@@ -121,6 +125,7 @@ class Study_mat extends Model
             );
 
             $created_by = Auth::user()->name;
+//            $created_by = 'test';
 
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $request->date_from);
@@ -128,6 +133,8 @@ class Study_mat extends Model
             $statement->bindValue(4, $created_by, PDO::PARAM_STR);
             $statement->bindValue(5, $request->id, PDO::PARAM_STR);
             $statement->execute();
+
+            return 1;
         }
 
     }
