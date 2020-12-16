@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Subject;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -102,6 +103,10 @@ class SubjectController extends Controller
 
     static public function subjectStudents($id) {
         return response()->json(Subject::selectAllSubjectStudents($id));
+    }
+
+    static public function subjectComments($id) {
+        return response()->json(Comment::selectAllSubjectComments($id));
     }
 
 }
