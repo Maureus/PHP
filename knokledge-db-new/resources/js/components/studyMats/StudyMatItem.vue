@@ -15,7 +15,7 @@
         <td v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
             <div class="hover-shadow-effect">
                 <button @click="$emit('edit-study-mat', study_mat.id)" data-toggle="modal"
-                        data-target="#exampleModalCenter"
+                        data-target="#editStudyMaterial"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit
                 </button>
             </div>

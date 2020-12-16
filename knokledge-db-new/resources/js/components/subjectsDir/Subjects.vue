@@ -32,7 +32,7 @@
 
         <Confirm/>
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        <div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -228,6 +228,7 @@ $margin          : 10px;
     border-radius    : 7px;
     overflow         : hidden;
     border-collapse  : collapse;
+    margin-bottom    : $margin;
 
     tr {
         margin      : 5px 0;

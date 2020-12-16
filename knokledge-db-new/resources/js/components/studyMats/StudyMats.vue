@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1 class="p-2 text-2xl text-white font-semibold">Study materials</h1>
         <div v-if="study_mats.length">
             <table class="table-container">
                 <thead>
@@ -23,15 +24,21 @@
         <div v-else>
             <p class="p-2 text-lg text-white font-semibold">This subject has not had study materials yet.</p>
         </div>
+        <div class="flex w-100 justify-content-end pt-2">
+            <button v-if="getUser && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                    class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
+                    data-target="#createStudyMaterial" @click="setDateToDatePicker">Add study material
+            </button>
+        </div>
 
         <Confirm/>
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        <div class="modal fade" id="editStudyMaterial" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit profile</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit study material</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="focus:outline-none">&times;</span>
                         </button>
@@ -66,7 +73,6 @@
                             <input id="date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
                                 <button @click="saveStudyMaterialChanges" data-dismiss="modal" class="btn">
@@ -74,13 +80,70 @@
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="cancelEditingSubjectInfo" data-dismiss="modal" class="btn">
+                                <button @click="cancelEditingStudyMatInfo" data-dismiss="modal" class="btn">
                                     Cancel
                                 </button>
                             </div>
                             <div class="btn-box end">
-                                <button @click="deleteStudyMaterials" data-dismiss="modal" class="btn red">
+                                <button @click="deleteStudyMaterial" data-dismiss="modal" class="btn red">
                                     Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createStudyMaterial" tabindex="-1" role="dialog"
+             aria-labelledby="createStudyMaterialModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createStudyMaterialModalCenterTitle">Create study material</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="nameCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
+                                Study material's name
+                            </label>
+                            <input id="nameCreateSM" v-model="curStudyMat.name"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="fileCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
+                                Choose a new file
+                            </label>
+                            <input id="fileCreateSM" type="file" ref="myFile" @change="selectFile"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="dateFrom" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible from
+                            </label>
+                            <input id="dateFrom" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="dateTill" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible to
+                            </label>
+                            <input id="dateTill" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="warn-mess"><p id="warnMess" class="mess"></p></div>
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start" style="width: 50%">
+                                <button @click="createStudyMaterial" class="btn">
+                                    Create
+                                </button>
+                            </div>
+                            <div class="btn-box end" style="width: 50%">
+                                <button @click="cancelEditingStudyMatInfo" data-dismiss="modal" class="btn">
+                                    Cancel
                                 </button>
                             </div>
                         </div>
@@ -92,7 +155,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import StudyMatItem from "./StudyMatItem";
 import Confirm from "../Confirm";
 
@@ -105,9 +168,13 @@ export default {
         return {
             study_mats: [],
             subject_id: this.$route.params.subject_id,
-            mess: "",
-            editStudyMat: false,
-            curStudyMat: {},
+            curStudyMat: {
+                name: "",
+                file: null,
+                date_from: "",
+                date_till: "",
+                subject_id: ""
+            },
         }
     },
     async mounted() {
@@ -118,12 +185,11 @@ export default {
             });
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"])
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
     },
     methods: {
         ...mapActions(["confirm"]),
         async editStudyMatData(studyMatId) {
-            this.editStudyMat = true;
             await axios.get("http://127.0.0.1:8000/api/study_mats/" + studyMatId)
                 .then(value => value.data)
                 .then(value => {
@@ -145,33 +211,77 @@ export default {
             axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(() => {
-                axios.get("http://127.0.0.1:8000/api/study_mats").then(resp => resp.data).then(value => {
+                axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
+                    .then(resp => resp.data).then(value => {
                     this.study_mats = value;
                 });
-                this.editStudyMat = false;
-                this.curStudyMat = {};
-                this.mess = "Study material has been changed.";
+                this.clearForm();
                 this.confirm();
             });
         },
-        cancelEditingSubjectInfo() {
-            this.editStudyMat = false;
-            this.curStudyMat = {};
+        cancelEditingStudyMatInfo() {
+            this.clearForm();
+            document.getElementById("warnMess").innerText = "";
         },
-        deleteStudyMaterials() {
+        clearForm() {
+            this.curStudyMat.name = "";
+            this.curStudyMat.file = null;
+            document.getElementById("fileCreateSM").value = "";
+        },
+        deleteStudyMaterial() {
             axios.delete("http://127.0.0.1:8000/api/study_mats/" + this.curStudyMat.id)
                 .then(() => {
                     this.study_mats = this.study_mats.filter(study_mat => study_mat.id !== this.curStudyMat.id);
-                    this.editStudyMat = false;
-                    this.curStudyMat = {};
-                    this.mess = "Study material has been deleted.";
+                    this.clearForm();
                     this.confirm();
                 });
         },
         selectFile() {
             this.curStudyMat.file = this.$refs.myFile.files[0];
-            // console.log(this.curStudyMat.file);
         },
+        async createStudyMaterial() {
+            if (this.curStudyMat.name.trim() === "" || this.curStudyMat.file == null) {
+                document.getElementById("warnMess").innerText = "All fields must be completed.";
+            } else {
+                const formData = new FormData();
+                formData.append('name', this.curStudyMat.name);
+                if (this.curStudyMat.file) {
+                    formData.append('file', this.curStudyMat.file, this.curStudyMat.file.name);
+                }
+                formData.append('date_from', document.getElementById('dateFrom').value.split("T").join(" "));
+                formData.append('date_till', document.getElementById('dateTill').value.split("T").join(" "));
+                formData.append('subject_id', this.subject_id);
+                await axios.post("http://127.0.0.1:8000/api/study_mats", formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }).then(async () => {
+                    await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
+                        .then(resp => resp.data).then(value => {
+                            this.study_mats = value;
+                            this.prepareFormAfterAction();
+                        });
+                });
+            }
+        },
+        formatDateValues(value) {
+            return value < 10 ? "0" + value : value;
+        },
+        prepareFormAfterAction() {
+            document.getElementById("warnMess").innerText = "";
+            $('#createStudyMaterial').modal('hide');
+            this.clearForm();
+            this.confirm();
+        },
+        setDateToDatePicker() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = this.formatDateValues(date.getMonth() + 1);
+            const day = this.formatDateValues(date.getDate());
+            const hour = this.formatDateValues(date.getHours());
+            const minute = this.formatDateValues(date.getMinutes());
+            const formattedDate = year + "-" + month + "-" + day + "T" + hour + ":" + minute;
+            document.getElementById('dateFrom').value = formattedDate;
+            document.getElementById('dateTill').value = formattedDate;
+        }
     }
 }
 </script>
@@ -225,5 +335,22 @@ $margin          : 10px;
 input {
     margin-bottom : $margin;
     margin-top    : 0;
+}
+
+
+.warn-mess {
+    margin-top  : $margin;
+    margin-left : $margin;
+    color       : red;
+}
+
+button {
+    &:focus {
+        outline : none;
+    }
+}
+
+.mess {
+    font-size : 15px;
 }
 </style>

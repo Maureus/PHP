@@ -234,18 +234,20 @@ export default {
                         await axios.get("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects")
                             .then(resp => resp.data).then(value => {
                                 this.userSubjects = value;
+                                this.prepareFormAfterAction();
                             })
-
-                        document.getElementById("warnMess").innerText = "";
-                        $('#createSubjectModal').modal('hide');
-                        this.clearForm();
-                        this.confirm();
                     });
             }
         },
         cancelCreation() {
             this.clearForm();
             document.getElementById("warnMess").innerText = "";
+        },
+        prepareFormAfterAction() {
+            document.getElementById("warnMess").innerText = "";
+            $('#createSubjectModal').modal('hide');
+            this.clearForm();
+            this.confirm();
         },
         clearForm() {
             this.curSubject.name = this.curSubject.short_name = this.curSubject.subject_desc = "";
@@ -270,18 +272,14 @@ export default {
                         axios.get("http://127.0.0.1:8000/api/subjects").then(resp => resp.data).then(value => {
                             this.userSubjects = value;
                         });
-                        document.getElementById("warnMess").innerText = "";
-                        $('#editSubjectModal').modal('hide');
-                        this.clearForm();
-                        this.confirm();
+                        this.prepareFormAfterAction();
                     });
             }
         }
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getStudentRole", "getDeleteOperation", "getEditOperation", "getErrors"])
-    }
-    ,
+    },
     async mounted() {
         if (this.getUser == null) {
             await this.getLoggedInUser();
