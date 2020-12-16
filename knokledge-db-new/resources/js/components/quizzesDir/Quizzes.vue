@@ -13,8 +13,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of questions</th>
                     <th scope="col"></th>
-                    <th v-if="getUser.role === getAdminRole || getUser.role === getTeacherRole"
-                        scope="col"></th>
+                    <th v-if="getUser.role === getAdminRole || getUser.role === getTeacherRole" scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,7 +29,7 @@
         <div v-if="loading === false && (getUser.role === getTeacherRole || getUser.role === getAdminRole)"
              class="flex w-100 justify-content-end pt-2">
             <button data-toggle="modal" data-target="#modalAddQuiz"
-                    class="btn-primary bg-danger btn-lg">
+                    class="btn-primary btn-lg" style="background-color: #1777d4; margin-bottom: 10px">
                 Add Quiz
             </button>
         </div>
@@ -301,10 +300,10 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize: 18px;
-$hoverColor: #dde9f5;
-$backgroundColor: white;
-$margin: 10px;
+$fontSize        : 18px;
+$hoverColor      : #dde9f5;
+$backgroundColor : white;
+$margin          : 10px;
 
 .table-container {
 
@@ -324,68 +323,68 @@ $margin: 10px;
 
 
         &:nth-child(odd) {
-            background-color: $backgroundColor;
+            background-color : $backgroundColor;
         }
 
         &:nth-child(even) {
-            background-color: darken($color: $backgroundColor, $amount: 5%);
+            background-color : darken($color : $backgroundColor, $amount : 5%);
         }
 
         &:hover {
-            background-color: darken($color: $hoverColor, $amount: 2%);
+            background-color : darken($color : $hoverColor, $amount : 2%);
         }
 
         th {
-            color: white;
-            background-color: darken($color: #187fe2, $amount: 3%);
-            overflow-wrap: break-word;
-            max-width: 250px;
-            min-width: 100px;
+            color            : white;
+            background-color : darken($color : #187fe2, $amount : 3%);
+            overflow-wrap    : break-word;
+            max-width        : 250px;
+            min-width        : 100px;
         }
     }
 }
 
 .btn-container {
-    display: flex;
+    display : flex;
 }
 
 .btn-box {
-    padding-top: 50px;
+    padding-top : 50px;
 
     &.start {
-        text-align: start;
-        width: 80%;
+        text-align : start;
+        width      : 80%;
     }
 
     &.end {
-        text-align: end;
-        margin-right: 0.5rem;
-        width: 20%;
+        text-align   : end;
+        margin-right : 0.5rem;
+        width        : 20%;
     }
 }
 
 .btn {
-    width: 100px;
-    height: auto;
-    font-size: 14px;
-    margin-bottom: $margin * 1.5;
-    color: white;
-    background-color: #6875f5;
+    width            : 100px;
+    height           : auto;
+    font-size        : 14px;
+    margin-bottom    : $margin * 1.5;
+    color            : white;
+    background-color : #6875f5;
 
     &.red {
-        background-color: #f05252;
+        background-color : #f05252;
 
         &:hover {
-            background-color: #e02424;
+            background-color : #e02424;
         }
     }
 
     &:hover {
-        background-color: #5850ec;
+        background-color : #5850ec;
     }
 
     &:focus {
-        outline: none;
+        outline : none;
     }
 }
 
