@@ -250,7 +250,7 @@ export default {
                 }
                 formData.append('date_from', document.getElementById('dateFrom').value.split("T").join(" "));
                 formData.append('date_till', document.getElementById('dateTill').value.split("T").join(" "));
-                formData.append('id', this.subject_id);
+                formData.append('subject_id', this.subject_id);
                 await axios.post("http://127.0.0.1:8000/api/study_mats", formData, {
                     headers: {'Content-Type': 'multipart/form-data'}
                 }).then(async () => {
