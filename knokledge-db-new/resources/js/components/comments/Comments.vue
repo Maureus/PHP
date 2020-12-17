@@ -1,16 +1,19 @@
 <template>
-    <div class="comments-container">
-        <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
-            <CommentsItem :comment="comment"/>
+    <div>
+        <Confirm/>
+        <div class="comments-container">
+            <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
+                <CommentsItem :comment="comment" @delete-comment="deleteComment"/>
 
-            <div v-for="childComment in filteredChildComments(comment.id)" :key="childComment.id"
-                 class="comment-box child">
-                <CommentsItem :comment="childComment"/>
+                <div v-for="childComment in filteredChildComments(comment.id)" :key="childComment.id"
+                     class="comment-box child">
+                    <CommentsItem :comment="childComment" @delete-comment="deleteComment"/>
+                </div>
             </div>
-        </div>
-        <div>
-            <textarea placeholder="Type here something..."></textarea>
-            <button>Send</button>
+            <div>
+                <textarea placeholder="Type here something..."></textarea>
+                <button>Send</button>
+            </div>
         </div>
     </div>
 </template>
@@ -45,9 +48,9 @@ export default {
         ...mapActions(["confirm"]),
         deleteComment(commentId) {
             axios.delete("http://127.0.0.1:8000/api/comments/" + commentId).then(() => {
-                this.comments = this.comments.filter(commentId => commentId.id !== commentId);
+                this.comments = this.comments.filter(comment => comment.id !== commentId);
                 this.confirm();
-            })
+            });
         },
         filteredChildComments(parentId) {
             return this.comments.filter(comment => comment.comment_id === parentId);
@@ -60,8 +63,7 @@ export default {
 $indent : 5px;
 
 .comment-box {
-    padding-top      : $indent * 2;
-    padding-left     : $indent * 3;
+    padding          : $indent * 2 $indent * 3;
     background-color : white;
     margin-top       : $indent;
     margin-bottom    : $indent;
