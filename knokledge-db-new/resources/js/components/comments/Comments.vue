@@ -1,7 +1,7 @@
 <template>
     <div>
         <Confirm/>
-        <div class="comments-container">
+        <div >
             <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
                 <CommentsItem :comment="comment" @delete-comment="deleteComment"/>
 
@@ -63,8 +63,8 @@ export default {
 $indent : 5px;
 
 .comment-box {
-    padding          : $indent * 2 $indent * 3;
     background-color : white;
+    padding          : $indent * 2 $indent * 3;
     margin-top       : $indent;
     margin-bottom    : $indent;
 
@@ -75,7 +75,4 @@ $indent : 5px;
     }
 }
 
-.comments-container {
-
-}
 </style>
