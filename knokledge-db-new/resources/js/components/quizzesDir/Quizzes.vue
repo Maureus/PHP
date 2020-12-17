@@ -45,14 +45,14 @@
                         </button>
                     </div>
                     <div class="pr-2 pl-2 pt-2">
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
-                                Quiz name
+                                Quiz's name
                             </label>
                             <input v-model="newQuiz.name" name="name" required
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Quiz type
                             </label>
@@ -63,42 +63,42 @@
                                 <option value="manual">manual</option>
                             </select>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date from
                             </label>
                             <input name="email" v-model="newQuiz.date_from" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date till
                             </label>
                             <input v-model="newQuiz.date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Description
                             </label>
                             <input v-model="newQuiz.quiz_desc" name="quiz_desc"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Number of questions
                             </label>
                             <input v-model="newQuiz.num_questions" name="num_questions" type="number" min="1" max="30"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Points for question
                             </label>
                             <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Category
                             </label>
@@ -111,13 +111,13 @@
                                 <option value="4">Category 4</option>
                             </select>
                         </div>
-                        <div class="btn-container">
-                            <div class="btn-box start">
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start" style="width: 50%">
                                 <button @click="addQuiz" data-dismiss="modal" class="btn">
                                     Confirm
                                 </button>
                             </div>
-                            <div class="btn-box end">
+                            <div class="btn-box end" style="width: 50%">
                                 <button data-dismiss="modal" class="btn red">
                                     Cancel
                                 </button>
@@ -140,55 +140,55 @@
                     </div>
 
                     <div class="pr-2 pl-2 pt-2">
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Quiz name
                             </label>
                             <input v-model="getQuiz.name" name="name" required
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date from
                             </label>
                             <input name="email" v-model="getQuiz.date_from" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date till
                             </label>
                             <input v-model="getQuiz.date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Description
                             </label>
                             <input v-model="getQuiz.quiz_desc" name="address"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Number of questions
                             </label>
                             <input v-model="getQuiz.num_questions" name="address" type="number" min="1" max="30"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Number of questions
                             </label>
                             <input v-model="getQuiz.points_fq" name="address" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="btn-container">
-                            <div class="btn-box start">
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start" style="width: 50%">
                                 <button @click="saveQuiz" data-dismiss="modal" class="btn">
                                     Confirm
                                 </button>
                             </div>
-                            <div class="btn-box end">
+                            <div class="btn-box end" style="width: 50%">
                                 <button data-dismiss="modal" class="btn red">
                                     Cancel
                                 </button>
@@ -265,15 +265,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([
-            "getUser",
-            "getAdminRole",
-            "getTeacherRole",
-            "getStudentRole",
-            "getDeleteOperation",
-            "getEditOperation",
-            "getErrors",
-            'getQuiz'
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole",
+            "getDeleteOperation", "getEditOperation", "getErrors", "getQuiz"
         ])
     },
     async mounted() {
@@ -300,18 +293,17 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize        : 18px;
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
 
-.table-container {
+@import "resources/sass/form_util_btns";
 
+.table-container {
     text-align       : center;
     display          : table;
     background-color : $backgroundColor;
     color            : black;
-    font-size        : $fontSize;
     border-radius    : 7px;
     overflow         : hidden;
     border-collapse  : collapse;
@@ -344,48 +336,9 @@ $margin          : 10px;
     }
 }
 
-.btn-container {
-    display : flex;
-}
-
-.btn-box {
-    padding-top : 50px;
-
-    &.start {
-        text-align : start;
-        width      : 80%;
-    }
-
-    &.end {
-        text-align   : end;
-        margin-right : 0.5rem;
-        width        : 20%;
-    }
-}
-
-.btn {
-    width            : 100px;
-    height           : auto;
-    font-size        : 14px;
-    margin-bottom    : $margin * 1.5;
-    color            : white;
-    background-color : #6875f5;
-
-    &.red {
-        background-color : #f05252;
-
-        &:hover {
-            background-color : #e02424;
-        }
-    }
-
-    &:hover {
-        background-color : #5850ec;
-    }
-
-    &:focus {
-        outline : none;
-    }
+input, select {
+    margin-bottom : $margin;
+    margin-top    : 0;
 }
 
 </style>
