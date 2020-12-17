@@ -65,8 +65,8 @@ class Comment extends Model
         $text = $request->text;
         $comment_id = $request->comment_id;
         // ToDo change when prod
-//        $user_id = Auth::id();
-        $user_id = '2';
+        $user_id = Auth::id();
+//        $user_id = '2';
         $subject_id = $request->subject_id;
 
         oci_bind_by_name($stmt, ':text', $text, -1);
