@@ -73,7 +73,22 @@ Route::get('/subject/{id}/comments', function ($id) {
     return SubjectController::subjectComments($id);
 })->whereNumber('id');
 
+// post question to quiz
+Route::post('/quiz/{id}/question', [QuestionController::class, 'storeQuestionInQuiz'])->whereNumber('id');
 
+// get quiz questions
+Route::get('/quiz/{id}/questions', [QuizController::class, 'showQuizQuestions'])->whereNumber('id');
+
+// assign array of question ids to quiz
+Route::post('/quiz/{id}/questions', [QuizController::class, 'assignAllQuestionToQuiz'])->whereNumber('id');
+
+
+
+
+
+
+
+// MIDDLEWARE FOR USER AUTH
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     //Logged in user
     Route::get('/user', function () {

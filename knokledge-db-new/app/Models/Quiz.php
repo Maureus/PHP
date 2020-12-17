@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class Quiz extends Model
 {
@@ -59,14 +60,18 @@ class Quiz extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    static public function selectAllQuizQuestions($id) {
-        return DB::select("select * from " . Quiz::QUIZ_QUESTIONS_VIEW . " where quiz_id = :quiz_id order by id",
-            [':quiz_id' => $id]);
+    static public function selectAllQuizQuestions($id): array {
+        return DB::select(
+            "select * from " . Quiz::QUIZ_QUESTIONS_VIEW . " where quiz_id = :quiz_id order by id",
+            [':quiz_id' => $id]
+        );
     }
 
-    static public function selectQuizQuestionsByCategory($id) {
-        return DB::select("select * from " . Quiz::QUIZ_CAT_QUESTIONS_VIEW . " where quiz_id = :quiz_id order by id",
-            [':quiz_id' => $id]);
+    static public function selectQuizQuestionsByCategory($id): array {
+        return DB::select(
+            "select * from " . Quiz::QUIZ_CAT_QUESTIONS_VIEW . " where quiz_id = :quiz_id order by id",
+            [':quiz_id' => $id]
+        );
     }
 
     static public function selectAll(): array {
@@ -168,5 +173,13 @@ class Quiz extends Model
     static public function selectSubjectQuizzes($id): array {
         return DB::select("select * from QUIZZES_VIEW where SUBJECT_ID = :id order by ID",
             [':id' => $id]);
+    }
+
+    // expects array of ids
+    static public function insertAllQuestionToQuiz(Request $request, $id) {
+        $seize = $request->seize;
+        $questions = $request->questions;
+        $questionOne = $request->questions[0];
+        return $request->questions;
     }
 }
