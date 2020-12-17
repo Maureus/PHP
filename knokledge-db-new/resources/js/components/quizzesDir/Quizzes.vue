@@ -269,7 +269,7 @@ export default {
             "getDeleteOperation", "getEditOperation", "getErrors", "getQuiz"
         ])
     },
-    async mounted() {
+    mounted() {
         axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
             .then(resp => {
                 this.quizzes = resp.data;

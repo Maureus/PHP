@@ -177,12 +177,12 @@ export default {
             },
         }
     },
-    async mounted() {
-        await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
+    mounted() {
+        axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
             .then(resp => resp.data).then(value => {
-                this.study_mats = value;
-                this.loading = false;
-            });
+            this.study_mats = value;
+            this.loading = false;
+        });
     },
     computed: {
         ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
