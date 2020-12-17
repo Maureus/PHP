@@ -75,6 +75,17 @@
                             <input id="address" v-model="curUser.address" name="address"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="rolePicker" class="block text-sm font-medium leading-5 text-gray-700">
+                                Change role
+                            </label>
+                            <select id="rolePicker" v-model="curUser.role"
+                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <option>student</option>
+                                <option>teacher</option>
+                                <option>admin</option>
+                            </select>
+                        </div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
                                 <button @click="saveUserChanges" data-dismiss="modal" class="btn">
@@ -114,16 +125,7 @@ export default {
         return {
             users: [],
             loading: true,
-            editUser: false,
-            curUser: {
-                name: '',
-                email: '',
-                avatar: '',
-                phone: '',
-                address: '',
-                id: ''
-            },
-            mess: ""
+            curUser: {}
         }
     },
     computed: {
@@ -138,7 +140,6 @@ export default {
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
         editUserData(userEditedId) {
-            this.editUser = true;
             axios.get("http://127.0.0.1:8000/api/users/" + userEditedId)
                 .then(value => value.data)
                 .then(value => {
@@ -147,16 +148,13 @@ export default {
                 .catch(error => this.saveErrors(error));
         },
         cancelEditingUserInfo() {
-            this.editUser = false;
             this.curUser = {};
         },
         deleteUser() {
             axios.delete("http://127.0.0.1:8000/api/users/" + this.curUser.id)
                 .then(() => {
                     this.users = this.users.filter(user => user.id !== this.curUser.id);
-                    this.editUser = false;
                     this.curUser = {};
-                    this.mess = "User has been deleted.";
                     this.confirm();
                 });
         },
@@ -167,9 +165,7 @@ export default {
                         this.users = value;
                         this.loading = false;
                     });
-                    this.editUser = false;
                     this.curUser = {};
-                    this.mess = "User has been changed.";
                     this.confirm();
                 });
         }

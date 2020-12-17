@@ -126,7 +126,6 @@ export default {
             loading: true,
             btnYearValue: "",
             option: "",
-            editSubject: false,
             curSubject: {},
         }
     },
@@ -144,7 +143,6 @@ export default {
                 .catch(error => this.saveErrors(error));
         },
         editSubjectData(subjectId) {
-            this.editSubject = true;
             axios.get("http://127.0.0.1:8000/api/subjects/" + subjectId)
                 .then(value => value.data)
                 .then(value => {
@@ -159,20 +157,17 @@ export default {
                         this.subjects = value;
                         this.loading = false;
                     });
-                    this.editSubject = false;
                     this.curSubject = {};
                     this.confirm();
                 });
         },
         cancelEditingSubjectInfo() {
-            this.editSubject = false;
             this.curSubject = {};
         },
         deleteSubject() {
             axios.delete("http://127.0.0.1:8000/api/subjects/" + this.curSubject.id)
                 .then(() => {
                     this.subjects = this.subjects.filter(subject => subject.id !== this.curSubject.id);
-                    this.editSubject = false;
                     this.curSubject = {};
                     this.confirm();
                 });
