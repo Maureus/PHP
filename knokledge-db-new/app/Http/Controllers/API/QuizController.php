@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
@@ -20,17 +21,38 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse {
-        return response()->json(Quiz::insertQuiz($request));
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'type' => 'required|max:255',
+            'date_from' => 'required',
+            'date_till' => 'required',
+            'quiz_desc' => 'required|max:255',
+            'num_questions' => 'required',
+            'points_fq' => 'required',
+            'subject_id' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        try {
+            $result = Quiz::insertQuiz($request);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id): \Illuminate\Http\JsonResponse {
@@ -40,45 +62,61 @@ class QuizController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id): \Illuminate\Http\JsonResponse {
-        return response()->json(Quiz::updateQuiz($request, $id));
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'type' => 'required|max:255',
+            'date_from' => 'required',
+            'date_till' => 'required',
+            'quiz_desc' => 'required|max:255',
+            'num_questions' => 'required',
+            'points_fq' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        try {
+            $result = Quiz::updateQuiz($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id): \Illuminate\Http\JsonResponse {
         try {
             Quiz::deleteQuiz($id);
         } catch (\Exception $ex) {
-            return response()->json(0, 400);
+            return response()->json($ex->getMessage(), 400);
         }
+
         return response()->json(1);
-//        return response()->json(Quiz::deleteQuiz($id));
     }
 
-    public function quizQuestions($id)
-    {
-        if (is_numeric($id) && !empty($id)) {
-            return response()->json(
-                Quiz::selectAllQuizQuestions($id),
-                200);
+    static public function showQuizQuestions($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Quiz::selectAllQuizQuestions($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
         }
 
-        return response()->json(
-            null,
-            400);
+        return response()->json($result);
     }
 
-    public function listQuizQuestionsByCategory($id)
-    {
+    public function listQuizQuestionsByCategory($id) {
         if (is_numeric($id) && !empty($id)) {
             return response()->json(
                 Quiz::selectQuizQuestionsByCategory($id),
@@ -92,6 +130,15 @@ class QuizController extends Controller
 
     static public function showQuizzesBySubjectID($id): \Illuminate\Http\JsonResponse {
         return response()->json(Quiz::selectSubjectQuizzes($id));
+    }
+
+    static public function assignAllQuestionToQuiz(Request $request, $id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Quiz::insertAllQuestionToQuiz($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
 }
