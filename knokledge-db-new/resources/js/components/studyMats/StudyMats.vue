@@ -344,12 +344,6 @@ input {
     color       : red;
 }
 
-button {
-    &:focus {
-        outline : none;
-    }
-}
-
 .mess {
     font-size : 15px;
 }
