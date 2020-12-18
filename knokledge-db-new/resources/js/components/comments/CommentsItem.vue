@@ -1,16 +1,18 @@
 <template>
-    <div class="comments-container">
+    <div>
         <h6><span><b>{{ comment.user_name }}</b></span>, <span>{{ comment.created_at }}</span></h6>
         <p>{{ comment.text }}</p>
         <div class="btn-container">
-            <button>reply</button>
+            <button class="btn">
+                <i class="fas fa-comment"></i> reply
+            </button>
             <!--Don't change == to === while it is working-->
-            <button v-if="getUser != null && getUser.id == comment.user_id"
-                    @click="$emit('edit-comment', comment.id)">edit
+            <button v-if="getUser != null && getUser.id == comment.user_id" class="btn"
+                    @click="$emit('edit-comment', comment.id)"><i class="fas fa-edit"></i> edit
             </button>
             <button v-if="getUser != null && (getUser.role === getAdminRole || getUser.id == comment.user_id)"
-                    class="delete-btn"
-                    @click="$emit('delete-comment', comment.id)">delete
+                    class="btn" @click="$emit('delete-comment', comment.id)">
+                <i class="fas fa-trash"></i> delete
             </button>
         </div>
     </div>
@@ -44,9 +46,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$indent : 5px;
-
-//npm install --save-dev @fortawesome/fontawesome-free
+$indent : 0.25em;
 
 p {
     font-size : 16px;
@@ -55,9 +55,8 @@ p {
 .btn-container {
     font-size : 14px;
 
-    .delete-btn {
-        margin  : $indent/2 $indent;
-        padding : $indent/2 $indent;
+    .btn {
+        padding : $indent/5;
     }
 }
 </style>

@@ -6,6 +6,8 @@ import VueRouter from "vue-router";
 import store from './store';
 import router from "./router";
 
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
 
 Vue.use(VueRouter);
 
