@@ -113,7 +113,7 @@ class Comment extends Model
     }
 
     static public function selectAllSubjectComments($id): array {
-        return DB::select("select * from COMMENTS_VIEW where SUBJECT_ID = :id order by id", [':id' => $id]);
+        return DB::select("select * from COMMENTS_VIEW where SUBJECT_ID = :id order by CREATED_AT", [':id' => $id]);
     }
 
 }
