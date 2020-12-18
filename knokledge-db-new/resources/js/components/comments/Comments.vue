@@ -1,16 +1,22 @@
 <template>
-    <div class="comments-container">
-        <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
-            <CommentsItem :comment="comment"/>
-
-            <div v-for="childComment in filteredChildComments(comment.id)" :key="childComment.id"
-                 class="comment-box child">
-                <CommentsItem :comment="childComment"/>
+    <div>
+        <div class="comments-container">
+            <Confirm/>
+            <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
+                <CommentsItem :comment="comment" @delete-comment="deleteComment"/>
+                <div v-for="childComment in filteredChildComments(comment.id)" :key="childComment.id"
+                     class="comment-box child">
+                    <CommentsItem :comment="childComment" @delete-comment="deleteComment"/>
+                </div>
             </div>
         </div>
-        <div>
-            <textarea placeholder="Type here something..."></textarea>
-            <button>Send</button>
+        <hr style="background-color: white">
+        <div class="send-msg">
+            <textarea v-model="msgText" placeholder="Type here something..." rows="2"></textarea>
+            <button class="send-btn" @click="sendComment" :disabled="msgText === ''">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
+            <button v-if="msgText !== ''" class="cancel-btn" @click="msgText = ''">Cancel</button>
         </div>
     </div>
 </template>
@@ -28,6 +34,7 @@ export default {
     data() {
         return {
             comments: [],
+            msgText: ""
         }
     },
     computed: {
@@ -45,35 +52,84 @@ export default {
         ...mapActions(["confirm"]),
         deleteComment(commentId) {
             axios.delete("http://127.0.0.1:8000/api/comments/" + commentId).then(() => {
-                this.comments = this.comments.filter(commentId => commentId.id !== commentId);
-                this.confirm();
-            })
+                this.comments = this.comments.filter(comment => comment.id !== commentId);
+            });
         },
         filteredChildComments(parentId) {
             return this.comments.filter(comment => comment.comment_id === parentId);
+        },
+        sendComment() {
+            axios.post("http://127.0.0.1:8000/api/comments").then(resp => {
+                resp.data;
+                this.msgText = "";
+            });
         }
     }
 }
 </script>
 
 <style scoped="scoped" lang="scss">
-$indent : 5px;
+$indent        : 0.25em;
+$border-radius : 0.3em;
+
+.comments-container {
+    padding          : $indent * 5;
+    margin           : $indent * 2 0;
+    border-radius    : $border-radius;
+    overflow         : hidden;
+    background-color : white;
+}
 
 .comment-box {
-    padding-top      : $indent * 2;
-    padding-left     : $indent * 3;
-    background-color : white;
-    margin-top       : $indent;
-    margin-bottom    : $indent;
+    padding : $indent;
 
     &.child {
+        padding      : $indent * 2 $indent;
         margin-right : $indent * 3;
         margin-left  : $indent * 10;
-        border       : 1px solid black;
     }
 }
 
-.comments-container {
+.send-msg {
+    margin : $indent * 2 0;
 
+    textarea {
+        width         : 100%;
+        border-radius : $border-radius;
+        padding       : $indent;
+        text-indent   : $indent;
+
+        &:focus {
+            outline : none;
+        }
+    }
+
+    .send-btn {
+        padding          : $indent;
+        margin-bottom    : $indent;
+        border-radius    : $border-radius;
+        color            : white;
+        background-color : #a9d5ec;
+        min-width        : 10em;
+
+        &:disabled {
+            filter : grayscale(0.5);
+            cursor : default;
+        }
+    }
+
+    .cancel-btn {
+        color        : white;
+        margin-right : $indent;
+        margin-left  : $indent;
+        padding      : $indent $indent * 3;
+    }
 }
+
+button {
+    &:focus {
+        outline : none;
+    }
+}
+
 </style>
