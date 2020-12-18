@@ -84,9 +84,4 @@ td {
     padding : 5px 10px;
 }
 
-button {
-    &:focus {
-        outline : none;
-    }
-}
 </style>

@@ -1,0 +1,40 @@
+$indent        : 0.25em;
+$border-radius : 0.3em;
+
+.send-msg {
+    margin : $indent * 2 0;
+
+    textarea {
+        resize        : none;
+        overflow      : hidden;
+        width         : 100%;
+        border-radius : $border-radius;
+        padding       : $indent;
+        text-indent   : $indent;
+
+        &:focus {
+            outline : none;
+        }
+    }
+
+    .send-btn {
+        padding          : $indent;
+        margin-bottom    : $indent;
+        border-radius    : $border-radius;
+        color            : white;
+        background-color : #a9d5ec;
+        min-width        : 10em;
+
+        &:disabled {
+            filter : grayscale(0.5);
+            cursor : default;
+        }
+    }
+
+    .cancel-btn {
+        color        : white;
+        margin-right : $indent;
+        margin-left  : $indent;
+        padding      : $indent $indent * 3;
+    }
+}
