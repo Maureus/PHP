@@ -105,4 +105,9 @@ $border-radius : 0.3em;
     }
 }
 
+textarea {
+    border-radius : $border-radius;
+    padding       : $indent;
+    text-indent   : $indent;
+}
 </style>

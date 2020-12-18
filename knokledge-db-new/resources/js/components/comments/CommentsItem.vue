@@ -19,7 +19,9 @@
         </div>
 
         <div style="display: none" class="send-msg" :id="'textarea-' + comment.id">
-            <textarea v-model="msgText" placeholder="Type here something..." rows="2" maxlength="255"></textarea>
+            <textarea v-model="msgText" placeholder="Type here something..." rows="1" maxlength="255"
+                      @input="autoGrowTextArea($event.target)"></textarea>
+            <!--            <hr style="border-top-width: 3px; color: black">-->
             <button class="send-btn" :disabled="msgText === ''">
                 <i class="fas fa-paper-plane"></i> Answer
             </button>
@@ -42,7 +44,8 @@ export default {
     data() {
         return {
             msgText: "",
-            curCommentId: ""
+            curCommentId: "",
+            subjectId: this.$route.params.subject_id
         }
     },
     computed: {
@@ -52,12 +55,29 @@ export default {
         reply(event) {
             this.curCommentId = event.target.id.split('-')[1];
             document.getElementById("textarea-" + this.curCommentId).style.display = "block";
+            const comment = {
+                text: this.msgText,
+                comment_id: this.curCommentId,
+                subject_id: this.subjectId
+            };
+            axios.post("http://127.0.0.1:8000/api/comments", comment).then(resp => {
+                axios.get("http://127.0.0.1:8000/api/comments/" + resp.data)
+                    .then(resp => resp.data).then(value => {
+                    this.comments.push(value);
+                    this.msgText = "";
+                });
+            });
         },
         edit(event) {
 
         },
         cancelAnswer() {
+            this.msgText = "";
             document.getElementById("textarea-" + this.curCommentId).style.display = "none";
+        },
+        autoGrowTextArea(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
         }
     }
 }
@@ -82,7 +102,8 @@ p {
 }
 
 textarea {
-    border : 2px solid black;
+    border-bottom : 2px solid black;
+    height        : auto;
 }
 
 .send-msg {

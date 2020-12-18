@@ -5,12 +5,9 @@ $border-radius : 0.3em;
     margin : $indent * 2 0;
 
     textarea {
-        resize        : none;
-        overflow      : hidden;
-        width         : 100%;
-        border-radius : $border-radius;
-        padding       : $indent;
-        text-indent   : $indent;
+        resize   : none;
+        overflow : hidden;
+        width    : 100%;
 
         &:focus {
             outline : none;
