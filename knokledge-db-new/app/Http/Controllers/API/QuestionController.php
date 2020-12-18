@@ -39,7 +39,12 @@ class QuestionController extends Controller
             return response()->json(0, 400);
         }
 
-        $result = Question::insertQuestion($request);
+        try {
+            $result = Question::insertQuestion($request);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
         return response()->json($result);
     }
 
@@ -75,7 +80,12 @@ class QuestionController extends Controller
             return response()->json(0, 400);
         }
 
-        $result = Question::updateQuestion($request, $id);
+        try {
+            $result = Question::updateQuestion($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
         return response()->json($result);
     }
 
@@ -90,8 +100,30 @@ class QuestionController extends Controller
         try {
             Question::deleteQuestion($id);
         } catch (\Exception $ex) {
-            return response()->json(0, 400);
+            return response()->json($ex->getMessage(), 400);
         }
         return response()->json(1);
+    }
+
+    static public function storeQuestionInQuiz(Request $request, $id): \Illuminate\Http\JsonResponse {
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'answer_1' => 'required|max:255',
+            'answer_2' => 'required|max:255',
+            'answer_correct' => 'required|max:255',
+            'category_id' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        try {
+            $result = Question::insertQuestionInQuiz($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
     }
 }

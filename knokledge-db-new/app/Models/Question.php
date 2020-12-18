@@ -117,5 +117,28 @@ class Question extends Model
         return DB::select("select * from QUESTIONS_VIEW order by id");
     }
 
+    static public function insertQuestionInQuiz($request, $id) {
+        $conn = DBC::getConnection();
+        $sql = 'begin insert_question_in_quiz(:quiz_id, :name, :answer_1, :answer_2, :answer_correct, :category_id, :v_id_out); end;';
+        $stmt = oci_parse($conn, $sql);
+        $name = $request->name;
+        $answer_1 = $request->answer_1;
+        $answer_2 = $request->answer_2;
+        $answer_correct = $request->answer_correct;
+        $category_id = $request->category_id;
+
+        oci_bind_by_name($stmt, ':quiz_id', $id, -1);
+        oci_bind_by_name($stmt, ':name', $name, -1);
+        oci_bind_by_name($stmt, ':answer_1', $answer_1, -1);
+        oci_bind_by_name($stmt, ':answer_2', $answer_2, -1);
+        oci_bind_by_name($stmt, ':answer_correct', $answer_correct, -1);
+        oci_bind_by_name($stmt, ':category_id', $category_id, -1);
+        oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
+        oci_execute($stmt);
+        oci_close($conn);
+
+        return $idOut;
+    }
+
 
 }
