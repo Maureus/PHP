@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div class="send-msg">
+            <textarea v-model="msgText" placeholder="Type here something..." rows="2" maxlength="255"></textarea>
+            <button class="send-btn" @click="sendComment" :disabled="msgText === ''">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
+            <button v-if="msgText !== ''" class="cancel-btn" @click="msgText = ''">Cancel</button>
+        </div>
+        <hr style="background-color: white">
         <div class="comments-container">
             <Confirm/>
             <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
@@ -9,14 +17,6 @@
                     <CommentsItem :comment="childComment" @delete-comment="deleteComment"/>
                 </div>
             </div>
-        </div>
-        <hr style="background-color: white">
-        <div class="send-msg">
-            <textarea v-model="msgText" placeholder="Type here something..." rows="2" maxlength="255"></textarea>
-            <button class="send-btn" @click="sendComment" :disabled="msgText === ''">
-                <i class="fas fa-paper-plane"></i> Send
-            </button>
-            <button v-if="msgText !== ''" class="cancel-btn" @click="msgText = ''">Cancel</button>
         </div>
     </div>
 </template>
@@ -34,7 +34,8 @@ export default {
     data() {
         return {
             comments: [],
-            msgText: ""
+            msgText: "",
+            subjectId: this.$route.params.subject_id
         }
     },
     computed: {
@@ -44,7 +45,7 @@ export default {
         },
     },
     mounted() {
-        axios.get("http://127.0.0.1:8000/api/comments").then(resp => resp.data).then(value => {
+        axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments").then(resp => resp.data).then(value => {
             this.comments = value;
         });
     },
@@ -62,7 +63,7 @@ export default {
             const comment = {
                 text: this.msgText,
                 comment_id: null,
-                subject_id: this.$route.params.subject_id
+                subject_id: this.subjectId
             };
             axios.post("http://127.0.0.1:8000/api/comments", comment).then(resp => {
                 axios.get("http://127.0.0.1:8000/api/comments/" + resp.data)

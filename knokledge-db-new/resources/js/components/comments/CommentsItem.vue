@@ -4,7 +4,11 @@
             <span><b>{{ comment.user_name }}</b></span>, <span class="text-sm">{{ comment.created_at }}</span>
         </h6>
         <p>{{ comment.text }}</p>
-        <div v-if="false" :id="comment.id"><textarea></textarea></div>
+        <div v-if="false" :id="comment.id">
+            <textarea style="border: 2px solid black"
+                      placeholder="Type here something..." rows="2"
+                      maxlength="255"></textarea>
+        </div>
         <div class="btn-container">
             <button class="btn">
                 <i class="fas fa-comment"></i> reply
