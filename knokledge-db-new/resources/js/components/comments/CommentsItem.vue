@@ -1,7 +1,10 @@
 <template>
     <div>
-        <h6><span><b>{{ comment.user_name }}</b></span>, <span>{{ comment.created_at }}</span></h6>
+        <h6>
+            <span><b>{{ comment.user_name }}</b></span>, <span class="text-sm">{{ comment.created_at }}</span>
+        </h6>
         <p>{{ comment.text }}</p>
+        <div v-if="false" :id="comment.id"><textarea></textarea></div>
         <div class="btn-container">
             <button class="btn">
                 <i class="fas fa-comment"></i> reply
@@ -56,7 +59,13 @@ p {
     font-size : 14px;
 
     .btn {
-        padding : $indent/5;
+        padding : $indent / 5;
+    }
+}
+
+button {
+    &:focus {
+        outline : none;
     }
 }
 </style>
