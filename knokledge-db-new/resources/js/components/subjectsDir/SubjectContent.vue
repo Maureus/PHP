@@ -1,7 +1,7 @@
 <template>
     <div>
-<!--        <StudyMats class="pb-4"/>-->
-<!--        <Quizzes/>-->
+        <StudyMats class="pb-4"/>
+        <Quizzes/>
         <Comments/>
     </div>
 </template>

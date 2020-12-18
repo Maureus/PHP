@@ -73,9 +73,9 @@ export default {
         },
         setNewItem() {
             let newItem = JSON.parse(JSON.stringify(this.quiz));
-            console.log(newItem);
+            newItem.date_from = newItem.date_from.split(" ").join("T");
+            newItem.date_till = newItem.date_till.split(" ").join("T")
             this.saveQuiz(newItem);
-            console.log(this.getQuiz);
         }
     },
     filters: {

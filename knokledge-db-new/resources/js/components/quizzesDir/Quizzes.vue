@@ -151,14 +151,14 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date from
                             </label>
-                            <input name="email" v-model="getQuiz.date_from" type="datetime-local"
+                            <input v-model='getQuiz.date_from' type="datetime-local" id="quiz-date-from"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date till
                             </label>
-                            <input v-model="getQuiz.date_till" type="datetime-local"
+                            <input v-model="getQuiz.date_till" type="datetime-local" id="quiz-date-till"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -177,7 +177,7 @@
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
-                                Number of questions
+                                Points for question
                             </label>
                             <input v-model="getQuiz.points_fq" name="address" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
