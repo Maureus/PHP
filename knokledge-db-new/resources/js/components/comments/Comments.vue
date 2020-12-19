@@ -11,13 +11,9 @@
         <hr style="background-color: white">
 
         <div class="comments-container">
-            <div v-for="comment in filteredParentComments" :key="comment.id" class="comment-box">
-                <CommentsItem :comment="comment" @delete-comment="deleteComment" @reply="reply"/>
-
-                <div v-for="childComment in filteredChildComments(comment.id)" :key="childComment.id"
-                     class="comment-box child">
-                    <CommentsItem :comment="childComment" @delete-comment="deleteComment"/>
-                </div>
+            <div v-for="comment in comments" :key="comment.id"
+                 :class="{'comment-box' : comment.comment_id === null, 'comment-box child' : comment.comment_id !== null}">
+                <CommentsItem :comment="comment" @delete-comment="deleteComment" @refresh-comments="refresh"/>
             </div>
         </div>
     </div>
@@ -41,12 +37,10 @@ export default {
     },
     computed: {
         ...mapGetters(["getUser"]),
-        filteredParentComments() {
-            return this.comments.filter(comment => comment.comment_id == null);
-        },
     },
     mounted() {
-        axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments").then(resp => resp.data).then(value => {
+        axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments")
+            .then(resp => resp.data).then(value => {
             this.comments = value;
         });
     },
@@ -57,8 +51,11 @@ export default {
                 this.comments = this.comments.filter(comment => comment.id !== commentId);
             });
         },
-        filteredChildComments(parentId) {
-            return this.comments.filter(comment => comment.comment_id === parentId);
+        refresh() {
+            axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments")
+                .then(resp => resp.data).then(value => {
+                this.comments = value;
+            });
         },
         sendComment() {
             const comment = {
@@ -74,9 +71,6 @@ export default {
                 });
             });
         },
-        reply(commentId) {
-            console.log(commentId);
-        }
     }
 }
 </script>

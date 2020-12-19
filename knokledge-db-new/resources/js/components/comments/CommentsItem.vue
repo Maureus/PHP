@@ -1,16 +1,15 @@
 <template>
     <div>
-        <h6>
-            <span><b>{{ comment.user_name }}</b></span>, <span class="text-sm">{{ comment.created_at }}</span>
-        </h6>
+        <h6><span><b>{{ comment.user_name }}</b></span>, <span class="text-sm">{{ comment.created_at }}</span></h6>
         <p>{{ comment.text }}</p>
         <div class="btn-container">
             <button class="btn" @click="reply" :id="'replyBtn-' + comment.id">
                 <i class="fas fa-comment"></i> reply
             </button>
             <!--Don't change == to === while it is working-->
-            <button v-if="getUser != null && getUser.id == comment.user_id" class="btn"
-                    @click="$emit('edit-comment', comment.id)"><i class="fas fa-edit"></i> edit
+            <button v-if="getUser != null && getUser.id == comment.user_id" class="btn" :id="'editBtn-' + comment.id"
+                    @click="editComment">
+                <i class="fas fa-edit"></i> edit
             </button>
             <button v-if="getUser != null && (getUser.role === getAdminRole || getUser.id == comment.user_id)"
                     class="btn" @click="$emit('delete-comment', comment.id)">
@@ -21,9 +20,11 @@
         <div style="display: none" class="send-msg" :id="'textarea-' + comment.id">
             <textarea v-model="msgText" placeholder="Type here something..." rows="1" maxlength="255"
                       @input="autoGrowTextArea($event.target)"></textarea>
-            <!--            <hr style="border-top-width: 3px; color: black">-->
-            <button class="send-btn" :disabled="msgText === ''">
+            <button v-if="btnOption === 'answer'" class="send-btn" :disabled="msgText === ''" @click="answer">
                 <i class="fas fa-paper-plane"></i> Answer
+            </button>
+            <button v-else-if="btnOption === 'edit'" class="send-btn" :disabled="msgText === ''" @click="edit">
+                <i class="fas fa-edit"></i> Edit
             </button>
             <button class="cancel-btn" @click="cancelAnswer">Cancel</button>
         </div>
@@ -45,7 +46,8 @@ export default {
         return {
             msgText: "",
             curCommentId: "",
-            subjectId: this.$route.params.subject_id
+            subjectId: this.$route.params.subject_id,
+            btnOption: ""
         }
     },
     computed: {
@@ -53,23 +55,36 @@ export default {
     },
     methods: {
         reply(event) {
+            this.btnOption = "answer";
             this.curCommentId = event.target.id.split('-')[1];
             document.getElementById("textarea-" + this.curCommentId).style.display = "block";
+            this.msgText = this.comment.user_name + ", ";
+        },
+        answer() {
             const comment = {
                 text: this.msgText,
                 comment_id: this.curCommentId,
                 subject_id: this.subjectId
             };
-            axios.post("http://127.0.0.1:8000/api/comments", comment).then(resp => {
-                axios.get("http://127.0.0.1:8000/api/comments/" + resp.data)
-                    .then(resp => resp.data).then(value => {
-                    this.comments.push(value);
-                    this.msgText = "";
-                });
+            axios.post("http://127.0.0.1:8000/api/comments", comment).then(() => {
+                this.cancelAnswer();
+                this.$emit("refresh-comments");
             });
         },
-        edit(event) {
-
+        editComment(event) {
+            this.btnOption = "edit";
+            this.curCommentId = event.target.id.split('-')[1];
+            document.getElementById("textarea-" + this.curCommentId).style.display = "block";
+            this.msgText = this.comment.text;
+        },
+        edit() {
+            const comment = {
+                text: this.msgText
+            };
+            axios.put("http://127.0.0.1:8000/api/comments/" + this.curCommentId, comment).then(() => {
+                this.cancelAnswer();
+                this.$emit("refresh-comments");
+            });
         },
         cancelAnswer() {
             this.msgText = "";
