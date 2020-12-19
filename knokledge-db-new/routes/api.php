@@ -68,7 +68,7 @@ Route::get('/subject/{id}/students', function ($id) {
 
 Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
 
-//subject all subject comments
+//subject all subject comments, order by CREATED_AT desc
 Route::get('/subject/{id}/comments', function ($id) {
     return SubjectController::subjectComments($id);
 })->whereNumber('id');
