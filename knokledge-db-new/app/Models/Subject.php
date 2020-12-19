@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class Subject extends Model
 {
-    const SUBJECTS_TABLE = 'subjects';
-    const SUBJECTS_VISIBLE = 'id, name, semester, year, short_name, subject_desc, created_at, updated_at';
 
     use HasFactory;
 
