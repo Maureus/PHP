@@ -113,7 +113,12 @@ class Comment extends Model
     }
 
     static public function selectAllSubjectComments($id): array {
-        return DB::select("select * from COMMENTS_VIEW where SUBJECT_ID = :id  order by CREATED_AT desc", [':id' => $id]);
+        return DB::select(
+            "select id, TEXT, CREATED_AT, UPDATED_AT, COMMENT_ID, USER_ID, USER_NAME, USER_EMAIL, SUBJECT_ID,
+            SUBJECT_NAME, LEVEL from COMMENTS_VIEW where SUBJECT_ID = :id CONNECT BY PRIOR id = comment_id
+            start with COMMENT_ID is null order siblings by id desc",
+            [':id' => $id]
+        );
     }
 
 }

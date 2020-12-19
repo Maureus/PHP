@@ -5,10 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Subject;
-use http\Env\Response;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,7 +17,12 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     static public function index(): \Illuminate\Http\JsonResponse {
-        return response()->json(Subject::selectAll());
+        try {
+            $result = Subject::selectAll();
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
     /**
@@ -42,7 +44,13 @@ class SubjectController extends Controller
             return response()->json(0, 400);
         }
 
-        return response()->json(Subject::insertSubject($request));
+        try {
+            $result = Subject::insertSubject($request);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
     }
 
     /**
@@ -52,7 +60,12 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     static public function show($id): \Illuminate\Http\JsonResponse {
-        return response()->json(Subject::selectById($id));
+        try {
+            $result = Subject::selectById($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
     /**
@@ -62,7 +75,7 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id): \Illuminate\Http\JsonResponse {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'semester' => ['required', 'max:2', Rule::in('LS', 'ZS')],
@@ -75,7 +88,13 @@ class SubjectController extends Controller
             return response()->json(0, 400);
         }
 
-        return response()->json(Subject::updateSubject($request, $id));
+        try {
+            $result = Subject::updateSubject($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
     }
 
     /**
@@ -84,29 +103,49 @@ class SubjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function destroy($id) {
+    static public function destroy($id): \Illuminate\Http\JsonResponse {
         try {
             Subject::deleteSubject($id);
         } catch (\Exception $ex) {
-            return response()->json(0, 400);
+            return response()->json($ex->getMessage(), 400);
         }
         return response()->json(1);
     }
 
-    static public function subjectUsers($id) {
-        return response()->json(Subject::selectAllSubjectUsers($id));
+    static public function subjectUsers($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Subject::selectAllSubjectUsers($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
-    static public function subjectTeachers($id) {
-        return response()->json(Subject::selectAllSubjectTeachers($id));
+    static public function subjectTeachers($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Subject::selectAllSubjectTeachers($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
-    static public function subjectStudents($id) {
-        return response()->json(Subject::selectAllSubjectStudents($id));
+    static public function subjectStudents($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Subject::selectAllSubjectStudents($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
-    static public function subjectComments($id) {
-        return response()->json(Comment::selectAllSubjectComments($id));
+    static public function subjectComments($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Comment::selectAllSubjectComments($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
     }
 
 }
