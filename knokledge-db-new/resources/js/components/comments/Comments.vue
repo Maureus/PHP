@@ -8,17 +8,17 @@
             <button v-if="msgText !== ''" class="cancel-btn" @click="msgText = ''">Cancel</button>
         </div>
 
-        <hr style="background-color: white">
+        <hr>
 
-        <div v-if="comments.length === 0" class="loader-div">
-            <Loader class="lds-ring"/>
-        </div>
+        <Loader v-if="comments.length === 0"/>
+
         <div v-else-if="comments.length !== 0" class="comments-container">
             <div v-for="comment in comments" :key="comment.id"
                  :class="{'comment-box' : comment.comment_id === null, 'comment-box child' : comment.comment_id !== null}">
                 <CommentsItem :comment="comment" @delete-comment="deleteComment" @refresh-comments="refresh"/>
             </div>
         </div>
+
         <div v-else><p class="text-lg text-white font-semibold">No comments. Be first!;)</p></div>
     </div>
 </template>
@@ -85,7 +85,6 @@ $indent        : 0.25em;
 $border-radius : 0.3em;
 
 @import "resources/sass/send_comment_btn";
-@import "resources/sass/loader";
 
 .comments-container {
     padding          : $indent * 5;
@@ -109,6 +108,10 @@ textarea {
     border-radius : $border-radius;
     padding       : $indent;
     text-indent   : $indent;
+}
+
+hr {
+    background-color : white;
 }
 
 </style>

@@ -71,12 +71,7 @@ export default {
                     this.$emit('delete-course-in-user', this.subject.id);
                     break;
             }
-        },
-        // showStudyMats() {
-        //     if (this.subject != null && this.subject.id) {
-        //         this.$router.push({name: "SubjectContent", params: {subject_id: this.subject.id}});
-        //     }
-        // }
+        }
     },
     filters: {
         capitalizer(value) {
