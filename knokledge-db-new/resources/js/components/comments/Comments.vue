@@ -10,7 +10,7 @@
 
         <hr>
 
-        <Loader v-if="comments.length === 0"/>
+        <Loader v-if="comments.length"/>
 
         <div v-else-if="comments.length !== 0" class="comments-container">
             <div v-for="comment in comments" :key="comment.id"
