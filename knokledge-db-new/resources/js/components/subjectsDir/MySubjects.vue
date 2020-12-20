@@ -234,7 +234,7 @@ export default {
                         await axios.get("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects")
                             .then(resp => resp.data).then(value => {
                                 this.userSubjects = value;
-                                this.prepareFormAfterAction();
+                                this.prepareFormAfterAction('#createSubjectModal');
                             })
                     });
             }
@@ -243,9 +243,9 @@ export default {
             this.clearForm();
             document.getElementById("warnMess").innerText = "";
         },
-        prepareFormAfterAction() {
+        prepareFormAfterAction(btnId) {
             document.getElementById("warnMess").innerText = "";
-            $('#createSubjectModal').modal('hide');
+            $(btnId).modal('hide');
             this.clearForm();
             this.confirm();
         },
@@ -269,10 +269,10 @@ export default {
             } else {
                 axios.put("http://127.0.0.1:8000/api/subjects/" + this.curSubject.id, this.curSubject)
                     .then(() => {
-                        axios.get("http://127.0.0.1:8000/api/subjects").then(resp => resp.data).then(value => {
+                        axios.get("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects").then(resp => resp.data).then(value => {
                             this.userSubjects = value;
                         });
-                        this.prepareFormAfterAction();
+                        this.prepareFormAfterAction("#editSubjectModal");
                     });
             }
         }
@@ -285,8 +285,7 @@ export default {
             await this.getLoggedInUser();
         }
 
-        const userId = this.getUser.id;
-        axios.get("http://127.0.0.1:8000/api/users/" + userId + "/subjects")
+        axios.get("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects")
             .then(resp => resp.data)
             .then(value => {
                 this.userSubjects = value;

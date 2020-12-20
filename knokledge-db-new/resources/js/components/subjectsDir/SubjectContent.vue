@@ -1,8 +1,8 @@
 <template>
     <div>
         <StudyMats class="pb-4"/>
-        <Quizzes/>
-        <Comments/>
+        <Quizzes class="pb-4"/>
+        <Comments class="pb-4"/>
     </div>
 </template>
 
