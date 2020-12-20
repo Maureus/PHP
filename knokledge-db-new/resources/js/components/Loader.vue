@@ -1,9 +1,11 @@
 <template>
-    <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div class="loader-div">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </template>
 
@@ -14,6 +16,12 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
+
+.loader-div {
+    width      : 100%;
+    text-align : center;
+}
+
 .lds-ring {
     display  : inline-block;
     position : relative;
