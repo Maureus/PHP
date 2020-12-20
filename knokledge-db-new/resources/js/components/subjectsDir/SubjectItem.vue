@@ -14,9 +14,21 @@
         <td>{{ subject.year }}</td>
         <td>{{ subject.short_name }}</td>
         <td v-if="getUser && option !== ''">
-            <div class="hover-shadow-effect">
+            <div v-if="option == getWriteOperation" class="hover-shadow-effect">
+                <button @click="buttonUtility($event.target.value)" :value="option"
+                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
+                    {{ option | capitalizer }}
+                </button>
+            </div>
+            <div v-else-if="option == getEditOperation" class="hover-shadow-effect">
                 <button @click="buttonUtility($event.target.value)" :value="option" data-toggle="modal"
                         data-target="#editSubjectModal"
+                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
+                    {{ option | capitalizer }}
+                </button>
+            </div>
+            <div v-else-if="option == getDeleteOperation" class="hover-shadow-effect">
+                <button @click="buttonUtility($event.target.value)" :value="option"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
                     {{ option | capitalizer }}
                 </button>

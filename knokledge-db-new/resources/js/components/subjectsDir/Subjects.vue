@@ -18,7 +18,7 @@
                     <th scope="col">Year</th>
                     <th scope="col">Abbreviation</th>
                     <th scope="col"
-                        v-if="(getUser != null && (getUser.role === getStudentRole || getUser.role === getAdminRole))">
+                        v-if="getUser != null && (getUser.role === getStudentRole || getUser.role === getAdminRole)">
                         Option
                     </th>
                 </tr>
