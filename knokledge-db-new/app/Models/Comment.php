@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class Comment extends Model
 {
-    const COMMENT_TABLE = 'comments';
 
     use HasFactory;
 
