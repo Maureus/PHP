@@ -10,23 +10,28 @@
 
         <hr style="background-color: white">
 
-        <div class="comments-container">
+        <div v-if="comments.length === 0" class="loader-div">
+            <Loader class="lds-ring"/>
+        </div>
+        <div v-else-if="comments.length !== 0" class="comments-container">
             <div v-for="comment in comments" :key="comment.id"
                  :class="{'comment-box' : comment.comment_id === null, 'comment-box child' : comment.comment_id !== null}">
                 <CommentsItem :comment="comment" @delete-comment="deleteComment" @refresh-comments="refresh"/>
             </div>
         </div>
+        <div v-else><p class="text-lg text-white font-semibold">No comments. Be first!;)</p></div>
     </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from "vuex";
 import CommentsItem from "./CommentsItem";
+import Loader from "../Loader";
 
 export default {
     name: "Comments",
     components: {
-        CommentsItem
+        CommentsItem, Loader
     },
     data() {
         return {
@@ -38,11 +43,11 @@ export default {
     computed: {
         ...mapGetters(["getUser"]),
     },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments")
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/comments")
             .then(resp => resp.data).then(value => {
-            this.comments = value;
-        });
+                this.comments = value;
+            });
     },
     methods: {
         ...mapActions(["confirm"]),
@@ -80,6 +85,7 @@ $indent        : 0.25em;
 $border-radius : 0.3em;
 
 @import "resources/sass/send_comment_btn";
+@import "resources/sass/loader";
 
 .comments-container {
     padding          : $indent * 5;
@@ -104,4 +110,5 @@ textarea {
     padding       : $indent;
     text-indent   : $indent;
 }
+
 </style>

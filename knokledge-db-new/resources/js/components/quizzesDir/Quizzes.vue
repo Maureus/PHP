@@ -23,7 +23,7 @@
             </table>
         </div>
         <div v-else>
-            <p class="p-2 text-lg text-white font-semibold">No quizzes</p>
+            <p class="p-2 text-lg text-white font-semibold">No quizzes.</p>
         </div>
 
         <div v-if="loading === false && (getUser.role === getTeacherRole || getUser.role === getAdminRole)"
