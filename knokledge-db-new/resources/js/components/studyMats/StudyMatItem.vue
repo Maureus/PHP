@@ -50,9 +50,4 @@ td {
     overflow-wrap : break-word;
 }
 
-button {
-    &:focus {
-        outline : none;
-    }
-}
 </style>
