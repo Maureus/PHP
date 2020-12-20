@@ -163,7 +163,6 @@ export default {
                 .then(() => {
                     axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
                         this.users = value;
-                        this.loading = false;
                     });
                     this.curUser = {};
                     this.confirm();
