@@ -1,7 +1,8 @@
 <template>
     <div class="about-container">
         <div class="about">
-            This is a web application was made by Nikita Yarosh and Andrii Andrusenko how as a semester work for IDAS2.
+            This is a web application that was made by Nikita&nbsp;Yarosh and Andrii&nbsp;Andrusenko as a semester
+            project for IDAS2.
         </div>
     </div>
 </template>
@@ -25,6 +26,6 @@ export default {
     width      : 60%;
     margin     : auto;
     text-align : center;
-    font-size  : 2.5em;
+    font-size  : 2.3em;
 }
 </style>
