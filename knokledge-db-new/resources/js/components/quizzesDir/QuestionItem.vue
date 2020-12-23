@@ -7,7 +7,7 @@
         <td>
             <div class="hover-shadow-effect">
                 <button @click="$emit('edit-question', question.id)" data-toggle="modal"
-                        data-target="#editQuestion"
+                        data-target="#editQuestionModal"
                         class="px-4 py-3 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit
                 </button>
             </div>
