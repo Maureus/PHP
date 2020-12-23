@@ -2,13 +2,12 @@
     <tr>
         <td>
             <div v-if="getUser" class="hover-shadow-effect" style="padding: 0.75rem">
-                <router-link
-                    class="whitespace-no-wrap text-right text-base leading-5 font-medium"
-                    title="Click to open subject's detail"
-                    :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
+                <router-link class="whitespace-no-wrap text-right text-base leading-5 font-medium"
+                             title="Click to open subject's detail"
+                             :to="{name: 'SubjectContent', params: {subject_id: subject.id} }">{{ subject.name }}
                 </router-link>
             </div>
-            <span v-if="!getUser">{{ subject.name }}</span>
+            <div v-else>{{ subject.name }}</div>
         </td>
         <td>{{ subject.semester }}</td>
         <td>{{ subject.year }}</td>

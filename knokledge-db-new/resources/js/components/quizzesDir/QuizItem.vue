@@ -1,6 +1,15 @@
 <template>
     <tr>
-        <td>{{ quiz.name }}</td>
+        <td>
+            <div v-if="getUser != null && (getUser.role === getTeacherRole || getUser.role === getAdminRole)"
+                 class="hover-shadow-effect" style="padding: 0.75rem">
+                <router-link class="whitespace-no-wrap text-right text-base leading-5 font-medium"
+                             title="Click to open subject's detail"
+                             :to="{name: 'Quiz', params: {quiz_id: quiz.id}}">{{ quiz.name }}
+                </router-link>
+            </div>
+            <div v-if="!getUser">{{ quiz.name }}</div>
+        </td>
         <td>{{ quiz.date_from }}</td>
         <td>{{ quiz.date_till }}</td>
         <td>{{ quiz.quiz_desc }}</td>
