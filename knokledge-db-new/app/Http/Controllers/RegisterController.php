@@ -14,6 +14,7 @@ class RegisterController extends Controller {
             'email' => 'unique:users|email',
             'password' => 'confirmed',
         ]);
+
         $user = new UserController();
 
         return $user->store($request);

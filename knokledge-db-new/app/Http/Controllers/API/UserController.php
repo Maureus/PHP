@@ -50,12 +50,10 @@ class UserController extends Controller
         try {
             $result = User::insertUser($name, $email, $password, $id);
         } catch (\Exception $e) {
-            return response()->json(0, 400);
+            return response()->json($e->getMessage(), 400);
         }
 
-        return response()->json(
-            $result,
-            200);
+        return response()->json($result);
     }
 
     /**
@@ -82,7 +80,13 @@ class UserController extends Controller
             'role' => ['required', Rule::in('student', 'admin', 'teacher')]
         ]);
 
-        return response()->json(User::updateUser($request, $id));
+        try {
+            $result = User::updateUser($request, $id);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
+
+        return response()->json($result);
     }
 
     /**
@@ -95,7 +99,7 @@ class UserController extends Controller
         try {
             User::deleteUser($id);
         } catch (\Exception $ex) {
-            return response()->json(0, 400);
+            return response()->json($ex->getMessage(), 400);
         }
         return response()->json(1);
     }
@@ -137,7 +141,7 @@ class UserController extends Controller
                 try {
                     User::updateUserChangeNamePhoneAddressAvatar($request);
                 } catch (\Exception $ex) {
-                    return response()->json(0, 400);
+                    return response()->json($ex->getMessage(), 400);
                 }
 
                 return response()->json(1);
@@ -174,7 +178,7 @@ class UserController extends Controller
                 return response()->json(1);
             }
         } catch (QueryException | FileNotFoundException $e) {
-            return response()->json(0, 400);
+            return response()->json($e->getMessage(), 400);
         }
     }
 
