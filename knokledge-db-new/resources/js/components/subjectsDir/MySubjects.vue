@@ -346,12 +346,6 @@ $margin          : 10px;
     }
 }
 
-button {
-    &:focus {
-        outline : none;
-    }
-}
-
 .link {
     color : #cae9ff;
 
@@ -359,16 +353,6 @@ button {
         text-decoration : underline #cae9ff;
     }
 }
-
-//.btn-box {
-//    &.start {
-//        width : 50%;
-//    }
-//
-//    &.end {
-//        width : 50%;
-//    }
-//}
 
 input, select {
     margin-bottom : $margin;

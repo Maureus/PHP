@@ -2,10 +2,12 @@
     <div>
         <div class="send-msg">
             <textarea v-model="msgText" placeholder="Type here something..." rows="2" maxlength="255"></textarea>
+            <div v-if="warnText" class="warn-mess"><p class="mess">Your comment contains forbidden word(-s).</p>
+            </div>
             <button class="send-btn" @click="sendComment" :disabled="msgText === ''">
                 <i class="fas fa-paper-plane"></i> Leave comment
             </button>
-            <button v-if="msgText !== ''" class="cancel-btn" @click="msgText = ''">Cancel</button>
+            <button v-if="msgText !== ''" class="cancel-btn" @click="clearTextField">Cancel</button>
         </div>
 
         <hr>
@@ -37,6 +39,7 @@ export default {
         return {
             comments: [],
             msgText: "",
+            warnText: false,
             subjectId: this.$route.params.subject_id
         }
     },
@@ -69,13 +72,21 @@ export default {
                 subject_id: this.subjectId
             };
             axios.post("http://127.0.0.1:8000/api/comments", comment).then(resp => {
+                this.warnText = false;
                 axios.get("http://127.0.0.1:8000/api/comments/" + resp.data)
                     .then(resp => resp.data).then(value => {
                     this.comments.push(value);
                     this.msgText = "";
                 });
+            }).catch(error => {
+                this.warnText = true;
+                console.log(error.response);
             });
         },
+        clearTextField() {
+            this.msgText = '';
+            this.warnText = false;
+        }
     }
 }
 </script>
@@ -108,6 +119,14 @@ textarea {
     border-radius : $border-radius;
     padding       : $indent;
     text-indent   : $indent;
+}
+
+.warn-mess {
+    color : #5C00AE;
+}
+
+.mess {
+    font-size : 0.8em;
 }
 
 hr {
