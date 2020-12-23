@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="p-2 text-2xl text-white font-semibold">Study materials</h1>
-        <div v-if="study_mats.length">
+        <div v-if="studyMats.length">
             <table class="table-container">
                 <thead>
                 <tr>
@@ -16,7 +16,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <StudyMatItem v-for="study_mat in study_mats" :key="study_mat.id" :study_mat="study_mat"
+                <StudyMatItem v-for="study_mat in studyMats" :key="study_mat.id" :study_mat="study_mat"
                               @edit-study-mat="editStudyMatData"/>
                 </tbody>
             </table>
@@ -24,9 +24,10 @@
         <div v-else>
             <p class="p-2 text-lg text-white font-semibold">This subject has not had study materials yet.</p>
         </div>
-        <div class="flex w-100 justify-content-end pt-2">
-            <button v-if="getUser && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
-                    class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
+
+        <div class="flex w-100 justify-content-end pt-2"
+             v-if="getUser && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
+            <button class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
                     data-target="#createStudyMaterial" @click="setDateToDatePicker">Add study material
             </button>
         </div>
@@ -166,7 +167,7 @@ export default {
     },
     data() {
         return {
-            study_mats: [],
+            studyMats: [],
             subject_id: this.$route.params.subject_id,
             curStudyMat: {
                 name: "",
@@ -180,8 +181,7 @@ export default {
     mounted() {
         axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
             .then(resp => resp.data).then(value => {
-            this.study_mats = value;
-            this.loading = false;
+            this.studyMats = value;
         });
     },
     computed: {
@@ -213,7 +213,7 @@ export default {
             }).then(() => {
                 axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
                     .then(resp => resp.data).then(value => {
-                    this.study_mats = value;
+                    this.studyMats = value;
                 });
                 this.clearForm();
                 this.confirm();
@@ -231,7 +231,7 @@ export default {
         deleteStudyMaterial() {
             axios.delete("http://127.0.0.1:8000/api/study_mats/" + this.curStudyMat.id)
                 .then(() => {
-                    this.study_mats = this.study_mats.filter(study_mat => study_mat.id !== this.curStudyMat.id);
+                    this.studyMats = this.studyMats.filter(study_mat => study_mat.id !== this.curStudyMat.id);
                     this.clearForm();
                     this.confirm();
                 });
@@ -256,7 +256,7 @@ export default {
                 }).then(async () => {
                     await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
                         .then(resp => resp.data).then(value => {
-                            this.study_mats = value;
+                            this.studyMats = value;
                             this.prepareFormAfterAction();
                         });
                 });
@@ -287,7 +287,6 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$fontSize        : 18px;
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
@@ -299,12 +298,10 @@ $margin          : 10px;
     display          : table;
     background-color : $backgroundColor;
     color            : black;
-    font-size        : $fontSize;
     border-radius    : 7px;
     overflow         : hidden;
     border-collapse  : collapse;
     margin           : auto;
-    //table-layout     : fixed;
     width            : 100%;
 
     tr {
