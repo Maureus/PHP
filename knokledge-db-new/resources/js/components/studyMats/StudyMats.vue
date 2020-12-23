@@ -191,8 +191,7 @@ export default {
         ...mapActions(["confirm"]),
         async editStudyMatData(studyMatId) {
             await axios.get("http://127.0.0.1:8000/api/study_mats/" + studyMatId)
-                .then(value => value.data)
-                .then(value => {
+                .then(value => value.data).then(value => {
                     this.curStudyMat = value;
                     document.getElementById('date_from').value = this.curStudyMat.date_from.split(" ").join("T");
                     document.getElementById('date_till').value = this.curStudyMat.date_till.split(" ").join("T");

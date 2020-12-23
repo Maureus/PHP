@@ -7,8 +7,8 @@
         <td>
             <div class="hover-shadow-effect">
                 <button @click="$emit('edit-question', question.id)" data-toggle="modal"
-                        data-target="#"
-                        class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit
+                        data-target="#editQuestion"
+                        class="px-4 py-3 whitespace-no-wrap text-right text-base leading-5 font-medium">Edit
                 </button>
             </div>
         </td>
@@ -28,5 +28,11 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
+$padding : 10px;
 @import "resources/sass/hover_effects";
+
+td {
+    padding       : $padding;
+    overflow-wrap : break-word;
+}
 </style>

@@ -152,7 +152,7 @@
                         <div class="warn-mess"><p id="warnEditMess" class="mess"></p></div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
-                                <button @click="saveSubjectChanges" id="editBtn" class="btn btn-primary">
+                                <button @click="saveSubjectChanges" class="btn btn-primary">
                                     Confirm
                                 </button>
                             </div>
@@ -225,8 +225,6 @@ export default {
                 || this.curSubject.subject_desc.trim() === "") {
                 document.getElementById("warnMess").innerText = "All fields must be completed.";
             } else {
-                // this.userSubjects.push(this.curSubject);
-                // console.log(this.curSubject);
                 await axios.post("http://127.0.0.1:8000/api/subjects", this.curSubject)
                     .then(async (resp) => {
                         await axios.post("http://127.0.0.1:8000/api/users/" + this.getUser.id + "/subjects/" + resp.data);
@@ -243,9 +241,9 @@ export default {
             this.clearForm();
             document.getElementById("warnMess").innerText = "";
         },
-        prepareFormAfterAction(btnId) {
+        prepareFormAfterAction(modalId) {
             document.getElementById("warnMess").innerText = "";
-            $(btnId).modal('hide');
+            $(modalId).modal('hide');
             this.clearForm();
             this.confirm();
         },
