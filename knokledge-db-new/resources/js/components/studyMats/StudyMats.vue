@@ -34,6 +34,63 @@
 
         <Confirm/>
 
+        <div class="modal fade" id="createStudyMaterial" tabindex="-1" role="dialog"
+             aria-labelledby="createStudyMaterialModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createStudyMaterialModalCenterTitle">Create study material</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="nameCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
+                                Study material's name
+                            </label>
+                            <input id="nameCreateSM" v-model="curStudyMat.name"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="fileCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
+                                Choose a new file
+                            </label>
+                            <input id="fileCreateSM" type="file" ref="myFile" @change="selectFile"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="dateFrom" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible from
+                            </label>
+                            <input id="dateFrom" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="dateTill" class="block text-sm font-medium leading-5 text-gray-700">
+                                Accessible to
+                            </label>
+                            <input id="dateTill" type="datetime-local"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div class="warn-mess"><p id="warnMess" class="mess"></p></div>
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start" style="width: 50%">
+                                <button @click="createStudyMaterial" class="btn">
+                                    Create
+                                </button>
+                            </div>
+                            <div class="btn-box end" style="width: 50%">
+                                <button @click="cancelEditingStudyMatInfo" data-dismiss="modal" class="btn">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="editStudyMaterial" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -95,63 +152,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="createStudyMaterial" tabindex="-1" role="dialog"
-             aria-labelledby="createStudyMaterialModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createStudyMaterialModalCenterTitle">Create study material</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" class="focus:outline-none">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="pr-2 pl-2 pt-2">
-                        <div class="col-span-6 sm:col-span-4 mx-2">
-                            <label for="nameCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
-                                Study material's name
-                            </label>
-                            <input id="nameCreateSM" v-model="curStudyMat.name"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
-                            <label for="fileCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
-                                Choose a new file
-                            </label>
-                            <input id="fileCreateSM" type="file" ref="myFile" @change="selectFile"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
-                            <label for="dateFrom" class="block text-sm font-medium leading-5 text-gray-700">
-                                Accessible from
-                            </label>
-                            <input id="dateFrom" type="datetime-local"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
-                            <label for="dateTill" class="block text-sm font-medium leading-5 text-gray-700">
-                                Accessible to
-                            </label>
-                            <input id="dateTill" type="datetime-local"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
-                        </div>
-                        <div class="warn-mess"><p id="warnMess" class="mess"></p></div>
-                        <div class="btn-container mx-2">
-                            <div class="btn-box start" style="width: 50%">
-                                <button @click="createStudyMaterial" class="btn">
-                                    Create
-                                </button>
-                            </div>
-                            <div class="btn-box end" style="width: 50%">
-                                <button @click="cancelEditingStudyMatInfo" data-dismiss="modal" class="btn">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -191,8 +191,7 @@ export default {
         ...mapActions(["confirm"]),
         async editStudyMatData(studyMatId) {
             await axios.get("http://127.0.0.1:8000/api/study_mats/" + studyMatId)
-                .then(value => value.data)
-                .then(value => {
+                .then(value => value.data).then(value => {
                     this.curStudyMat = value;
                     document.getElementById('date_from').value = this.curStudyMat.date_from.split(" ").join("T");
                     document.getElementById('date_till').value = this.curStudyMat.date_till.split(" ").join("T");
