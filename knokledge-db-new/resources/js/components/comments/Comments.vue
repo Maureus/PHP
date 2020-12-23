@@ -78,9 +78,12 @@ export default {
                     this.comments.push(value);
                     this.msgText = "";
                 });
-            }).catch(error => {
+            }).catch(() => {
                 this.warnText = true;
-                console.log(error.response);
+                this.msgText = "";
+                setTimeout(() => {
+                    this.warnText = false;
+                }, 5000);
             });
         },
         clearTextField() {
@@ -122,7 +125,7 @@ textarea {
 }
 
 .warn-mess {
-    color : #5C00AE;
+    color : white;
 }
 
 .mess {

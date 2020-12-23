@@ -4,7 +4,12 @@
 
 <script>
 export default {
-    name: "Quiz"
+    name: "Quiz",
+    data() {
+        return {
+            quizId: this.$route.params.quiz_id
+        }
+    }
 }
 </script>
 
