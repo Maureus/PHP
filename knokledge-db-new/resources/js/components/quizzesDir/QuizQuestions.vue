@@ -229,6 +229,8 @@ export default {
             axios.get("http://127.0.0.1:8000/api/questions/" + questionId)
                 .then(value => value.data).then(value => {
                 this.curQuestion = value;
+                console.log(this.curQuestion.answer_correct === this.curQuestion.answer_1);
+                console.log(this.curQuestion.answer_correct === this.curQuestion.answer_2);
                 if (this.curQuestion.answer_correct === this.curQuestion.answer_1) {
                     document.getElementById("answer1RadioEdit").checked = true;
                 } else {
@@ -238,9 +240,10 @@ export default {
         },
         saveQuestionChanges() {
             if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
-                || this.curQuestion.answer_2.trim() === "" || this.curQuestion.answer_correct.trim() === "") {
+                || this.curQuestion.answer_2.trim() === "") {
                 document.getElementById("warnEditMess").innerText = "All fields must be completed.";
             } else {
+                this.setCheckedValue();
                 axios.put("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id, this.curQuestion).then(() => {
                     axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
                         .then(resp => resp.data).then(value => {
@@ -270,17 +273,20 @@ export default {
                     this.confirm();
                 });
         },
+        setCheckedValue() {
+            const elements = document.getElementsByName("correctAnswer");
+            elements.forEach(el => {
+                if (el.checked) {
+                    this.curQuestion.answer_correct = el.value;
+                }
+            });
+        },
         createNewSubject() {
             if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
                 || this.curQuestion.answer_2.trim() === "") {
                 document.getElementById("warnMess").innerText = "All fields must be completed.";
             } else {
-                const elements = document.getElementsByName("correctAnswer");
-                elements.forEach(el => {
-                    if (el.checked) {
-                        this.curQuestion.answer_correct = el.value;
-                    }
-                });
+                this.setCheckedValue();
                 axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
                     .then(() => {
                         axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
@@ -299,9 +305,7 @@ export default {
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
-
 @import "./resources/sass/form_util_btns";
-
 .table-container {
     text-align       : center;
     display          : table;
@@ -352,5 +356,4 @@ input {
     margin-bottom : $margin;
     margin-top    : 0;
 }
-
 </style>
