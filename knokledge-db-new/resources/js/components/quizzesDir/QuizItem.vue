@@ -64,21 +64,18 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser"
-            , "getWriteOperation", "getEditOperation", "getDeleteOperation", "getTakeOperation"
+        ...mapGetters(["getUser", "getWriteOperation", "getEditOperation", "getDeleteOperation", "getTakeOperation"
             , "getStudentRole", "getAdminRole", "getTeacherRole", "getQuiz"])
     },
     methods: {
         ...mapActions(['saveQuiz', 'saveErrors', 'saveQuiz']),
         takeQuiz() {
-            this.$router.push({name: 'Quiz', params: {quiz_id: this.quiz.id}});
+            this.$router.push({name: 'QuizQuestions', params: {quiz_id: this.quiz.id}});
         },
         deleteQuiz() {
-            axios.delete('http://127.0.0.1:8000/api/quizzes/' + this.quiz.id).then(res => {
+            axios.delete('http://127.0.0.1:8000/api/quizzes/' + this.quiz.id).then(() => {
                 this.$emit('delete-quiz', this.quiz.id);
-            }).catch(err => {
-                this.saveErrors(err);
-            });
+            }).catch(err => this.saveErrors(err));
         },
         setNewItem() {
             let newItem = JSON.parse(JSON.stringify(this.quiz));
@@ -99,18 +96,18 @@ export default {
 
 <style scoped="scoped" lang="scss">
 $hoverColor : #dde9f5;
-$margin     : 10px;
+$indent     : 0.25em;
 
 @import "./resources/sass/hover_effects";
 
 th {
     color            : white;
-    padding          : 5px 10px;
+    padding          : $indent $indent * 2;
     background-color : darken($color : #187fe2, $amount : 3%);
 }
 
 td {
-    padding : 5px 10px;
+    padding : $indent $indent * 2;
 }
 
 </style>
