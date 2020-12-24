@@ -239,6 +239,7 @@ export default {
             if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
                 || this.curQuestion.answer_2.trim() === "") {
                 document.getElementById("warnEditMess").innerText = "All fields must be completed.";
+                this.eraseWarnMess("warnEditMess");
             } else {
                 this.setCheckedValue();
                 axios.put("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id, this.curQuestion).then(() => {
@@ -262,6 +263,11 @@ export default {
         cancel() {
             this.clearForm();
         },
+        eraseWarnMess(id) {
+            setTimeout(() => {
+                document.getElementById(id).innerText = "";
+            }, 3000);
+        },
         deleteQuestion() {
             axios.delete("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id)
                 .then(() => {
@@ -282,9 +288,7 @@ export default {
             axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId).then(resp => resp.data).then(value => {
                 if (parseInt(value.num_questions) === this.questions.length) {
                     document.getElementById("warnMess").innerText = "No more questions adding allowed";
-                    setTimeout(() => {
-                        document.getElementById("warnMess").innerText = "";
-                    }, 3000);
+                    this.eraseWarnMess("warnMess");
                 } else {
                     if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
                         || this.curQuestion.answer_2.trim() === "") {
@@ -311,7 +315,9 @@ export default {
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
+
 @import "./resources/sass/form_util_btns";
+
 .table-container {
     text-align       : center;
     display          : table;
