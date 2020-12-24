@@ -13,7 +13,7 @@ import store from './store';
 import Subjects from "./components/subjectsDir/Subjects";
 import MySubjects from "./components/subjectsDir/MySubjects";
 import SubjectContent from "./components/subjectsDir/SubjectContent";
-import Quiz from "./components/quizzesDir/Quiz";
+import QuizQuestions from "./components/quizzesDir/QuizQuestions";
 
 
 Vue.use(VueRouter);
@@ -107,8 +107,8 @@ export default new VueRouter({
         },
         {
             path: '/quiz/:quiz_id',
-            component: Quiz,
-            name: "Quiz",
+            component: QuizQuestions,
+            name: "QuizQuestions",
             beforeEnter: (to, from, next) => {
                 if (store.getters.getUser === null) {
                     next({
