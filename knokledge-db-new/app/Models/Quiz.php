@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -95,6 +96,7 @@ class Quiz extends Model
                            p_points_fq => :points_fq,
                            p_subject_id => :subject_id,
                            p_category_id => :category_id,
+                           p_user_id => :user_id,
                            p_id_out => :v_id_out);
                         end;';
         $stmt = oci_parse($conn, $sql);
@@ -107,6 +109,7 @@ class Quiz extends Model
         $points_fq = $request->points_fq;
         $subject_id = $request->subject_id;
         $category_id = $request->category_id;
+        $user_id = Auth::id();
 
         oci_bind_by_name($stmt, ':name', $name, -1);
         oci_bind_by_name($stmt, ':type', $type, -1);
@@ -117,6 +120,7 @@ class Quiz extends Model
         oci_bind_by_name($stmt, ':points_fq', $points_fq, -1);
         oci_bind_by_name($stmt, ':subject_id', $subject_id, -1);
         oci_bind_by_name($stmt, ':category_id', $category_id, -1);
+        oci_bind_by_name($stmt, ':user_id', $user_id, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
         oci_close($conn);
