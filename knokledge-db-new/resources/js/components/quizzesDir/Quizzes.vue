@@ -226,8 +226,8 @@ export default {
     methods: {
         ...mapActions(["saveErrors", "confirm", 'saveQuiz']),
         async saveQuiz() {
-            this.getQuiz.date_from = this.getQuiz.date_from.split("T").join(" ") + ":00";
-            this.getQuiz.date_till = this.getQuiz.date_till.split("T").join(" ") + ":00";
+            this.getQuiz.date_from = this.getQuiz.date_from.split("T").join(" ");
+            this.getQuiz.date_till = this.getQuiz.date_till.split("T").join(" ");
             await axios.put('http://127.0.0.1:8000/api/quizzes/' + this.getQuiz.id, this.getQuiz).then(async () => {
                 await this.editQuiz();
             }).catch(err => {
@@ -246,8 +246,8 @@ export default {
         },
         async addQuiz() {
             this.newQuiz.subject_id = this.subject_id;
-            this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ") + ":00";
-            this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ") + ":00";
+            this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ");
+            this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ");
 
             await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then(async () => {
                 await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
