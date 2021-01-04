@@ -198,7 +198,7 @@ class Quiz extends Model
     static public function insertQuizResult($quiz_id, $result): bool {
         return DB::insert(
             'insert into QUIZ_USER_RESULT(quiz_id, user_id, result) VALUES (:quiz_id, :user_id, :result)',
-            [':quiz_id'=>$quiz_id, ':user_id'=>1, ':result'=>$result]
+            [':quiz_id'=>$quiz_id, ':user_id'=>Auth::id(), ':result'=>$result]
         );
     }
 }
