@@ -82,8 +82,14 @@ Route::get('/quiz/{id}/questions', [QuizController::class, 'showQuizQuestions'])
 // assign array of question ids to quiz
 Route::post('/quiz/{id}/questions', [QuizController::class, 'assignAllQuestionToQuiz'])->whereNumber('id');
 
+// get quiz results
+Route::get('/quiz/{id}/results', [QuizController::class, 'showQuizResults'])->whereNumber('id');
 
+// get user quizzes results
+Route::get('/user/{id}/results', [QuizController::class, 'showUserQuizzesResults'])->whereNumber('id');
 
+// store user quiz result
+Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
 
 
 
