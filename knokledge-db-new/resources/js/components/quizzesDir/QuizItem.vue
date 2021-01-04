@@ -22,7 +22,7 @@
                 </button>
             </div>
         </td>
-        <td v-if="getUser.role === getTeacherRole || getUser.role === getAdminRole">
+        <td v-if="getUser != null && (getUser.role === getTeacherRole || getUser.role === getAdminRole)">
             <div class="hover-shadow-effect">
                 <button @click="setNewItem" :value="edit" data-toggle="modal" data-target="#modalQuiz"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
@@ -30,7 +30,7 @@
                 </button>
             </div>
         </td>
-        <td v-if="getUser.role === getTeacherRole || getUser.role === getAdminRole">
+        <td v-if="getUser != null && (getUser.role === getTeacherRole || getUser.role === getAdminRole)">
             <div class="hover-shadow-effect">
                 <button @click="deleteQuiz"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
