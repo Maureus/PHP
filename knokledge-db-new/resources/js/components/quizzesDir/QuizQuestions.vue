@@ -20,14 +20,14 @@
                 </tbody>
             </table>
         </div>
+        <div v-else>
+            <p class="p-2 text-lg text-white font-semibold">This quiz has not had questions yet.</p>
+        </div>
         <div class="flex w-100 justify-content-end pt-2"
              v-if="getUser && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
             <button class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
                     data-target="#createQuestionModal">Add new question
             </button>
-        </div>
-        <div v-else>
-            <p class="p-2 text-lg text-white font-semibold">This quiz has not had questions yet.</p>
         </div>
 
         <Confirm/>
@@ -37,7 +37,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="creationQuestionModalCenterTitle">Create subject</h5>
+                        <h5 class="modal-title" id="creationQuestionModalCenterTitle">Create new question</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="focus:outline-none">&times;</span>
                         </button>
@@ -111,7 +111,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editingQuestionModalCenterTitle">Edit study material</h5>
+                        <h5 class="modal-title" id="editingQuestionModalCenterTitle">Edit question</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="focus:outline-none">&times;</span>
                         </button>
@@ -226,11 +226,8 @@ export default {
     methods: {
         ...mapActions(["confirm"]),
         editQuestionData(questionId) {
-            axios.get("http://127.0.0.1:8000/api/questions/" + questionId)
-                .then(value => value.data).then(value => {
+            axios.get("http://127.0.0.1:8000/api/questions/" + questionId).then(value => value.data).then(value => {
                 this.curQuestion = value;
-                console.log(this.curQuestion.answer_correct === this.curQuestion.answer_1);
-                console.log(this.curQuestion.answer_correct === this.curQuestion.answer_2);
                 if (this.curQuestion.answer_correct === this.curQuestion.answer_1) {
                     document.getElementById("answer1RadioEdit").checked = true;
                 } else {
@@ -242,6 +239,7 @@ export default {
             if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
                 || this.curQuestion.answer_2.trim() === "") {
                 document.getElementById("warnEditMess").innerText = "All fields must be completed.";
+                this.eraseWarnMess("warnEditMess");
             } else {
                 this.setCheckedValue();
                 axios.put("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id, this.curQuestion).then(() => {
@@ -260,10 +258,15 @@ export default {
         },
         clearForm() {
             document.getElementById("warnMess").innerText = "";
-            this.curQuestion.name = this.curQuestion.answer_1 = this.curQuestion.answer_2 = this.curQuestion.answer_correct = "";
+            this.curQuestion.name = this.curQuestion.answer_1 = this.curQuestion.answer_2 = "";
         },
         cancel() {
             this.clearForm();
+        },
+        eraseWarnMess(id) {
+            setTimeout(() => {
+                document.getElementById(id).innerText = "";
+            }, 3000);
         },
         deleteQuestion() {
             axios.delete("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id)
@@ -282,20 +285,27 @@ export default {
             });
         },
         createNewSubject() {
-            if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
-                || this.curQuestion.answer_2.trim() === "") {
-                document.getElementById("warnMess").innerText = "All fields must be completed.";
-            } else {
-                this.setCheckedValue();
-                axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
-                    .then(() => {
-                        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
-                            .then(resp => resp.data).then(value => {
-                            this.questions = value;
-                            this.prepareFormAfterAction("#createQuestionModal");
-                        });
-                    });
-            }
+            axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId).then(resp => resp.data).then(value => {
+                if (parseInt(value.num_questions) === this.questions.length) {
+                    document.getElementById("warnMess").innerText = "No more questions adding allowed";
+                    this.eraseWarnMess("warnMess");
+                } else {
+                    if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
+                        || this.curQuestion.answer_2.trim() === "") {
+                        document.getElementById("warnMess").innerText = "All fields must be completed.";
+                    } else {
+                        this.setCheckedValue();
+                        axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
+                            .then(() => {
+                                axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
+                                    .then(resp => resp.data).then(value => {
+                                    this.questions = value;
+                                    this.prepareFormAfterAction("#createQuestionModal");
+                                });
+                            });
+                    }
+                }
+            });
         }
     }
 }
@@ -305,7 +315,9 @@ export default {
 $hoverColor      : #dde9f5;
 $backgroundColor : white;
 $margin          : 10px;
+
 @import "./resources/sass/form_util_btns";
+
 .table-container {
     text-align       : center;
     display          : table;
