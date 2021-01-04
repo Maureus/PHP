@@ -141,4 +141,40 @@ class QuizController extends Controller
         return response()->json($result);
     }
 
+    static public function showQuizResults($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Quiz::selectQuizResults($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
+    }
+
+    static public function showUserQuizzesResults($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Quiz::selectUserResults($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
+    }
+
+    static public function storeQuizResult(Request $request): \Illuminate\Http\JsonResponse {
+        $validation = Validator::make($request->all(), [
+            'quiz_id' => 'required',
+            'result' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(0, 400);
+        }
+
+        try {
+            $result = Quiz::insertQuizResult($request->quiz_id, $request->result);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
+    }
+
 }
