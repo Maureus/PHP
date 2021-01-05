@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link class="link" to="/subjectlist">Back</router-link>
         <StudyMats class="pb-4"/>
         <Quizzes class="pb-4"/>
         <Comments class="pb-4"/>
@@ -19,6 +20,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped="scoped" lang="scss">
+@import "./resources/sass/routerlink";
 </style>
