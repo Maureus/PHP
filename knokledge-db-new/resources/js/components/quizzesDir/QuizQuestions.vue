@@ -213,6 +213,7 @@
                     Finish
                 </button>
             </div>
+            <Confirm/>
         </div>
     </div>
 </template>
@@ -231,7 +232,7 @@ export default {
     data() {
         return {
             quizId: this.$route.params.quiz_id,
-            pointsForQuestion: 1,
+            curQuiz: {},
             questions: [],
             curQuestion: {
                 name: "",
@@ -249,13 +250,13 @@ export default {
             this.questions = value;
         });
         axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
-            .then(resp => resp.data).then(value => this.pointsForQuestion = value.points_fq);
+            .then(resp => resp.data).then(value => this.curQuiz = value);
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getAdminRole", "getStudentRole"])
     },
     methods: {
-        ...mapActions(["confirm"]),
+        ...mapActions(["confirm", "hide"]),
         sendResults() {
             const elements = document.querySelectorAll("input");
             let score = 0;
@@ -269,10 +270,16 @@ export default {
                     }
                 });
             });
-            axios.post("http://127.0.0.1:8000/api/quiz/result", {
+            axios.post("http://127.0.0.1:8000/api/quiz/results", {
                 quiz_id: this.quizId,
-                result: score * this.pointsForQuestion
-            }).then(() => this.confirm());
+                result: score * this.curQuiz.points_fq
+            }).then(() => {
+                this.confirm();
+                setTimeout(() => {
+                    this.hide();
+                    this.$router.push({name: 'SubjectContent', params: {subject_id: this.curQuiz.subject_id}});
+                }, 3000);
+            });
         },
         editQuestionData(questionId) {
             axios.get("http://127.0.0.1:8000/api/questions/" + questionId).then(value => value.data).then(value => {

@@ -249,12 +249,6 @@ $margin          : 10px;
     }
 }
 
-button {
-    &:focus {
-        outline : none;
-    }
-}
-
 input, select {
     margin-bottom : $margin;
     margin-top    : 0;

@@ -14,8 +14,12 @@
                     Edit my profile
                 </button>
                 <button @click="showChangePassword"
-                        class="flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg w-full">
+                        class="flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full">
                     Change my password
+                </button>
+                <button @click="showQuizzesResults"
+                        class="flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full">
+                    Show quizzes' results
                 </button>
             </div>
         </div>
@@ -100,6 +104,21 @@
                     </div>
                 </div>
             </div>
+
+            <div v-if="quizzesResults && getUser.role === getStudentRole">
+                <table class="table-container">
+                    <thead>
+                    <tr>
+                        <th scope="col">Quiz's name</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <QuizResult v-for="(result, index) in results" :key="index" :result="result"/>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -108,11 +127,12 @@
 import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
 import Confirm from "../Confirm";
+import QuizResult from "../quizzesDir/QuizResult";
 
 export default {
     name: "UserProfile",
     components: {
-        Preloader, Confirm
+        Preloader, Confirm, QuizResult
     },
     data() {
         return {
@@ -126,12 +146,14 @@ export default {
                 address: '',
                 id: ''
             },
+            quizzesResults: false,
             password: '',
             password_confirmation: '',
             loading: true,
             profileConfirm: false,
             passwordConfirm: false,
-            mess: ''
+            mess: '',
+            results: []
         }
     },
     methods: {
@@ -146,13 +168,15 @@ export default {
                 this.curUser.name = this.curUser.email = this.curUser.avatar = this.curUser.phone = this.curUser.address = '';
             }
 
-            if (this.changePassword === true) this.changePassword = false;
-            this.editProfile === false ? this.editProfile = true : this.editProfile = false;
+            if (this.changePassword) this.changePassword = false;
+            if (this.quizzesResults) this.quizzesResults = false;
+            this.editProfile ? this.editProfile = false : this.editProfile = true;
         },
         async showChangePassword() {
             this.password = this.password_confirmation = '';
-            if (this.editProfile === true) this.editProfile = false;
-            this.changePassword === false ? this.changePassword = true : this.changePassword = false;
+            if (this.editProfile) this.editProfile = false;
+            if (this.quizzesResults) this.quizzesResults = false;
+            this.changePassword ? this.changePassword = false : this.changePassword = true;
         },
         async saveUserProfile() {
             const formData = new FormData();
@@ -199,8 +223,7 @@ export default {
         setAvatarAndUser() {
             this.loading = true;
             if (this.getUser['hasavatar'] === "1") {
-                document.getElementById("ava").
-                    src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand=' + Date.now() + '';
+                document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatar' + this.getUser['id'] + '.jpg?rand=' + Date.now() + '';
             } else {
                 document.getElementById("ava").src = 'http://127.0.0.1:8000/api/image/avatarP.jpg';
             }
@@ -214,17 +237,64 @@ export default {
             if (!value.match(phoneRegex)) {
                 this.curUser.phone = value.substr(0, value.length - 1);
             }
+        },
+        showQuizzesResults() {
+            if (this.changePassword) this.changePassword = false;
+            if (this.editProfile) this.editProfile = false;
+            this.quizzesResults ? this.quizzesResults = false : this.quizzesResults = true;
         }
     },
     computed: {
-        ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm', 'getProfileErrors']),
+        ...mapGetters(['getUser', 'getErrors', 'getShowModalConfirm', 'getProfileErrors', "getStudentRole"]),
     },
     async mounted() {
         await this.setAvatarAndUser();
+
+        await axios.get("http://127.0.0.1:8000/api/user/" + this.getUser.id + "/results")
+            .then(resp => resp.data).then(value => {
+                this.results = value;
+            });
     }
 }
 </script>
 
-<style scoped>
+<style scoped="scoped" lang="scss">
+$backgroundColor : white;
+$hoverColor      : #dde9f5;
 
+.table-container {
+    text-align       : center;
+    display          : table;
+    background-color : $backgroundColor;
+    color            : black;
+    border-radius    : 7px;
+    overflow         : hidden;
+    border-collapse  : collapse;
+    margin           : auto;
+    width            : 100%;
+
+    tr {
+        line-height : 2.1875em;
+
+        &:nth-child(odd) {
+            background-color : $backgroundColor;
+        }
+
+        &:nth-child(even) {
+            background-color : darken($color : $backgroundColor, $amount : 5%);
+        }
+
+        &:hover {
+            background-color : darken($color : $hoverColor, $amount : 2%);
+        }
+
+        th {
+            color            : white;
+            background-color : darken($color : #187fe2, $amount : 3%);
+            overflow-wrap    : break-word;
+            max-width        : 250px;
+            min-width        : 100px;
+        }
+    }
+}
 </style>

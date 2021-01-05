@@ -56,6 +56,9 @@ const actions = {
     },
     confirm({commit}) {
         $('#myModal').modal('show');
+    },
+    hide({commit}) {
+        $('#myModal').modal('hide');
     }
 };
 const mutations = {
