@@ -188,11 +188,11 @@ class Quiz extends Model
     }
 
     static public function selectQuizResults($id): array {
-        return DB::select('select * from QUIZ_USER_RESULT where QUIZ_ID = :id', [':id'=>$id]);
+        return DB::select('select * from QUIZ_USER_RESULT_VIEW where QUIZ_ID = :id', [':id'=>$id]);
     }
 
     static public function selectUserResults($id): array {
-        return DB::select('select * from QUIZ_USER_RESULT where USER_ID = :id', [':id'=>$id]);
+        return DB::select('select * from QUIZ_USER_RESULT_VIEW where USER_ID = :id', [':id'=>$id]);
     }
 
     static public function insertQuizResult($quiz_id, $result): bool {
