@@ -106,7 +106,7 @@
             </div>
 
             <div v-if="quizzesResults">
-                <table class="table-container">
+                <table v-if="results.length !== 0" class="table-container">
                     <thead>
                     <tr>
                         <th scope="col">Quiz's name</th>
@@ -115,9 +115,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <QuizResult v-for="(result, index) in results" :key="index" :result="result"/>
+                    <tr v-for="(result, index) in results" :key="index">
+                        <td>{{ result.quiz_name }}</td>
+                        <td>{{ result.subject_name }}</td>
+                        <td>{{ result.result }}</td>
+                    </tr>
                     </tbody>
                 </table>
+                <p v-else class="p-2 text-lg text-white font-semibold">No quiz has been passed.</p>
             </div>
         </div>
     </div>
@@ -127,12 +132,11 @@
 import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
 import Confirm from "../Confirm";
-import QuizResult from "../quizzesDir/QuizResult";
 
 export default {
     name: "UserProfile",
     components: {
-        Preloader, Confirm, QuizResult
+        Preloader, Confirm
     },
     data() {
         return {
@@ -259,42 +263,5 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$backgroundColor : white;
-$hoverColor      : #dde9f5;
-
-.table-container {
-    text-align       : center;
-    display          : table;
-    background-color : $backgroundColor;
-    color            : black;
-    border-radius    : 7px;
-    overflow         : hidden;
-    border-collapse  : collapse;
-    margin           : auto;
-    width            : 100%;
-
-    tr {
-        line-height : 2.1875em;
-
-        &:nth-child(odd) {
-            background-color : $backgroundColor;
-        }
-
-        &:nth-child(even) {
-            background-color : darken($color : $backgroundColor, $amount : 5%);
-        }
-
-        &:hover {
-            background-color : darken($color : $hoverColor, $amount : 2%);
-        }
-
-        th {
-            color            : white;
-            background-color : darken($color : #187fe2, $amount : 3%);
-            overflow-wrap    : break-word;
-            max-width        : 250px;
-            min-width        : 100px;
-        }
-    }
-}
+@import "./resources/sass/table";
 </style>

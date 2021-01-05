@@ -9,7 +9,7 @@
             </div>
         </div>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div style="float: left" v-else-if="filteredCourses.length">
+        <div style="float: left" v-else-if="filteredSubjects.length">
             <table class="table-container">
                 <thead>
                 <tr>
@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <SubjectItem v-for="subject in filteredCourses" :key="subject.id" :subject="subject" :option="option"
+                <SubjectItem v-for="subject in filteredSubjects" :key="subject.id" :subject="subject" :option="option"
                              @assign-course="assignCourse" @edit-course="editSubjectData"/>
                 </tbody>
             </table>
@@ -177,6 +177,7 @@ export default {
         await axios.get("http://127.0.0.1:8000/api/subjects")
             .then(resp => resp.data)
             .then(value => {
+                console.log(value);
                 this.subjects = value;
                 this.loading = false;
             })
@@ -198,9 +199,13 @@ export default {
     },
     computed: {
         ...mapGetters(["getStudentRole", "getStudentRole", "getAdminRole", "getWriteOperation", "getEditOperation", "getUser"]),
-        //TODO add more exact year and month filter
-        filteredCourses() {
-            return this.subjects.filter(value => value.created_at.split("-")[0] === this.btnYearValue.split("/")[0]);
+        filteredSubjects() {
+            return this.subjects.filter(subject => {
+                const subjectsCreationDate = subject.created_at.split("-");
+                const yearValue = this.btnYearValue.split("/");
+                return (subjectsCreationDate[0] === yearValue[0] && subjectsCreationDate[1] > 9)//from September of the previous year
+                    || (subjectsCreationDate[0] === yearValue[1] && subjectsCreationDate[1] <= 8);//till August of the next year
+            });
         }
     }
 }

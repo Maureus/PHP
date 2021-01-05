@@ -14,6 +14,7 @@ import Subjects from "./components/subjectsDir/Subjects";
 import MySubjects from "./components/subjectsDir/MySubjects";
 import SubjectContent from "./components/subjectsDir/SubjectContent";
 import QuizQuestions from "./components/quizzesDir/QuizQuestions";
+import UserContent from "./components/usersDir/UserContent";
 
 
 Vue.use(VueRouter);
@@ -137,6 +138,11 @@ export default new VueRouter({
             path: '/userlist',
             component: UserList,
             name: 'UserList'
+        },
+        {
+            path: '/user/:user_id',
+            component: UserContent,
+            name: 'UserContent'
         },
         {
             path: '/profile',
