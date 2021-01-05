@@ -17,7 +17,7 @@
                         class="flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full">
                     Change my password
                 </button>
-                <button @click="showQuizzesResults"
+                <button v-if="getUser != null && getUser.role === getStudentRole" @click="showQuizzesResults"
                         class="flex text-center text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-2 w-full">
                     Show quizzes' results
                 </button>
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <div v-if="quizzesResults && getUser.role === getStudentRole">
+            <div v-if="quizzesResults">
                 <table class="table-container">
                     <thead>
                     <tr>
