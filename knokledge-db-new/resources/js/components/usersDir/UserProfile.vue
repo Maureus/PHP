@@ -106,7 +106,7 @@
             </div>
 
             <div v-if="quizzesResults">
-                <table class="table-container">
+                <table v-if="results.length !== 0" class="table-container">
                     <thead>
                     <tr>
                         <th scope="col">Quiz's name</th>
@@ -118,6 +118,7 @@
                     <QuizResult v-for="(result, index) in results" :key="index" :result="result"/>
                     </tbody>
                 </table>
+                <p v-else class="p-2 text-lg text-white font-semibold">No quiz has been passed.</p>
             </div>
         </div>
     </div>
