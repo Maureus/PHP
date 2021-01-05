@@ -57,7 +57,7 @@
                             <label for="file" class="block text-sm font-medium leading-5 text-gray-700">
                                 Choose a new file
                             </label>
-                            <input id="file" type="file" ref="myFile" @change="selectFile"
+                            <input id="file" type="file" ref="myEditFile" @change="selectFileForEditing"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -118,7 +118,7 @@
                             <label for="fileCreateSM" class="block text-sm font-medium leading-5 text-gray-700">
                                 Choose a new file
                             </label>
-                            <input id="fileCreateSM" type="file" ref="myFile" @change="selectFile"
+                            <input id="fileCreateSM" type="file" ref="myAddFile" @change="selectFileForAdding"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -235,8 +235,11 @@ export default {
                     this.confirm();
                 });
         },
-        selectFile() {
-            this.curStudyMat.file = this.$refs.myFile.files[0];
+        selectFileForAdding() {
+            this.curStudyMat.file = this.$refs.myAddFile.files[0];
+        },
+        selectFileForEditing() {
+            this.curStudyMat.file = this.$refs.myEditFile.files[0];
         },
         async createStudyMaterial() {
             if (this.curStudyMat.name.trim() === "" || this.curStudyMat.file == null) {
