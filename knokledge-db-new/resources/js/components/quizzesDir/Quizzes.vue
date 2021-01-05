@@ -60,7 +60,7 @@
                                     class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                     name="category_id">
                                 <option value="list">list</option>
-                                <option value="manual">manual</option>
+                                <option value="manual" selected>manual</option>
                             </select>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -89,14 +89,14 @@
                                 Number of questions
                             </label>
                             <input v-model="newQuiz.num_questions" name="num_questions" type="number" min="1" max="30"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Points for question
                             </label>
                             <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
@@ -105,7 +105,7 @@
                             <select v-model="newQuiz.category_id"
                                     class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                     name="category_id">
-                                <option value="1">Category 1</option>
+                                <option value="1" selected>Category 1</option>
                                 <option value="2">Category 2</option>
                                 <option value="3">Category 3</option>
                                 <option value="4">Category 4</option>
@@ -219,8 +219,14 @@ export default {
             option: '',
             mess: '',
             subject_id: this.$route.params.subject_id,
-            newQuiz: {},
-            loadedQuiz: {}
+            newQuiz: {
+                points_fq: 1,
+                num_questions: 10,
+                date_from: Date.now().toString(),
+                date_till: Date.now().toString()+1
+            },
+            loadedQuiz: {},
+            defaultNumber: 1
         }
     },
     methods: {
@@ -261,6 +267,20 @@ export default {
                 this.saveErrors(err);
             });
 
+        },
+        formatDateValues(value) {
+            return value < 10 ? "0" + value : value;
+        },
+        setDates() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = this.formatDateValues(date.getMonth() + 1);
+            const day1 = this.formatDateValues(date.getDate());
+            const day2 = this.formatDateValues(date.getDate()+7);
+            const hour = this.formatDateValues(date.getHours());
+            const minute = this.formatDateValues(date.getMinutes());
+            this.newQuiz.date_from = year + "-" + month + "-" + day1 + "T" + hour + ":" + minute;
+            this.newQuiz.date_till = year + "-" + month + "-" + day2 + "T" + hour + ":" + minute;
         }
     },
     computed: {
@@ -274,6 +294,8 @@ export default {
                 this.quizzes = resp.data;
             })
             .catch(errors => this.saveErrors(errors));
+
+        this.setDates();
 
         switch (this.getUser.role) {
             case this.getStudentRole :
