@@ -310,6 +310,7 @@ $backgroundColor : white;
 $margin          : 10px;
 
 @import "./resources/sass/form_util_btns";
+@import "./resources/sass/routerlink";
 
 .table-container {
     text-align       : center;
@@ -341,14 +342,6 @@ $margin          : 10px;
         padding          : 5px 10px;
         color            : white;
         background-color : darken($color : #187fe2, $amount : 3%);
-    }
-}
-
-.link {
-    color : #cae9ff;
-
-    &:hover {
-        text-decoration : underline #cae9ff;
     }
 }
 

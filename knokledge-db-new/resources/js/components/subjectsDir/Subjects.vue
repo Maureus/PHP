@@ -199,13 +199,12 @@ export default {
     },
     computed: {
         ...mapGetters(["getStudentRole", "getStudentRole", "getAdminRole", "getWriteOperation", "getEditOperation", "getUser"]),
-        //TODO add more exact year and month filter
         filteredSubjects() {
             return this.subjects.filter(subject => {
                 const subjectsCreationDate = subject.created_at.split("-");
                 const yearValue = this.btnYearValue.split("/");
-                return (subjectsCreationDate[0] === yearValue[0] && subjectsCreationDate[1] > 9)//from September previous year
-                    || (subjectsCreationDate[0] === yearValue[1] && subjectsCreationDate[1] <= 8);//till August next year
+                return (subjectsCreationDate[0] === yearValue[0] && subjectsCreationDate[1] > 9)//from September of the previous year
+                    || (subjectsCreationDate[0] === yearValue[1] && subjectsCreationDate[1] <= 8);//till August of the next year
             });
         }
     }

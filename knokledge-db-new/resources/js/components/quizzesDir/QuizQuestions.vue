@@ -191,7 +191,30 @@
                     </div>
                 </div>
             </div>
+
+            <h1 class="p-2 text-2xl text-white font-semibold">Users' results</h1>
+            <Loader v-if="results === []"/>
+            <table v-else-if="results.length !== 0" class="table-container">
+                <thead>
+                <tr>
+                    <th scope="col">User's name</th>
+                    <th scope="col">Quiz's name</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(result, index) in results" :key="index">
+                    <td>{{ result.user_name }}</td>
+                    <td>{{ result.quiz_name }}</td>
+                    <td>{{ result.subject_name }}</td>
+                    <td>{{ result.result }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <p v-else class="p-2 text-lg text-white font-semibold">No one has passed quiz.</p>
         </div>
+
         <div v-else-if="getUser != null && getUser.role == getStudentRole">
             <div v-for="question in questions" :key="question.id" class="question">
                 <p>{{ question.name }}</p>
@@ -241,16 +264,19 @@ export default {
                 answer_correct: "",
                 id: "",
                 category_id: ""
-            }
+            },
+            results: []
         }
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
-            .then(resp => resp.data).then(value => {
-            this.questions = value;
-        });
+            .then(resp => resp.data).then(value => this.questions = value);
+
         axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
             .then(resp => resp.data).then(value => this.curQuiz = value);
+
+        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/results")
+            .then(resp => resp.data).then(value => this.results = value);
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getAdminRole", "getStudentRole"])
@@ -277,7 +303,7 @@ export default {
                 this.confirm();
                 setTimeout(() => {
                     this.hide();
-                    this.$router.push({name: 'SubjectContent', params: {subject_id: this.curQuiz.subject_id}});
+                    this.$router.push({name: 'UserProfile'});
                 }, 3000);
             });
         },
@@ -315,6 +341,10 @@ export default {
         clearForm() {
             document.getElementById("warnMess").innerText = "";
             this.curQuestion.name = this.curQuestion.answer_1 = this.curQuestion.answer_2 = "";
+            if (document.getElementById("answer2Radio").checked) {
+                document.getElementById("answer2Radio").checked = false;
+            }
+            document.getElementById("answer1Radio").checked = true;
         },
         cancel() {
             this.clearForm();
@@ -373,42 +403,7 @@ $backgroundColor : white;
 $indent          : 0.25em;
 
 @import "./resources/sass/form_util_btns";
-
-.table-container {
-    text-align       : center;
-    display          : table;
-    background-color : $backgroundColor;
-    color            : black;
-    border-radius    : 7px;
-    overflow         : hidden;
-    border-collapse  : collapse;
-    margin           : auto;
-    width            : 100%;
-
-    tr {
-        line-height : 2.1875em;
-
-        &:nth-child(odd) {
-            background-color : $backgroundColor;
-        }
-
-        &:nth-child(even) {
-            background-color : darken($color : $backgroundColor, $amount : 5%);
-        }
-
-        &:hover {
-            background-color : darken($color : $hoverColor, $amount : 2%);
-        }
-
-        th {
-            color            : white;
-            background-color : darken($color : #187fe2, $amount : 3%);
-            overflow-wrap    : break-word;
-            max-width        : 250px;
-            min-width        : 100px;
-        }
-    }
-}
+@import "./resources/sass/table";
 
 .warn-mess {
     margin-top  : $indent * 2;

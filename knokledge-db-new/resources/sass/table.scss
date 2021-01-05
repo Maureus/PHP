@@ -1,0 +1,38 @@
+$backgroundColor : white;
+$hoverColor      : #dde9f5;
+
+.table-container {
+    text-align       : center;
+    display          : table;
+    background-color : $backgroundColor;
+    color            : black;
+    border-radius    : 7px;
+    overflow         : hidden;
+    border-collapse  : collapse;
+    margin           : auto;
+    width            : 100%;
+
+    tr {
+        line-height : 2.1875em;
+
+        &:nth-child(odd) {
+            background-color : $backgroundColor;
+        }
+
+        &:nth-child(even) {
+            background-color : darken($color : $backgroundColor, $amount : 5%);
+        }
+
+        &:hover {
+            background-color : darken($color : $hoverColor, $amount : 2%);
+        }
+
+        th {
+            color            : white;
+            background-color : darken($color : #187fe2, $amount : 3%);
+            overflow-wrap    : break-word;
+            max-width        : 250px;
+            min-width        : 100px;
+        }
+    }
+}
