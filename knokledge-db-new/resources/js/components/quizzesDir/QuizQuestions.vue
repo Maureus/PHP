@@ -230,12 +230,13 @@
                     <label>{{ question.answer_2 }}</label>
                 </div>
             </div>
-            <div class="flex w-100 justify-content-start pt-2 ml-2">
+            <div class="flex w-100 justify-content-start pt-2 ml-2" v-if="questions.length !== 0">
                 <button data-toggle="modal" data-target="#modalAddQuiz" @click="sendResults"
                         class="btn-primary btn-lg" style="background-color: #1777d4; margin-bottom: 10px">
                     Finish
                 </button>
             </div>
+            <p v-else class="p-2 text-lg text-white font-semibold">No questions in current quiz</p>
             <Confirm/>
         </div>
     </div>
@@ -303,7 +304,7 @@ export default {
                 this.confirm();
                 setTimeout(() => {
                     this.hide();
-                    this.$router.push({name: 'UserProfile'});
+                    this.$router.push({name: 'Profile'});
                 }, 3000);
             });
         },
