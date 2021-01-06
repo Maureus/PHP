@@ -10,7 +10,7 @@
             </div>
             <div v-else>{{ user.name }}</div>
         </td>
-        <td v-if="getUser != null && getUser.role === getAdminRole" class="px-3 py-2 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+        <td v-if="getUser != null && getUser.role === getAdminRole && getAdminId==null" class="px-3 py-2 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             <div class="hover-shadow-effect" style="padding-top: 0.7rem; padding-bottom: 0.7rem">
                 <button @click="emulateUser" class="whitespace-no-wrap text-right text-base leading-5 font-medium"
                              title="Click to open user's details"
@@ -64,12 +64,11 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['saveAdminId']),
+        ...mapActions(['saveAdminId', "getLoggedInUser"]),
         async emulateUser() {
             this.saveAdminId(this.getUser.id);
-            console.log(this.getAdminId);
-            await axios.post('api/login/emulate/'+this.user.id)
-                .then(()=>this.$router.push({name:"Dashboard"}))
+            await axios.post('api/login/emulate/'+this.user.id);
+            await this.getLoggedInUser();
         }
     }
 }
