@@ -61,11 +61,9 @@ export default {
             // }
         },
         async cancelEmulation() {
-
-            await axios.post('api/login/emulate/'+this.getAdminId)
-                .then(()=>this.$router.push({name:"UserList"}));
+            await axios.post('api/login/emulate/'+this.getAdminId);
             this.saveAdminId(null);
-            console.log(this.getAdminId);
+            await this.getLoggedInUser();
         }
     },
     async mounted() {

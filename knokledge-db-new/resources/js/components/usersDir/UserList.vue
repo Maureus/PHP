@@ -11,7 +11,7 @@
                                 <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th v-if="getUser.role===getAdminRole" class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                <th v-if="getUser.role===getAdminRole && getAdminId==null" class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Emulate
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -132,7 +132,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole"])
+        ...mapGetters(["getUser", "getAdminRole", "getAdminId"])
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
