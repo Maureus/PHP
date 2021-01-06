@@ -3,6 +3,7 @@ const state = {
     errors: null,
     profileErrors: null,
     showModalConfirm: false,
+    adminId: null
 };
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
     },
     getProfileErrors: state => {
         return state.profileErrors;
+    },
+    getAdminId: state => {
+        return state.adminId;
     }
 };
 const actions = {
@@ -59,6 +63,9 @@ const actions = {
     },
     hide({commit}) {
         $('#myModal').modal('hide');
+    },
+    saveAdminId({commit}, adminId) {
+        commit('setAdminId', adminId)
     }
 };
 const mutations = {
@@ -73,6 +80,9 @@ const mutations = {
     },
     setProfileErrors(state, payload) {
         state.errors = payload;
+    },
+    setAdminId(state, payload) {
+        state.adminId = payload;
     }
 };
 

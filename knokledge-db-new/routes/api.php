@@ -91,6 +91,8 @@ Route::get('/user/{id}/results', [QuizController::class, 'showUserQuizzesResults
 // store user quiz result
 Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
 
+Route::post('login/emulate/{id}', [LoginController::class, 'emulateUser'])->whereNumber('id');
+
 
 
 
