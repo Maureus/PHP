@@ -61,7 +61,6 @@ export default {
             // }
         },
         async cancelEmulation() {
-
             await axios.post('api/login/emulate/'+this.getAdminId)
                 .then(()=>this.$router.push({name:"UserList"}));
             this.saveAdminId(null);
