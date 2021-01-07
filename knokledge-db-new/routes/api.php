@@ -92,8 +92,7 @@ Route::get('/user/{id}/results', [QuizController::class, 'showUserQuizzesResults
 Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
 
 Route::post('login/emulate/{id}', [LoginController::class, 'emulateUser'])->whereNumber('id');
-
-
+Route::post('login/emulate/cancel', [LoginController::class, 'cancelEmulation']);
 
 
 // MIDDLEWARE FOR USER AUTH
