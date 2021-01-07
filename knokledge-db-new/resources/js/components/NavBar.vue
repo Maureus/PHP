@@ -9,9 +9,9 @@
                 <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
                              to="/mysubjects">My subjects
                 </router-link>
-<!--                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"-->
-<!--                             to="/mystudents">My students-->
-<!--                </router-link>-->
+                <!--                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"-->
+                <!--                             to="/mystudents">My students-->
+                <!--                </router-link>-->
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
             <div v-if="!getUser" class="flex">
@@ -49,39 +49,11 @@ export default {
         ...mapState(['user', 'errors'])
     },
     methods: {
-        ...mapActions(["getLoggedInUser", "saveAdminId"]),
+        ...mapActions(["getLoggedInUser", "cancelEmulation"]),
         logout() {
             this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
-        },
-        async fetchData() {
-            // if (this.getUser === undefined) {
-            //     this.loading = true;
-            //     await this.getLoggedInUser();
-            //     this.loading = false;
-            // }
-        },
-        async cancelEmulation() {
-            await axios.post('api/login/emulate/'+this.getAdminId);
-            this.saveAdminId(null);
-            await this.getLoggedInUser();
         }
-    },
-    async mounted() {
-        // if (this.getUser === undefined) {
-        //     this.loading = true;
-        //     await this.getLoggedInUser();
-        //     this.loading = false;
-        // }
-    },
-    watch: {
-        // call again the method if the route changes
-        // '$route': 'fetchData'
-        preload: {
-            handler: 'fetchData',
-            immediate: true
-        }
-    },
-
+    }
 }
 </script>
 

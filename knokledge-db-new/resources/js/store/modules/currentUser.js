@@ -64,9 +64,18 @@ const actions = {
     hide({commit}) {
         $('#myModal').modal('hide');
     },
-    saveAdminId({commit}, adminId) {
-        commit('setAdminId', adminId)
-    }
+    async emulateUser({commit}, id) {
+        commit('setAdminId', state.user.id);
+        await axios.post('api/login/emulate/' + id).then(res => {
+            commit('setUser', res.data)
+        });
+    },
+    async cancelEmulation({commit}) {
+        await axios.post('api/login/emulate/cancel').then(res => {
+            commit('setUser', res.data)
+        });
+        commit('setAdminId', null);
+    },
 };
 const mutations = {
     setUser(state, payload) {

@@ -11,7 +11,7 @@
                                 <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th v-if="getUser.role===getAdminRole && getAdminId==null" class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                <th v-if="getUser != null && getUser.role===getAdminRole && getAdminId==null" class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Emulate
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
