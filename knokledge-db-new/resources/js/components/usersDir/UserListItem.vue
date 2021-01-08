@@ -48,9 +48,7 @@ export default {
     },
     filters: {
         correctDateView(value) {
-            if (!value) {
-                return '';
-            }
+            if (!value) return '';
             let date = value.split("T").join(" ");
             return date.split(".")[0];
         }
