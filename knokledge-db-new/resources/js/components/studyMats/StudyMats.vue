@@ -35,11 +35,11 @@
         <Confirm/>
 
         <div class="modal fade" id="editStudyMaterial" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+             aria-labelledby="editStudyMaterialCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit study material</h5>
+                        <h5 class="modal-title" id="editStudyMaterialCenterTitle">Edit study material</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="focus:outline-none">&times;</span>
                         </button>
@@ -74,9 +74,10 @@
                             <input id="date_till" type="datetime-local"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
+                        <div class="warn-mess"><p id="warnEditMess" class="mess"></p></div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start">
-                                <button @click="saveStudyMaterialChanges" data-dismiss="modal" class="btn">
+                                <button @click="saveStudyMaterialChanges" class="btn btn-primary">
                                     Confirm
                                 </button>
                             </div>
@@ -197,26 +198,35 @@ export default {
                     document.getElementById('date_till').value = this.curStudyMat.date_till.split(" ").join("T");
                 });
         },
-        saveStudyMaterialChanges() {
-            const formData = new FormData();
-            formData.append('name', this.curStudyMat.name);
-            if (this.curStudyMat.file) {
-                formData.append('file', this.curStudyMat.file, this.curStudyMat.file.name);
-            }
-            formData.append('date_from', document.getElementById('date_from').value.split("T").join(" "));
-            formData.append('date_till', document.getElementById('date_till').value.split("T").join(" "));
-            formData.append('id', this.curStudyMat.id);
+        async saveStudyMaterialChanges() {
+            const dateFrom = new Date(document.getElementById("date_from").value);
+            const dateTo = new Date(document.getElementById("date_till").value);
+            if (this.curStudyMat.name.trim() === "") {
+                this.setWarnMsg("warnEditMess", "All fields must be completed.");
+            } else if (this.curStudyMat.name.length > 255) {
+                this.setWarnMsg("warnEditMess", "Max allowed length in name is 255 chars.");
+            } else if (+dateFrom > +dateTo) {
+                this.setWarnMsg("warnEditMess", "End date can't be earlier than start date.");
+            } else {
+                const formData = new FormData();
+                formData.append('name', this.curStudyMat.name);
+                if (this.curStudyMat.file) {
+                    formData.append('file', this.curStudyMat.file, this.curStudyMat.file.name);
+                }
+                formData.append('date_from', document.getElementById('date_from').value.split("T").join(" "));
+                formData.append('date_till', document.getElementById('date_till').value.split("T").join(" "));
+                formData.append('id', this.curStudyMat.id);
 
-            axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
-                headers: {'Content-Type': 'multipart/form-data'}
-            }).then(() => {
-                axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
-                    .then(resp => resp.data).then(value => {
-                    this.studyMats = value;
+                await axios.post("http://127.0.0.1:8000/api/study_mats/update", formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }).then(async () => {
+                    await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
+                        .then(resp => resp.data).then(value => {
+                            this.studyMats = value;
+                            this.prepareFormAfterAction("#editStudyMaterial");
+                        });
                 });
-                this.clearForm();
-                this.confirm();
-            });
+            }
         },
         cancelEditingStudyMatInfo() {
             this.clearForm();
@@ -241,9 +251,19 @@ export default {
         selectFileForEditing() {
             this.curStudyMat.file = this.$refs.myEditFile.files[0];
         },
+        setWarnMsg(warnFieldId, text) {
+            document.getElementById(warnFieldId).innerText = text;
+            this.eraseWarnMess(warnFieldId);
+        },
         async createStudyMaterial() {
+            const dateFrom = new Date(document.getElementById("dateFrom").value);
+            const dateTo = new Date(document.getElementById("dateTill").value);
             if (this.curStudyMat.name.trim() === "" || this.curStudyMat.file == null) {
-                document.getElementById("warnMess").innerText = "All fields must be completed.";
+                this.setWarnMsg("warnMess", "All fields must be completed.");
+            } else if (this.curStudyMat.name.length > 255) {
+                this.setWarnMsg("warnMess", "Max allowed length in name is 255 chars.");
+            } else if (+dateFrom > +dateTo) {
+                this.setWarnMsg("warnMess", "End date can't be earlier than start date.");
             } else {
                 const formData = new FormData();
                 formData.append('name', this.curStudyMat.name);
@@ -259,17 +279,21 @@ export default {
                     await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/study_mats")
                         .then(resp => resp.data).then(value => {
                             this.studyMats = value;
-                            this.prepareFormAfterAction();
+                            this.prepareFormAfterAction("#createStudyMaterial");
                         });
                 });
             }
         },
+        eraseWarnMess(id) {
+            setTimeout(() => {
+                document.getElementById(id).innerText = "";
+            }, 3000);
+        },
         formatDateValues(value) {
             return value < 10 ? "0" + value : value;
         },
-        prepareFormAfterAction() {
-            document.getElementById("warnMess").innerText = "";
-            $('#createStudyMaterial').modal('hide');
+        prepareFormAfterAction(modalId) {
+            $(modalId).modal('hide');
             this.clearForm();
             this.confirm();
         },
