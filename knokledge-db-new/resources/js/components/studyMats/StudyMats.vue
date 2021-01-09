@@ -199,15 +199,14 @@ export default {
                 });
         },
         async saveStudyMaterialChanges() {
-            console.log(this.curStudyMat.name);
             const dateFrom = new Date(document.getElementById("date_from").value);
             const dateTo = new Date(document.getElementById("date_till").value);
             if (this.curStudyMat.name.trim() === "") {
-                document.getElementById("warnEditMess").innerText = "All fields must be completed.";
-                this.eraseWarnMess("warnEditMess");
+                this.setWarnMsg("warnEditMess", "All fields must be completed.");
+            } else if (this.curStudyMat.name.length > 255) {
+                this.setWarnMsg("warnEditMess", "Max allowed length in name is 255 chars.");
             } else if (+dateFrom > +dateTo) {
-                document.getElementById("warnEditMess").innerText = "End date can't be earlier than start date.";
-                this.eraseWarnMess("warnEditMess");
+                this.setWarnMsg("warnEditMess", "End date can't be earlier than start date.");
             } else {
                 const formData = new FormData();
                 formData.append('name', this.curStudyMat.name);
@@ -252,15 +251,19 @@ export default {
         selectFileForEditing() {
             this.curStudyMat.file = this.$refs.myEditFile.files[0];
         },
+        setWarnMsg(warnFieldId, text) {
+            document.getElementById(warnFieldId).innerText = text;
+            this.eraseWarnMess(warnFieldId);
+        },
         async createStudyMaterial() {
             const dateFrom = new Date(document.getElementById("dateFrom").value);
             const dateTo = new Date(document.getElementById("dateTill").value);
             if (this.curStudyMat.name.trim() === "" || this.curStudyMat.file == null) {
-                document.getElementById("warnMess").innerText = "All fields must be completed.";
-                this.eraseWarnMess("warnMess");
+                this.setWarnMsg("warnMess", "All fields must be completed.");
+            } else if (this.curStudyMat.name.length > 255) {
+                this.setWarnMsg("warnMess", "Max allowed length in name is 255 chars.");
             } else if (+dateFrom > +dateTo) {
-                document.getElementById("warnMess").innerText = "End date can't be earlier than start date.";
-                this.eraseWarnMess("warnMess");
+                this.setWarnMsg("warnMess", "End date can't be earlier than start date.");
             } else {
                 const formData = new FormData();
                 formData.append('name', this.curStudyMat.name);
