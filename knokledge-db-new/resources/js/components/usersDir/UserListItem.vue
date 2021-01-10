@@ -10,6 +10,14 @@
             </div>
             <div v-else>{{ user.name }}</div>
         </td>
+        <td v-if="getUser != null && getUser.role === getAdminRole && getAdminId==null" class="px-3 py-2 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+            <div class="hover-shadow-effect" style="padding-top: 0.7rem; padding-bottom: 0.7rem">
+                <button @click="emulate" class="whitespace-no-wrap text-right text-base leading-5 font-medium"
+                             title="Click to open user's details"
+                             >Emulate {{ user.name }}
+                </button>
+            </div>
+        </td>
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             <div class="text-base leading-5 text-gray-500">{{ user.email }}</div>
             <div class="text-base leading-5 text-gray-500">{{ user.phone == null ? "" : user.phone }}</div>
@@ -33,12 +41,12 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 
 export default {
     name: "UserListItem",
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"])
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getAdminId"])
     },
     props: {
         user: {
@@ -51,6 +59,12 @@ export default {
             if (!value) return '';
             let date = value.split("T").join(" ");
             return date.split(".")[0];
+        }
+    },
+    methods: {
+        ...mapActions(["getLoggedInUser", "emulateUser"]),
+        async emulate() {
+            await this.emulateUser(this.user.id);
         }
     }
 }

@@ -3,6 +3,7 @@ const state = {
     errors: null,
     profileErrors: null,
     showModalConfirm: false,
+    adminId: null
 };
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
     },
     getProfileErrors: state => {
         return state.profileErrors;
+    },
+    getAdminId: state => {
+        return state.adminId;
     }
 };
 const actions = {
@@ -59,7 +63,19 @@ const actions = {
     },
     hide({commit}) {
         $('#myModal').modal('hide');
-    }
+    },
+    async emulateUser({commit}, id) {
+        commit('setAdminId', state.user.id);
+        await axios.post('api/login/emulate/' + id).then(res => {
+            commit('setUser', res.data)
+        });
+    },
+    async cancelEmulation({commit}) {
+        await axios.post('api/login/emulate/cancel').then(res => {
+            commit('setUser', res.data)
+        });
+        commit('setAdminId', null);
+    },
 };
 const mutations = {
     setUser(state, payload) {
@@ -73,6 +89,9 @@ const mutations = {
     },
     setProfileErrors(state, payload) {
         state.errors = payload;
+    },
+    setAdminId(state, payload) {
+        state.adminId = payload;
     }
 };
 

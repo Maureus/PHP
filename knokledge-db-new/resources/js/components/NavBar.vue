@@ -9,9 +9,9 @@
                 <router-link v-if="getUser != null && getUser.role !== getAdminRole" class="mr-4 text-white"
                              to="/mysubjects">My subjects
                 </router-link>
-<!--                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"-->
-<!--                             to="/mystudents">My students-->
-<!--                </router-link>-->
+                <!--                <router-link v-if="getUser != null && getUser.role === getTeacherRole" class="mr-4 text-white"-->
+                <!--                             to="/mystudents">My students-->
+                <!--                </router-link>-->
                 <router-link class="mr-4 text-white" to="/about">About</router-link>
             </div>
             <div v-if="!getUser" class="flex">
@@ -19,6 +19,11 @@
                 <router-link class="mr-4 text-white" to="/register">Register</router-link>
             </div>
             <div v-if="getUser" class="flex">
+                <button v-if="getAdminId!=null"
+                        class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-sm-1 px-4 rounded mr-4"
+                        @click.prevent="cancelEmulation">
+                    Cancel emulation
+                </button>
                 <router-link class="mr-4 text-white" to="/profile" exact>{{ getUser.name }}'s profile</router-link>
                 <button class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-sm-1 px-4 rounded"
                         @click.prevent="logout">
@@ -40,38 +45,15 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole", "getAdminId"]),
         ...mapState(['user', 'errors'])
     },
     methods: {
-        ...mapActions(["getLoggedInUser"]),
+        ...mapActions(["getLoggedInUser", "cancelEmulation"]),
         logout() {
             this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
-        },
-        async fetchData() {
-            // if (this.getUser === undefined) {
-            //     this.loading = true;
-            //     await this.getLoggedInUser();
-            //     this.loading = false;
-            // }
-        },
-    },
-    async mounted() {
-        // if (this.getUser === undefined) {
-        //     this.loading = true;
-        //     await this.getLoggedInUser();
-        //     this.loading = false;
-        // }
-    },
-    watch: {
-        // call again the method if the route changes
-        // '$route': 'fetchData'
-        preload: {
-            handler: 'fetchData',
-            immediate: true
         }
-    },
-
+    }
 }
 </script>
 

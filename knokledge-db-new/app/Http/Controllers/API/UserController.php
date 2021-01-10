@@ -35,7 +35,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function store(Request $request) {
+    static public function store(Request $request): \Illuminate\Http\JsonResponse {
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|max:255',
