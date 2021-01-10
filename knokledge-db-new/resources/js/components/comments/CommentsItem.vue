@@ -6,7 +6,7 @@
             <button class="btn" @click="reply" :id="'replyBtn-' + comment.id">
                 <i class="fas fa-comment"></i> reply
             </button>
-            <!--Don't change == to === while it is working-->
+            <!--Don't change from == to === while it is working-->
             <button v-if="getUser != null && getUser.id == comment.user_id" class="btn" :id="'editBtn-' + comment.id"
                     @click="editComment">
                 <i class="fas fa-edit"></i> edit

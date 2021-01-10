@@ -1,5 +1,52 @@
 <template>
     <div>
+        <div class="search-container">
+            <div class="search-label">
+                <label for="searchArea" @click="isShownSearchArea = !isShownSearchArea"
+                       :title="isShownSearchArea ? 'click to hide search field' : 'click to start search'">
+                    <i class="fas fa-search"></i> Search
+                </label>
+            </div>
+            <div class="search-field" v-if="isShownSearchArea">
+                <textarea id="searchArea" v-model="searchAreaText" @keyup="search"
+                          placeholder="Start typing..."></textarea>
+            </div>
+        </div>
+
+        <div v-if="searchedList.length && searchAreaText.length !== 0" class="flex flex-col">
+            <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="table-container">
+                        <table class="min-w-full divide-y divide-gray-200 text-xl">
+                            <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Contact info
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Date of registration
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Role
+                                </th>
+                                <th v-if="getUser != null && getUser.role === getAdminRole"
+                                    class="px-6 py-3 bg-gray-50"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                            <UserListItem v-for="user in searchedList" :key="user.id" :user="user"
+                                          @edit-user="editUserData"/>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="users.length" class="flex flex-col">
             <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -125,11 +172,17 @@ export default {
         return {
             users: [],
             loading: true,
-            curUser: {}
+            curUser: {},
+            searchAreaText: "",
+            isShownSearchArea: false
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole"])
+        ...mapGetters(["getUser", "getAdminRole"]),
+        searchedList() {
+            return this.users.filter(user =>
+                user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+        }
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
@@ -167,6 +220,11 @@ export default {
                     this.curUser = {};
                     this.confirm();
                 });
+        },
+        search() {
+            console.log(this.users.filter(user =>
+                user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase())));
+            // console.log(this.searchAreaText);
         }
     }
 }
@@ -174,6 +232,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 $margin : 10px;
+$indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
 
@@ -194,5 +253,31 @@ table {
 input {
     margin-bottom : $margin;
     margin-top    : 0;
+}
+
+.search-container {
+    margin-top : $indent * 2;
+
+    .search-label {
+    }
+
+    label {
+        cursor : pointer;
+    }
+
+    .search-field {
+
+    }
+
+    textarea {
+        text-indent   : $indent;
+        width         : 100%;
+        padding       : $indent;
+        border-radius : 7px;
+
+        &:focus {
+            outline : none;
+        }
+    }
 }
 </style>
