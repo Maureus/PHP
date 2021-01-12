@@ -18,17 +18,17 @@
                    :userList="searchedList" @edit-user="editUserData"/>
 
         <div v-if="adminsList.length">
-            <h1 class="p-2 text-2xl text-white font-semibold">Admins' list</h1>
+            <h1 class="pl-2 text-2xl text-white font-semibold">Admins' list</h1>
             <UserTable :userList="adminsList" @edit-user="editUserData"/>
         </div>
 
         <div v-if="teachersList.length">
-            <h1 class="p-2 text-2xl text-white font-semibold">Teachers' list</h1>
+            <h1 class="pl-2 text-2xl text-white font-semibold">Teachers' list</h1>
             <UserTable :userList="teachersList" @edit-user="editUserData"/>
         </div>
 
         <div v-if="studentsList.length">
-            <h1 class="p-2 text-2xl text-white font-semibold">Students' list</h1>
+            <h1 class="pl-2 text-2xl text-white font-semibold">Students' list</h1>
             <UserTable :userList="studentsList" @edit-user="editUserData"/>
         </div>
 
