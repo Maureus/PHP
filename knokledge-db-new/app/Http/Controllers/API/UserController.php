@@ -73,7 +73,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function update(Request $request, $id) {
+    static public function update(Request $request, $id): \Illuminate\Http\JsonResponse {
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|max:255',
@@ -95,7 +95,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static public function destroy($id) {
+    static public function destroy($id): \Illuminate\Http\JsonResponse {
         try {
             User::deleteUser($id);
         } catch (\Exception $ex) {
