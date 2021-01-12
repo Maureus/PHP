@@ -206,13 +206,10 @@ export default {
     },
     async mounted() {
         await axios.get("http://127.0.0.1:8000/api/subjects")
-            .then(resp => resp.data)
-            .then(value => {
-                console.log(value);
+            .then(resp => resp.data).then(value => {
                 this.subjects = value;
                 this.loading = false;
-            })
-            .catch(errors => this.saveErrors(errors));
+            }).catch(errors => this.saveErrors(errors));
 
         for (let i = 2020; i >= 2018; i--) {
             this.years.push(i + '/' + (i + 1));
