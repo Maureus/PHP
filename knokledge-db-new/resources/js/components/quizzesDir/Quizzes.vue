@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Confirm :mess="mess"/>
         <h1 class="p-2 text-2xl text-white font-semibold">Quizzes</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="quizzes.length !== 0">
@@ -33,6 +32,8 @@
                 Add Quiz
             </button>
         </div>
+
+        <Confirm/>
 
         <div class="modal fade" id="modalAddQuiz" tabindex="-1" role="dialog"
              aria-labelledby="modalAddQuiz" aria-hidden="true">
