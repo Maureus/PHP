@@ -1,5 +1,30 @@
 <template>
     <div>
+        <SearchField @search-area-text="setSearchAreaText"/>
+
+        <transition name="fade">
+            <div v-if="searchedList.length && searchAreaText.length !== 0">
+                <table class="table-container">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Abbreviation</th>
+                        <th scope="col"
+                            v-if="getUser != null && (getUser.role === getStudentRole || getUser.role === getAdminRole)">
+                            Option
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <SubjectItem v-for="subject in searchedList" :key="subject.id" :subject="subject" :option="option"
+                                 @assign-course="assignCourse" @edit-course="editSubjectData"/>
+                    </tbody>
+                </table>
+            </div>
+        </transition>
+
         <h1 class="p-2 text-2xl text-white font-semibold">Subjects</h1>
         <div class="h-full w-1/5 flex flex-col items-start justify-center" style="float: left; font-size: 18px">
             <div class="list-group">
@@ -113,11 +138,12 @@ import {mapActions, mapGetters} from 'vuex';
 import Preloader from "../Preloader";
 import SubjectItem from "./SubjectItem";
 import Confirm from "../Confirm";
+import SearchField from "../SearchField";
 
 export default {
     name: "Subjects",
     components: {
-        Preloader, SubjectItem, Confirm
+        Preloader, SubjectItem, Confirm, SearchField
     },
     data() {
         return {
@@ -127,12 +153,17 @@ export default {
             btnYearValue: "",
             option: "",
             curSubject: {},
+            searchAreaText: "",
+            isShownSearchArea: false
         }
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
         getYearValue(value) {
             this.btnYearValue = value;
+        },
+        setSearchAreaText(searchAreaText) {
+            this.searchAreaText = searchAreaText;
         },
         async assignCourse(subjectId) {
             const userId = this.getUser.id;
@@ -175,13 +206,10 @@ export default {
     },
     async mounted() {
         await axios.get("http://127.0.0.1:8000/api/subjects")
-            .then(resp => resp.data)
-            .then(value => {
-                console.log(value);
+            .then(resp => resp.data).then(value => {
                 this.subjects = value;
                 this.loading = false;
-            })
-            .catch(errors => this.saveErrors(errors));
+            }).catch(errors => this.saveErrors(errors));
 
         for (let i = 2020; i >= 2018; i--) {
             this.years.push(i + '/' + (i + 1));
@@ -206,6 +234,10 @@ export default {
                 return (subjectsCreationDate[0] === yearValue[0] && subjectsCreationDate[1] > 9)//from September of the previous year
                     || (subjectsCreationDate[0] === yearValue[1] && subjectsCreationDate[1] <= 8);//till August of the next year
             });
+        },
+        searchedList() {
+            return this.subjects.filter(subject =>
+                subject.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
         }
     }
 }
