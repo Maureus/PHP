@@ -1,21 +1,11 @@
 <template>
     <div>
-        <div class="search-container">
-            <div class="search-label">
-                <label for="searchArea" @click="isShownSearchArea = !isShownSearchArea"
-                       :title="isShownSearchArea ? 'click to hide search field' : 'click to start search'">
-                    <i class="fas fa-search"></i> Search
-                </label>
-            </div>
-            <transition name="fade">
-                <div class="search-field" v-if="isShownSearchArea">
-                    <textarea id="searchArea" v-model="searchAreaText" placeholder="Start typing..."></textarea>
-                </div>
-            </transition>
-        </div>
+        <SearchField @search-area-text="setSearchAreaText"/>
 
-        <UserTable v-if="searchedList.length && searchAreaText.length !== 0"
-                   :userList="searchedList" @edit-user="editUserData"/>
+        <transition name="fade">
+            <UserTable v-if="searchedList.length && searchAreaText.length !== 0"
+                       :userList="searchedList" @edit-user="editUserData"/>
+        </transition>
 
         <div v-if="adminsList.length">
             <h1 class="pl-2 text-2xl text-white font-semibold">Admins' list</h1>
@@ -114,11 +104,12 @@ import {mapActions, mapGetters} from 'vuex';
 import UserListItem from "./UserListItem";
 import UserTable from "./UserTable";
 import Confirm from "../Confirm";
+import SearchField from "../SearchField";
 
 export default {
     name: "UserList",
     components: {
-        UserListItem, Confirm, UserTable
+        UserListItem, Confirm, UserTable, SearchField
     },
     data() {
         return {
@@ -176,6 +167,9 @@ export default {
                     this.curUser = {};
                     this.confirm();
                 });
+        },
+        setSearchAreaText(searchAreaText) {
+            this.searchAreaText = searchAreaText;
         }
     }
 }
@@ -204,26 +198,6 @@ table {
 input {
     margin-bottom : $margin;
     margin-top    : 0;
-}
-
-.search-container {
-    margin-top : $indent * 2;
-
-    label {
-        cursor : pointer;
-        color  : white;
-    }
-
-    textarea {
-        text-indent   : $indent;
-        width         : 100%;
-        padding       : $indent;
-        border-radius : 7px;
-
-        &:focus {
-            outline : none;
-        }
-    }
 }
 
 .fade-enter-active, .fade-leave-active {
