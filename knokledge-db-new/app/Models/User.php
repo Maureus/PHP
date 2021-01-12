@@ -71,11 +71,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function courses() {
+    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany {
         return $this->belongsToMany(Course::class);
     }
 
-    public function subjects() {
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany {
         return $this->belongsToMany(Subject::class);
     }
 
@@ -102,22 +102,22 @@ class User extends Authenticatable
             [':v1' => $request->input('name'), ':v2' => $request->input('email'), ':v3' => Hash::make($request->input('password'))]);
     }
 
-    static public function selectAllUserSubjects($id) {
+    static public function selectAllUserSubjects($id): array {
         return DB::select("select * from " . User::SUBJECTS_VIEW . " where user_id = :user_id order by id", [':user_id' => $id]);
     }
 
-    static public function selectAllUserCourses($id) {
+    static public function selectAllUserCourses($id): array {
         return DB::select("select * from " . User::COURSES_VIEW . " where user_id = :user_id order by id", [':user_id' => $id]);
     }
 
-    static public function selectAllUserQuizResults($id) {
+    static public function selectAllUserQuizResults($id): array {
         return DB::select(
             "select * from " . User::QUIZ_VIEW . " where user_id = :user_id order by id",
             [':user_id' => $id]
         );
     }
 
-    static public function insertUser($name, $email, $password, $id) {
+    static public function insertUser($name, $email, $password, $id): array {
         $result = array();
         $conn = DBC::getConnection();
         $sql = 'begin insert_or_update_user(p_id => :id,
@@ -217,7 +217,7 @@ class User extends Authenticatable
 
     static public function updateUser($request, $id): int {
         return $result = DB::update(
-            'update users set name = :name, email = :email, ROLE = :role,
+            'update users set name = :name, email = :email, ROLE = :role, year = :year, obor = :obor,
                  PHONE = :phone, ADDRESS = :address where ID = :id',
             [
                 ':name' => $request->name,
@@ -226,6 +226,8 @@ class User extends Authenticatable
                 ':address' => $request->address,
                 ':role' => $request->role,
                 ':id' => $id,
+                ':year'=>$request->year,
+                ':obor'=>$request->obor
             ]
         );
     }
