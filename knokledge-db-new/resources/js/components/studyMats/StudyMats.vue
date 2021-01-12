@@ -1,5 +1,32 @@
 <template>
     <div>
+        <SearchField @search-area-text="setSearchAreaText"/>
+
+        <transition name="fade">
+            <div v-if="searchedList.length && searchAreaText.length !== 0">
+                <h1 class="p-2 text-2xl text-white font-semibold">Searched study materials</h1>
+                <table class="table-container">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Accessible from</th>
+                        <th scope="col">Accessible to</th>
+                        <th scope="col">Last update</th>
+                        <th scope="col">Creator</th>
+                        <th scope="col">Editor</th>
+                        <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                            scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <StudyMatItem v-for="study_mat in searchedList" :key="study_mat.id" :study_mat="study_mat"
+                                  @edit-study-mat="editStudyMatData"/>
+                    </tbody>
+                </table>
+            </div>
+        </transition>
+
+
         <h1 class="p-2 text-2xl text-white font-semibold">Study materials</h1>
         <div v-if="studyMats.length">
             <table class="table-container">
@@ -160,11 +187,12 @@
 import {mapActions, mapGetters} from "vuex";
 import StudyMatItem from "./StudyMatItem";
 import Confirm from "../Confirm";
+import SearchField from "../SearchField";
 
 export default {
     name: "StudyMats",
     components: {
-        StudyMatItem, Confirm
+        StudyMatItem, Confirm, SearchField
     },
     data() {
         return {
@@ -177,6 +205,8 @@ export default {
                 date_till: "",
                 subject_id: ""
             },
+            searchAreaText: "",
+            isShownSearchArea: false
         }
     },
     mounted() {
@@ -187,6 +217,11 @@ export default {
     },
     computed: {
         ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
+        searchedList() {
+            return this.studyMats.filter(studMat =>
+                studMat.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase())
+                || studMat.created_by.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+        }
     },
     methods: {
         ...mapActions(["confirm"]),
@@ -227,6 +262,9 @@ export default {
                         });
                 });
             }
+        },
+        setSearchAreaText(searchAreaText) {
+            this.searchAreaText = searchAreaText;
         },
         cancelEditingStudyMatInfo() {
             this.clearForm();

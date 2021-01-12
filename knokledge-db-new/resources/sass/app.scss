@@ -111,5 +111,27 @@ button {
     opacity : 0;
 }
 
+$indent : 0.25em;
+
+.search-container {
+    margin-top : $indent * 2;
+
+    label {
+        cursor : pointer;
+        color  : white;
+    }
+
+    textarea {
+        text-indent   : $indent;
+        width         : 100%;
+        padding       : $indent;
+        border-radius : 7px;
+
+        &:focus {
+            outline : none;
+        }
+    }
+}
+
 
 
