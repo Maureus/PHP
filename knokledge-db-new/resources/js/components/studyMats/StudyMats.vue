@@ -4,6 +4,7 @@
 
         <transition name="fade">
             <div v-if="searchedList.length && searchAreaText.length !== 0">
+                <h1 class="p-2 text-2xl text-white font-semibold">Searched study materials</h1>
                 <table class="table-container">
                     <thead>
                     <tr>
@@ -218,7 +219,8 @@ export default {
         ...mapGetters(["getUser", "getAdminRole", "getTeacherRole"]),
         searchedList() {
             return this.studyMats.filter(studMat =>
-                studMat.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+                studMat.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase())
+                || studMat.created_by.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
         }
     },
     methods: {

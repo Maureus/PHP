@@ -1,5 +1,31 @@
 <template>
     <div>
+        <SearchField @search-area-text="setSearchAreaText"/>
+
+        <transition name="fade">
+            <div v-if="searchedList.length && searchAreaText.length !== 0">
+                <h1 class="p-2 text-2xl text-white font-semibold">Searched quizzes</h1>
+                <table class="table-container">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">From</th>
+                        <th scope="col">Till</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Number of questions</th>
+                        <th scope="col"></th>
+                        <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                            scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <QuizItem v-for="quiz in searchedList" :key="quiz.id" :quiz="quiz" :option="option"
+                              @edit-quiz="editQuiz" @delete-quiz="reformList"/>
+                    </tbody>
+                </table>
+            </div>
+        </transition>
+
         <h1 class="p-2 text-2xl text-white font-semibold">Quizzes</h1>
         <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
         <div v-else-if="quizzes.length !== 0">
@@ -12,7 +38,8 @@
                     <th scope="col">Description</th>
                     <th scope="col">Number of questions</th>
                     <th scope="col"></th>
-                    <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)" scope="col"></th>
+                    <th v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)"
+                        scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -90,14 +117,14 @@
                                 Number of questions
                             </label>
                             <input v-model="newQuiz.num_questions" name="num_questions" type="number" min="1" max="30"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Points for question
                             </label>
                             <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
-                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
@@ -207,11 +234,12 @@ import {mapGetters, mapActions} from 'vuex';
 import Preloader from "../Preloader";
 import Confirm from "../Confirm";
 import QuizItem from "./QuizItem";
+import SearchField from "../SearchField";
 
 export default {
     name: "Quizzes",
     components: {
-        Preloader, QuizItem, Confirm
+        Preloader, QuizItem, Confirm, SearchField
     },
     data() {
         return {
@@ -226,7 +254,9 @@ export default {
                 date_till: Date.now().toString() + 1
             },
             loadedQuiz: {},
-            defaultNumber: 1
+            defaultNumber: 1,
+            searchAreaText: "",
+            isShownSearchArea: false
         }
     },
     methods: {
@@ -263,7 +293,9 @@ export default {
             }).catch(err => {
                 this.saveErrors(err);
             });
-
+        },
+        setSearchAreaText(searchAreaText) {
+            this.searchAreaText = searchAreaText;
         },
         formatDateValues(value) {
             return value < 10 ? "0" + value : value;
@@ -273,7 +305,7 @@ export default {
             const year = date.getFullYear();
             const month = this.formatDateValues(date.getMonth() + 1);
             const day1 = this.formatDateValues(date.getDate());
-            const day2 = this.formatDateValues(date.getDate()+7);
+            const day2 = this.formatDateValues(date.getDate() + 7);
             const hour = this.formatDateValues(date.getHours());
             const minute = this.formatDateValues(date.getMinutes());
             this.newQuiz.date_from = year + "-" + month + "-" + day1 + "T" + hour + ":" + minute;
@@ -283,7 +315,11 @@ export default {
     computed: {
         ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole",
             "getDeleteOperation", "getEditOperation", "getErrors", "getQuiz"
-        ])
+        ]),
+        searchedList() {
+            return this.quizzes.filter(quiz =>
+                quiz.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+        }
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
