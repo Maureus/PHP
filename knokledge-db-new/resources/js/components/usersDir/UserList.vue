@@ -7,80 +7,29 @@
                     <i class="fas fa-search"></i> Search
                 </label>
             </div>
-            <div class="search-field" v-if="isShownSearchArea">
-                <textarea id="searchArea" v-model="searchAreaText" @keyup="search"
-                          placeholder="Start typing..."></textarea>
-            </div>
+            <transition name="fade">
+                <div class="search-field" v-if="isShownSearchArea">
+                    <textarea id="searchArea" v-model="searchAreaText" placeholder="Start typing..."></textarea>
+                </div>
+            </transition>
         </div>
 
-        <div v-if="searchedList.length && searchAreaText.length !== 0" class="flex flex-col">
-            <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200 text-xl">
-                            <thead>
-                            <tr>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Contact info
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Date of registration
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Role
-                                </th>
-                                <th v-if="getUser != null && getUser.role === getAdminRole"
-                                    class="px-6 py-3 bg-gray-50"></th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                            <UserListItem v-for="user in searchedList" :key="user.id" :user="user"
-                                          @edit-user="editUserData"/>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <UserTable v-if="searchedList.length && searchAreaText.length !== 0"
+                   :userList="searchedList" @edit-user="editUserData"/>
+
+        <div v-if="adminsList.length">
+            <h1 class="p-2 text-2xl text-white font-semibold">Admins' list</h1>
+            <UserTable :userList="adminsList" @edit-user="editUserData"/>
         </div>
 
+        <div v-if="teachersList.length">
+            <h1 class="p-2 text-2xl text-white font-semibold">Teachers' list</h1>
+            <UserTable :userList="teachersList" @edit-user="editUserData"/>
+        </div>
 
-        <Preloader v-if="loading" class="absolute inset-0 flex items-center justify-center"/>
-        <div v-else-if="users.length" class="flex flex-col">
-            <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="table-container">
-                        <table class="min-w-full divide-y divide-gray-200 text-xl">
-                            <thead>
-                            <tr>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
-                                </th>
-                                <th v-if="getUser != null && getUser.role===getAdminRole && getAdminId==null" class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Emulate
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Contact info
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Date of registration
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Role
-                                </th>
-                                <th v-if="getUser != null && getUser.role === getAdminRole"
-                                    class="px-6 py-3 bg-gray-50"></th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                            <UserListItem v-for="user in users" :key="user.id" :user="user" @edit-user="editUserData"/>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div v-if="studentsList.length">
+            <h1 class="p-2 text-2xl text-white font-semibold">Students' list</h1>
+            <UserTable :userList="studentsList" @edit-user="editUserData"/>
         </div>
 
         <Confirm/>
@@ -161,47 +110,51 @@
 </template>
 
 <script>
-import UserListItem from "./UserListItem";
-import Preloader from "../Preloader";
-import Confirm from "../Confirm";
 import {mapActions, mapGetters} from 'vuex';
+import UserListItem from "./UserListItem";
+import UserTable from "./UserTable";
+import Confirm from "../Confirm";
 
 export default {
     name: "UserList",
     components: {
-        UserListItem, Preloader, Confirm
+        UserListItem, Confirm, UserTable
     },
     data() {
         return {
             users: [],
-            loading: true,
             curUser: {},
             searchAreaText: "",
             isShownSearchArea: false
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole"]),
         searchedList() {
-            return this.users.filter(user =>
-                user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+            return this.users.filter(user => user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
+        },
+        studentsList() {
+            return this.users.filter(user => user.role === this.getStudentRole);
+        },
+        adminsList() {
+            return this.users.filter(user => user.role === this.getAdminRole);
+        },
+        teachersList() {
+            return this.users.filter(user => user.role === this.getTeacherRole);
         }
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
             this.users = value;
-            this.loading = false;
         });
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
         editUserData(userEditedId) {
             axios.get("http://127.0.0.1:8000/api/users/" + userEditedId)
-                .then(value => value.data)
-                .then(value => {
-                    this.curUser = value;
-                })
-                .catch(error => this.saveErrors(error));
+                .then(value => value.data).then(value => {
+                this.curUser = value;
+            }).catch(error => this.saveErrors(error));
         },
         cancelEditingUserInfo() {
             this.curUser = {};
@@ -223,11 +176,6 @@ export default {
                     this.curUser = {};
                     this.confirm();
                 });
-        },
-        search() {
-            console.log(this.users.filter(user =>
-                user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase())));
-            // console.log(this.searchAreaText);
         }
     }
 }
@@ -261,15 +209,9 @@ input {
 .search-container {
     margin-top : $indent * 2;
 
-    .search-label {
-    }
-
     label {
         cursor : pointer;
-    }
-
-    .search-field {
-
+        color  : white;
     }
 
     textarea {
@@ -283,4 +225,9 @@ input {
         }
     }
 }
+
+.fade-enter-active, .fade-leave-active {
+    transition : opacity 1s;
+}
+
 </style>
