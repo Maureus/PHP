@@ -399,8 +399,6 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$hoverColor      : #dde9f5;
-$backgroundColor : white;
 $indent          : 0.25em;
 
 @import "./resources/sass/form_util_btns";
