@@ -199,7 +199,7 @@ class Quiz extends Model
 
     static public function removeQuizQuestion($quizId, $questionId): int {
         return DB::delete(
-            'insert into QUESTION_QUIZ values(:quizId, :questionId)',
+            'delete from QUESTION_QUIZ where QUIZ_ID = :quizId and QUESTION_ID = :questionId',
             [':quizId'=>$quizId, ':questionId'=>$questionId]
         );
     }
