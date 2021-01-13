@@ -37,7 +37,7 @@ class Question extends Model
 
     static public function insertQuestion($request) {
         $conn = DBC::getConnection();
-        $sql = 'begin insert_or_update_question(p_id => :id,
+        $sql = 'begin insert_or_update_question(
                            p_name => :name,
                            p_answer_1 => :answer_1,
                            p_answer_2 => :answer_2,
