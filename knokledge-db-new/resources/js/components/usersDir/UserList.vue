@@ -1,5 +1,9 @@
 <template>
     <div>
+        <nav>
+            <a class="link" href="#teachers">Teachers</a>
+            <a class="link" href="#students">Students</a>
+        </nav>
         <SearchField @search-area-text="setSearchAreaText"/>
 
         <transition name="fade">
@@ -13,13 +17,24 @@
         </div>
 
         <div v-if="teachersList.length">
-            <h1 class="pl-2 text-2xl text-white font-semibold">Teachers' list</h1>
+            <h1 id="teachers" class="pl-2 text-2xl text-white font-semibold">Teachers' list</h1>
             <UserTable :userList="teachersList" @edit-user="editUserData"/>
         </div>
 
         <div v-if="studentsList.length">
-            <h1 class="pl-2 text-2xl text-white font-semibold">Students' list</h1>
+            <h1 id="students" class="pl-2 text-2xl text-white font-semibold">Students' list</h1>
+            <div class="select-container">
+                <select class="custom-select" v-model="filteredYear" @change="filterByYear">
+                    <option value="0">All</option>
+                    <option value="1">1 year</option>
+                    <option value="2">2 year</option>
+                    <option value="3">3 year</option>
+                    <option value="4">4 year</option>
+                    <option value="5">5 year</option>
+                </select>
+            </div>
             <UserTable :userList="studentsList" @edit-user="editUserData"/>
+            <button>Assign subject to students' group</button>
         </div>
 
         <Confirm/>
@@ -61,7 +76,22 @@
                             <label for="address" class="block text-sm font-medium leading-5 text-gray-700">
                                 Address
                             </label>
-                            <input id="address" v-model="curUser.address" name="address"
+                            <input id="address" v-model="curUser.address"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div v-if="curUser.role === getStudentRole" class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="year" class="block text-sm font-medium leading-5 text-gray-700">
+                                Year
+                            </label>
+                            <input id="year" v-model="curUser.year" type="number" min="1" max="5"
+                                   class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                        </div>
+                        <div v-if="curUser.role === getStudentRole || curUser.role === getTeacherRole"
+                             class="col-span-6 sm:col-span-4 mx-2">
+                            <label for="discipline" class="block text-sm font-medium leading-5 text-gray-700">
+                                Discipline
+                            </label>
+                            <input id="discipline" v-model="curUser.obor"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -116,34 +146,29 @@ export default {
             users: [],
             curUser: {},
             searchAreaText: "",
-            isShownSearchArea: false
+            isShownSearchArea: false,
+            filteredYear: 0,
+            studentsList: [],
+            adminsList: [],
+            teachersList: []
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole"]),
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole", "getAdminId"]),
         searchedList() {
             return this.users.filter(user => user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
-        },
-        studentsList() {
-            return this.users.filter(user => user.role === this.getStudentRole);
-        },
-        adminsList() {
-            return this.users.filter(user => user.role === this.getAdminRole);
-        },
-        teachersList() {
-            return this.users.filter(user => user.role === this.getTeacherRole);
         }
     },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
-            this.users = value;
-        });
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => this.users = value);
+        this.studentsList = this.users.filter(user => user.role === this.getStudentRole);
+        this.adminsList = this.users.filter(user => user.role === this.getAdminRole);
+        this.teachersList = this.users.filter(user => user.role === this.getTeacherRole);
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
         editUserData(userEditedId) {
-            axios.get("http://127.0.0.1:8000/api/users/" + userEditedId)
-                .then(value => value.data).then(value => {
+            axios.get("http://127.0.0.1:8000/api/users/" + userEditedId).then(value => value.data).then(value => {
                 this.curUser = value;
             }).catch(error => this.saveErrors(error));
         },
@@ -170,16 +195,24 @@ export default {
         },
         setSearchAreaText(searchAreaText) {
             this.searchAreaText = searchAreaText;
+        },
+        filterByYear() {
+            if (parseInt(this.filteredYear) === 0) {
+                this.studentsList = this.users.filter(user => user.role === this.getStudentRole);
+            } else {
+                this.studentsList = this.users.filter(user => user.year === this.filteredYear && user.role === this.getStudentRole);
+            }
         }
     }
 }
 </script>
 
 <style scoped="scoped" lang="scss">
-$margin : 10px;
 $indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
+@import "./resources/sass/routerlink";
+@import "./resources/sass/hover_effects";
 
 .max {
     min-height : 100%;
@@ -188,15 +221,15 @@ $indent : 0.25em;
 
 table {
     text-align      : center;
-    margin-top      : $margin;
-    margin-bottom   : $margin;
+    margin-top      : $indent * 2;
+    margin-bottom   : $indent * 2;
     border-radius   : 10px;
     overflow        : hidden;
     border-collapse : collapse;
 }
 
 input {
-    margin-bottom : $margin;
+    margin-bottom : $indent * 2;
     margin-top    : 0;
 }
 

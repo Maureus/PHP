@@ -95,7 +95,7 @@
                             <div class="warn-mess"><p id="warnMess" class="mess"></p></div>
                             <div class="btn-container mx-2">
                                 <div class="btn-box start" style="width: 50%">
-                                    <button @click="createNewSubject" id="createBtn" class="btn btn-primary">
+                                    <button @click="createNewQuestion" id="createBtn" class="btn btn-primary">
                                         Create
                                     </button>
                                 </div>
@@ -371,7 +371,7 @@ export default {
                 }
             });
         },
-        createNewSubject() {
+        createNewQuestion() {
             axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId).then(resp => resp.data).then(value => {
                 if (parseInt(value.num_questions) === this.questions.length) {
                     document.getElementById("warnMess").innerText = "No more questions adding allowed";
@@ -399,7 +399,7 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$indent          : 0.25em;
+$indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
 @import "./resources/sass/table";

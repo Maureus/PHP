@@ -10,10 +10,11 @@
             </div>
             <div v-else>{{ user.name }}</div>
         </td>
-        <td v-if="getUser != null && getUser.role === getAdminRole && getAdminId==null" class="px-3 py-2 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+        <td v-if="getUser != null && getUser.role === getAdminRole && getAdminId==null"
+            class="px-3 py-2 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             <div class="hover-shadow-effect" style="padding-top: 0.7rem; padding-bottom: 0.7rem">
                 <button @click="emulate" class="whitespace-no-wrap text-right text-base leading-5 font-medium"
-                             title="Click to start emulation">Emulate {{ user.name }}
+                        title="Click to start emulation">Emulate {{ user.name }}
                 </button>
             </div>
         </td>
@@ -23,6 +24,14 @@
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.created_at | correctDateView }}
+        </td>
+        <td v-if="user.role === getStudentRole"
+            class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+            {{ user.year }}
+        </td>
+        <td v-if="user.role === getStudentRole"
+            class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
+            {{ user.obor == null ? "Not chosen" : user.obor }}
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.role }}
@@ -45,7 +54,7 @@ import {mapGetters, mapActions} from 'vuex';
 export default {
     name: "UserListItem",
     computed: {
-        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getAdminId"])
+        ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getAdminId", "getStudentRole"])
     },
     props: {
         user: {
