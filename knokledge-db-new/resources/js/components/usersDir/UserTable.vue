@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col">
-        <div class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div style="overflow: hidden" class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-1 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="table-container">
                     <table class="min-w-full divide-y divide-gray-200 text-xl">
@@ -30,7 +30,8 @@
                             <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Role
                             </th>
-                            <th v-if="getUser != null && getUser.role === getAdminRole" class="px-6 py-3 bg-gray-50"></th>
+                            <th v-if="getUser != null && getUser.role === getAdminRole"
+                                class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">

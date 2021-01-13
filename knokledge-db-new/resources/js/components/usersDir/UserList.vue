@@ -23,7 +23,18 @@
 
         <div v-if="studentsList.length">
             <h1 id="students" class="pl-2 text-2xl text-white font-semibold">Students' list</h1>
+            <div class="select-container">
+                <select class="custom-select" v-model="filteredYear" @change="filterByYear">
+                    <option value="0">All</option>
+                    <option value="1">1 year</option>
+                    <option value="2">2 year</option>
+                    <option value="3">3 year</option>
+                    <option value="4">4 year</option>
+                    <option value="5">5 year</option>
+                </select>
+            </div>
             <UserTable :userList="studentsList" @edit-user="editUserData"/>
+            <button>Assign subject to students' group</button>
         </div>
 
         <Confirm/>
@@ -135,26 +146,24 @@ export default {
             users: [],
             curUser: {},
             searchAreaText: "",
-            isShownSearchArea: false
+            isShownSearchArea: false,
+            filteredYear: 0,
+            studentsList: [],
+            adminsList: [],
+            teachersList: []
         }
     },
     computed: {
         ...mapGetters(["getUser", "getAdminRole", "getTeacherRole", "getStudentRole", "getAdminId"]),
         searchedList() {
             return this.users.filter(user => user.name.toLowerCase().trim().startsWith(this.searchAreaText.trim().toLowerCase()));
-        },
-        studentsList() {
-            return this.users.filter(user => user.role === this.getStudentRole);
-        },
-        adminsList() {
-            return this.users.filter(user => user.role === this.getAdminRole);
-        },
-        teachersList() {
-            return this.users.filter(user => user.role === this.getTeacherRole);
         }
     },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => this.users = value);
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => this.users = value);
+        this.studentsList = this.users.filter(user => user.role === this.getStudentRole);
+        this.adminsList = this.users.filter(user => user.role === this.getAdminRole);
+        this.teachersList = this.users.filter(user => user.role === this.getTeacherRole);
     },
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
@@ -186,6 +195,13 @@ export default {
         },
         setSearchAreaText(searchAreaText) {
             this.searchAreaText = searchAreaText;
+        },
+        filterByYear() {
+            if (parseInt(this.filteredYear) === 0) {
+                this.studentsList = this.users.filter(user => user.role === this.getStudentRole);
+            } else {
+                this.studentsList = this.users.filter(user => user.year === this.filteredYear && user.role === this.getStudentRole);
+            }
         }
     }
 }
@@ -196,6 +212,7 @@ $indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
 @import "./resources/sass/routerlink";
+@import "./resources/sass/hover_effects";
 
 .max {
     min-height : 100%;
