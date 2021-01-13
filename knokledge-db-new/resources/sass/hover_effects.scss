@@ -3,10 +3,13 @@
 //$hoverColor : #8fd8e7;
 //$bgcolor : #6cb2eb;
 $bgcolor : #9dd1ee;
+$indent  : 0.25em;
 
 .hover-shadow-effect {
     background-color : $bgcolor;
     color            : whitesmoke;
+    padding-right    : $indent;
+    padding-left     : $indent;
 
     &:hover {
         font-weight                : bold;
