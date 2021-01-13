@@ -98,19 +98,6 @@
                             <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                         </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
-                            <label class="block text-sm font-medium leading-5 text-gray-700">
-                                Category
-                            </label>
-                            <select v-model="newQuiz.category_id"
-                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                                    name="category_id">
-                                <option value="1" selected>Category 1</option>
-                                <option value="2">Category 2</option>
-                                <option value="3">Category 3</option>
-                                <option value="4">Category 4</option>
-                            </select>
-                        </div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start" style="width: 50%">
                                 <button @click="addQuiz" data-dismiss="modal" class="btn">
