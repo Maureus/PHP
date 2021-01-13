@@ -33,8 +33,7 @@ class QuizController extends Controller
             'quiz_desc' => 'required|max:255',
             'num_questions' => 'required',
             'points_fq' => 'required',
-            'subject_id' => 'required',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -171,6 +170,26 @@ class QuizController extends Controller
 
         try {
             $result = Quiz::insertQuizResult($request->quiz_id, $request->result);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return response()->json($result);
+    }
+
+    static public function assignQuestion($quizId, $questionId): \Illuminate\Http\JsonResponse {
+
+        try {
+            $result = Quiz::assignQuizQuestion($quizId, $questionId);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+        return $result ? response()->json(1) : response()->json(0);
+    }
+
+    static public function removeQuestion($quizId, $questionId): \Illuminate\Http\JsonResponse {
+
+        try {
+            $result = Quiz::removeQuizQuestion($quizId, $questionId);
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage(), 400);
         }

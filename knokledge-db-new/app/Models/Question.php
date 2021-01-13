@@ -113,7 +113,10 @@ class Question extends Model
     }
 
     static public function selectAllSubjectQuestions($id): array {
-        return DB::select("select * from QUESTIONS_VIEW where subject_id = :id order by id", [':id' => $id]);
+        return DB::select(
+            "select * from QUESTIONS_VIEW where subject_id = :subject_id order by id",
+            [':subject_id' => $id]
+        );
     }
 
     static public function insertQuestionInQuiz($request, $id) {
