@@ -41,8 +41,7 @@ class Quiz extends Model
         'points_fq',
         'created_at',
         'updated_by',
-        'course_id',
-        'category_id',
+        'subject_id',
     ];
 
     public function questions() {
@@ -51,14 +50,6 @@ class Quiz extends Model
 
     public function setQuestion($question) {
         $this->questions()->save($question);
-    }
-
-    public function category() {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function course() {
-        return $this->belongsTo(Course::class, 'course_id');
     }
 
     static public function selectAllQuizQuestions($id): array {
@@ -95,7 +86,6 @@ class Quiz extends Model
                            p_num_question => :num_questions,
                            p_points_fq => :points_fq,
                            p_subject_id => :subject_id,
-                           p_category_id => :category_id,
                            p_user_id => :user_id,
                            p_id_out => :v_id_out);
                         end;';
@@ -108,7 +98,6 @@ class Quiz extends Model
         $num_questions = $request->num_questions;
         $points_fq = $request->points_fq;
         $subject_id = $request->subject_id;
-        $category_id = $request->category_id;
         $user_id = Auth::id();
 
         oci_bind_by_name($stmt, ':name', $name, -1);
@@ -119,7 +108,6 @@ class Quiz extends Model
         oci_bind_by_name($stmt, ':num_questions', $num_questions, -1);
         oci_bind_by_name($stmt, ':points_fq', $points_fq, -1);
         oci_bind_by_name($stmt, ':subject_id', $subject_id, -1);
-        oci_bind_by_name($stmt, ':category_id', $category_id, -1);
         oci_bind_by_name($stmt, ':user_id', $user_id, -1);
         oci_bind_by_name($stmt, ':v_id_out', $idOut, 255);
         oci_execute($stmt);
@@ -166,7 +154,7 @@ class Quiz extends Model
     }
 
     static public function deleteQuiz($id) {
-        $conn = oci_connect(DBC::DB_USERNAME, DBC::DB_PASSWORD, DBC::DB_CONNECTION_STRING);
+        $conn = DBC::getConnection();
         $sql = 'begin delete_quiz(p_id => :id); end;';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':id', $id, 255);
@@ -180,12 +168,12 @@ class Quiz extends Model
     }
 
     // expects array of ids
-    static public function insertAllQuestionToQuiz(Request $request, $id) {
-        $seize = $request->seize;
-        $questions = $request->questions;
-        $questionOne = $request->questions[0];
-        return $request->questions;
-    }
+//    static public function insertAllQuestionToQuiz(Request $request, $id) {
+//        $seize = $request->seize;
+//        $questions = $request->questions;
+//        $questionOne = $request->questions[0];
+//        return $request->questions;
+//    }
 
     static public function selectQuizResults($id): array {
         return DB::select('select * from QUIZ_USER_RESULT_VIEW where QUIZ_ID = :id', [':id'=>$id]);
@@ -199,6 +187,20 @@ class Quiz extends Model
         return DB::insert(
             'insert into QUIZ_USER_RESULT(quiz_id, user_id, result) VALUES (:quiz_id, :user_id, :result)',
             [':quiz_id'=>$quiz_id, ':user_id'=>Auth::id(), ':result'=>$result]
+        );
+    }
+
+    static public function assignQuizQuestion($quizId, $questionId): array {
+        return DB::select(
+            'insert into QUESTION_QUIZ values(:quizId, :questionId)',
+            [':quizId'=>$quizId, ':questionId'=>$questionId]
+        );
+    }
+
+    static public function removeQuizQuestion($quizId, $questionId): array {
+        return DB::select(
+            'insert into QUESTION_QUIZ values(:quizId, :questionId)',
+            [':quizId'=>$quizId, ':questionId'=>$questionId]
         );
     }
 }

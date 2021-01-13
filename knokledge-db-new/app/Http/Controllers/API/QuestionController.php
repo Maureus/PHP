@@ -32,7 +32,7 @@ class QuestionController extends Controller
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -73,7 +73,7 @@ class QuestionController extends Controller
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -111,7 +111,7 @@ class QuestionController extends Controller
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
