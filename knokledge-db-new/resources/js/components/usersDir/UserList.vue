@@ -23,49 +23,7 @@
 
         <div v-if="studentsList.length">
             <h1 id="students" class="pl-2 text-2xl text-white font-semibold">Students' list</h1>
-            <!--            <UserTable :userList="studentsList" @edit-user="editUserData"/>-->
-            <div class="flex flex-col">
-                <div style="overflow: hidden" class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="py-1 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="table-container">
-                            <table class="min-w-full divide-y divide-gray-200 text-xl">
-                                <thead>
-                                <tr>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
-                                    </th>
-                                    <th v-if="getUser != null && getUser.role === getAdminRole && getAdminId == null"
-                                        class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Emulate
-                                    </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Contact info
-                                    </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Date of registration
-                                    </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Year
-                                    </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Discipline
-                                    </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th v-if="getUser != null && getUser.role === getAdminRole"
-                                        class="px-6 py-3 bg-gray-50"></th>
-                                </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                <UserListItem v-for="user in studentsList" :key="user.id" :user="user"
-                                              @edit-user="editUserData"/>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <UserTable :userList="studentsList" @edit-user="editUserData"/>
         </div>
 
         <Confirm/>
