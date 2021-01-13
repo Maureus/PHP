@@ -94,6 +94,20 @@ Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
 Route::post('login/emulate/{id}', [LoginController::class, 'emulateUser'])->whereNumber('id');
 Route::post('login/emulate/cancel', [LoginController::class, 'cancelEmulation']);
 
+// add or remove question
+Route::post('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
+    return QuizController::assignQuestion($quizId, $questionId);
+})->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
+
+Route::delete('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
+    return QuizController::removeQuestion($quizId, $questionId);
+})->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
+
+// get subject questions
+Route::get('/subject/{id}/questions', [QuestionController::class, 'showSubjectQuestions'])
+    ->whereNumber('id');
+
+
 
 // MIDDLEWARE FOR USER AUTH
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {

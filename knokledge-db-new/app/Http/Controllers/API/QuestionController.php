@@ -14,25 +14,23 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
+    public function index(): \Illuminate\Http\JsonResponse {
         return response()->json(Question::selectAllQuestions());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request): \Illuminate\Http\JsonResponse {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -51,29 +49,27 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
+    public function show($id): \Illuminate\Http\JsonResponse {
         return response()->json(Question::selectQuestion($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id): \Illuminate\Http\JsonResponse {
         $validation = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -92,11 +88,10 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
+    public function destroy($id): \Illuminate\Http\JsonResponse {
         try {
             Question::deleteQuestion($id);
         } catch (\Exception $ex) {
@@ -111,7 +106,7 @@ class QuestionController extends Controller
             'answer_1' => 'required|max:255',
             'answer_2' => 'required|max:255',
             'answer_correct' => 'required|max:255',
-            'category_id' => 'required'
+            'subject_id' => 'required'
         ]);
 
         if ($validation->fails()) {
@@ -120,6 +115,16 @@ class QuestionController extends Controller
 
         try {
             $result = Question::insertQuestionInQuiz($request, $id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
+    }
+
+    static public function showSubjectQuestions($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Question::selectAllSubjectQuestions($id);
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage(), 400);
         }
