@@ -126,4 +126,14 @@ class QuestionController extends Controller
 
         return response()->json($result);
     }
+
+    static public function showSubjectQuestions($id): \Illuminate\Http\JsonResponse {
+        try {
+            $result = Question::selectAllSubjectQuestions($id);
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 400);
+        }
+
+        return response()->json($result);
+    }
 }

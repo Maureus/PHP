@@ -190,15 +190,15 @@ class Quiz extends Model
         );
     }
 
-    static public function assignQuizQuestion($quizId, $questionId): array {
-        return DB::select(
+    static public function assignQuizQuestion($quizId, $questionId): bool {
+        return DB::insert(
             'insert into QUESTION_QUIZ values(:quizId, :questionId)',
             [':quizId'=>$quizId, ':questionId'=>$questionId]
         );
     }
 
-    static public function removeQuizQuestion($quizId, $questionId): array {
-        return DB::select(
+    static public function removeQuizQuestion($quizId, $questionId): int {
+        return DB::delete(
             'insert into QUESTION_QUIZ values(:quizId, :questionId)',
             [':quizId'=>$quizId, ':questionId'=>$questionId]
         );
