@@ -68,14 +68,15 @@
                             <input id="address" v-model="curUser.address"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
+                        <div v-if="curUser.role === getStudentRole" class="col-span-6 sm:col-span-4 mx-2">
                             <label for="year" class="block text-sm font-medium leading-5 text-gray-700">
                                 Year
                             </label>
                             <input id="year" v-model="curUser.year" type="number" min="1" max="5"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-4 mx-2">
+                        <div v-if="curUser.role === getStudentRole || curUser.role === getTeacherRole"
+                             class="col-span-6 sm:col-span-4 mx-2">
                             <label for="discipline" class="block text-sm font-medium leading-5 text-gray-700">
                                 Discipline
                             </label>
