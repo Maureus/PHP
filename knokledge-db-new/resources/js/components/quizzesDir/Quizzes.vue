@@ -95,14 +95,14 @@
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date from
                             </label>
-                            <input name="email" v-model="newQuiz.date_from" type="datetime-local"
+                            <input v-model="newQuiz.date_from" type="datetime-local" id="date-from-add"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
                             <label class="block text-sm font-medium leading-5 text-gray-700">
                                 Date till
                             </label>
-                            <input v-model="newQuiz.date_till" type="datetime-local"
+                            <input v-model="newQuiz.date_till" type="datetime-local" id="date-till-add"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <div class="col-span-6 sm:col-span-4 mx-2">
@@ -126,9 +126,10 @@
                             <input v-model="newQuiz.points_fq" name="points_fq" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
+                        <div class="warn-mess"><p id="warnMessAddQuiz" class="mess"></p></div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start" style="width: 50%">
-                                <button @click="addQuiz" data-dismiss="modal" class="btn">
+                                <button @click="addQuiz" class="btn">
                                     Confirm
                                 </button>
                             </div>
@@ -142,8 +143,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modalQuiz" tabindex="-1" role="dialog"
-             aria-labelledby="modalQuiz" aria-hidden="true">
+        <div class="modal fade" id="modalEditQuiz" tabindex="-1" role="dialog"
+             aria-labelledby="modalEditQuiz" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -196,9 +197,10 @@
                             <input v-model="getQuiz.points_fq" name="address" type="number" min="1" max="10"
                                    class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
+                        <div class="warn-mess"><p id="warnMessEditQuiz" class="mess"></p></div>
                         <div class="btn-container mx-2">
                             <div class="btn-box start" style="width: 50%">
-                                <button @click="saveQuiz" data-dismiss="modal" class="btn">
+                                <button @click="saveQuiz" class="btn">
                                     Confirm
                                 </button>
                             </div>
@@ -235,6 +237,9 @@ export default {
             option: '',
             subject_id: this.$route.params.subject_id,
             newQuiz: {
+                name: "",
+                type: "",
+                quiz_desc: "",
                 points_fq: 1,
                 num_questions: 10,
                 date_from: Date.now().toString(),
@@ -249,43 +254,88 @@ export default {
     methods: {
         ...mapActions(["saveErrors", "confirm", 'saveQuiz']),
         async saveQuiz() {
-            this.getQuiz.date_from = this.getQuiz.date_from.split("T").join(" ");
-            this.getQuiz.date_till = this.getQuiz.date_till.split("T").join(" ");
-            await axios.put('http://127.0.0.1:8000/api/quizzes/' + this.getQuiz.id, this.getQuiz).then(async () => {
-                await this.editQuiz();
-            }).catch(err => {
-                this.saveErrors(err);
-            });
+            const dateFrom = new Date(document.getElementById("quiz-date-from").value);
+            const dateTill = new Date(document.getElementById("quiz-date-till").value);
+            if (this.getQuiz.name.trim() === "") {
+                this.setWarnMsg("warnMessEditQuiz", "Please enter quiz name.");
+            } else if (this.getQuiz.name.length > 255) {
+                this.setWarnMsg("warnMessEditQuiz", "Max allowed length in name is 255 chars.");
+            } else if (+dateFrom > +dateTill) {
+                this.setWarnMsg("warnMessEditQuiz", "End date can't be earlier than start date.");
+            } else {
+                this.getQuiz.date_from = this.getQuiz.date_from.split("T").join(" ");
+                this.getQuiz.date_till = this.getQuiz.date_till.split("T").join(" ");
+                await axios.put('http://127.0.0.1:8000/api/quizzes/' + this.getQuiz.id, this.getQuiz)
+                    .then(async () => {
+                        await this.editQuiz();
+                    }).catch(err => {
+                        this.saveErrors(err);
+                    });
+            }
         },
         editQuiz() {
             Object.assign(this.quizzes[this.quizzes.findIndex(quiz => quiz.id === this.getQuiz.id)], this.getQuiz);
-            this.confirm();
+            this.prepareFormAfterAction("#modalEditQuiz");
         },
         reformList(quiz_id) {
             this.quizzes = this.quizzes.filter(quiz => quiz.id !== quiz_id);
             this.confirm();
         },
         async addQuiz() {
-            this.newQuiz.subject_id = this.subject_id;
-            this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ");
-            this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ");
+            const dateFrom = new Date(document.getElementById("date-from-add").value);
+            const dateTill = new Date(document.getElementById("date-till-add").value);
+            if (this.newQuiz.name.trim() === "") {
+                this.setWarnMsg("warnMessAddQuiz", "Please enter quiz name.");
+            } else if (this.newQuiz.name.length > 255) {
+                this.setWarnMsg("warnMessAddQuiz", "Max allowed length in name is 255 chars.");
+            } else if (this.newQuiz.type.trim() === "") {
+                this.setWarnMsg("warnMessAddQuiz", "Please select quiz type.");
+            } else if (+dateFrom > +dateTill) {
+                this.setWarnMsg("warnMessAddQuiz", "End date can't be earlier than start date.");
+            } else {
+                this.newQuiz.subject_id = this.subject_id;
+                this.newQuiz.date_from = this.newQuiz.date_from.split("T").join(" ");
+                this.newQuiz.date_till = this.newQuiz.date_till.split("T").join(" ");
 
-            await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz).then(async () => {
-                await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
-                    .then(resp => {
-                        this.quizzes = resp.data;
-                        this.confirm();
-                    })
-                    .catch(errors => this.saveErrors(errors));
-            }).catch(err => {
-                this.saveErrors(err);
-            });
+                await axios.post('http://127.0.0.1:8000/api/quizzes/', this.newQuiz)
+                    .then(async () => {
+                        await axios.get("http://127.0.0.1:8000/api/subject/" + this.subject_id + "/quizzes")
+                            .then(resp => {
+                                this.quizzes = resp.data;
+                                this.clearForm();
+                                this.prepareFormAfterAction("#modalAddQuiz");
+                            })
+                            .catch(errors => this.saveErrors(errors));
+                    }).catch(err => {
+                        this.setDates();
+                        this.saveErrors(err);
+                    });
+            }
+        },
+        setWarnMsg(warnFieldId, text) {
+            document.getElementById(warnFieldId).innerText = text;
+            this.eraseWarnMess(warnFieldId);
+        },
+        eraseWarnMess(id) {
+            setTimeout(() => {
+                document.getElementById(id).innerText = "";
+            }, 3000);
         },
         setSearchAreaText(searchAreaText) {
             this.searchAreaText = searchAreaText;
         },
         formatDateValues(value) {
             return value < 10 ? "0" + value : value;
+        },
+        clearForm() {
+            this.newQuiz.name = "";
+            this.newQuiz.quiz_desc = "";
+            this.newQuiz.type = "";
+            this.setDates();
+        },
+        prepareFormAfterAction(modalId) {
+            $(modalId).modal('hide');
+            this.confirm();
         },
         setDates() {
             const date = new Date();
@@ -297,6 +347,8 @@ export default {
             const minute = this.formatDateValues(date.getMinutes());
             this.newQuiz.date_from = year + "-" + month + "-" + day1 + "T" + hour + ":" + minute;
             this.newQuiz.date_till = year + "-" + month + "-" + day2 + "T" + hour + ":" + minute;
+            console.log(this.newQuiz.date_from);
+            console.log(this.newQuiz.date_till);
         }
     },
     computed: {
@@ -334,52 +386,62 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-$hoverColor      : #dde9f5;
-$backgroundColor : white;
-$margin          : 10px;
+$hoverColor: #dde9f5;
+$backgroundColor: white;
+$margin: 10px;
 
 @import "resources/sass/form_util_btns";
 
 .table-container {
-    text-align       : center;
-    display          : table;
-    background-color : $backgroundColor;
-    color            : black;
-    border-radius    : 7px;
-    overflow         : hidden;
-    border-collapse  : collapse;
-    margin           : auto;
-    width            : 100%;
+    text-align: center;
+    display: table;
+    background-color: $backgroundColor;
+    color: black;
+    border-radius: 7px;
+    overflow: hidden;
+    border-collapse: collapse;
+    margin: auto;
+    width: 100%;
 
     tr {
-        line-height : 2.1875em;
+        line-height: 2.1875em;
 
 
         &:nth-child(odd) {
-            background-color : $backgroundColor;
+            background-color: $backgroundColor;
         }
 
         &:nth-child(even) {
-            background-color : darken($color : $backgroundColor, $amount : 5%);
+            background-color: darken($color: $backgroundColor, $amount: 5%);
         }
 
         &:hover {
-            background-color : darken($color : $hoverColor, $amount : 2%);
+            background-color: darken($color: $hoverColor, $amount: 2%);
         }
 
         th {
-            color            : white;
-            background-color : darken($color : #187fe2, $amount : 3%);
-            overflow-wrap    : break-word;
-            max-width        : 250px;
-            min-width        : 100px;
+            color: white;
+            background-color: darken($color: #187fe2, $amount: 3%);
+            overflow-wrap: break-word;
+            max-width: 250px;
+            min-width: 100px;
         }
     }
 }
 
+.warn-mess {
+    margin-top: $margin;
+    margin-left: $margin;
+    color: red;
+}
+
+.mess {
+    font-size: 15px;
+}
+
 input, select {
-    margin-bottom : $margin;
-    margin-top    : 0;
+    margin-bottom: $margin;
+    margin-top: 0;
 }
 
 </style>
