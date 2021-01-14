@@ -34,7 +34,12 @@
                 </select>
             </div>
             <UserTable :userList="studentsList" @edit-user="editUserData"/>
-            <button>Assign subject to students' group</button>
+            <div class="flex w-100 justify-content-end pt-2">
+                <button class="btn-primary btn-lg mb-4" style="background-color: #1777d4" data-toggle="modal"
+                        data-target="#assignSubjectToStudents">
+                    Assign subject to students' group
+                </button>
+            </div>
         </div>
 
         <Confirm/>
@@ -118,6 +123,41 @@
                             </div>
                             <div class="btn-box end">
                                 <button @click="deleteUser" data-dismiss="modal" class="btn red">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="assignSubjectToStudents" tabindex="-1" role="dialog"
+             aria-labelledby="assignSubjectToStudentsModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="assignSubjectToStudentsModalCenterTitle">
+                            Assign subject(-s) to students
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="pr-2 pl-2 pt-2">
+                        <div class="btn-container mx-2">
+                            <div class="btn-box start">
+                                <button @click="" data-dismiss="modal" class="btn">
+                                    Confirm
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button @click="" data-dismiss="modal" class="btn">
+                                    Cancel
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button @click="" data-dismiss="modal" class="btn red">
                                     Delete
                                 </button>
                             </div>
