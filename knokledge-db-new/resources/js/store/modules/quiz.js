@@ -1,5 +1,5 @@
 const state = {
-    quiz: [],
+    quiz: {},
 };
 
 const getters = {
