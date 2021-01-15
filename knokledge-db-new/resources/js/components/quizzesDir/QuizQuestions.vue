@@ -80,18 +80,6 @@
                                 <input id="answer2Radio" type="radio" name="correctAnswer" :value="curQuestion.answer_2"
                                        class="mr-2 mb-0">
                             </div>
-                            <div class="col-span-6 sm:col-span-4 mx-2">
-                                <label for="categoryId" class="block text-sm font-medium leading-5 text-gray-700">
-                                    Choose category
-                                </label>
-                                <select id="categoryId" v-model="curQuestion.category_id"
-                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                    <option value="1" selected="selected">Category 1</option>
-                                    <option value="2">Category 2</option>
-                                    <option value="3">Category 3</option>
-                                    <option value="4">Category 4</option>
-                                </select>
-                            </div>
                             <div class="warn-mess"><p id="warnMess" class="mess"></p></div>
                             <div class="btn-container mx-2">
                                 <div class="btn-box start" style="width: 50%">
@@ -143,31 +131,17 @@
                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                             </div>
                             <div class="col-span-6 sm:col-span-4 mx-2">
-                                <label class="text-sm font-medium leading-5 text-gray-700 mb-0">
+                                <p class="text-sm font-medium leading-5 text-gray-700 mb-0">
                                     Correct answer:
-                                </label>
+                                </p>
                                 <label for="answer1RadioEdit"
                                        class="text-sm font-medium leading-5 text-gray-700 mb-0">1</label>
                                 <input id="answer1RadioEdit" type="radio" name="correctAnswer"
-                                       :value="curQuestion.answer_1"
-                                       class="mr-2 mb-0">
+                                       :value="curQuestion.answer_1" class="mr-2 mb-0">
                                 <label for="answer2RadioEdit"
                                        class="text-sm font-medium leading-5 text-gray-700 mb-0">2</label>
                                 <input id="answer2RadioEdit" type="radio" name="correctAnswer"
-                                       :value="curQuestion.answer_2"
-                                       class="mr-2 mb-0">
-                            </div>
-                            <div class="col-span-6 sm:col-span-4 mx-2">
-                                <label for="categoryIdEdit" class="block text-sm font-medium leading-5 text-gray-700">
-                                    Choose category
-                                </label>
-                                <select id="categoryIdEdit" v-model="curQuestion.category_id"
-                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                    <option value="1" selected="selected">Category 1</option>
-                                    <option value="2">Category 2</option>
-                                    <option value="3">Category 3</option>
-                                    <option value="4">Category 4</option>
-                                </select>
+                                       :value="curQuestion.answer_2" class="mr-2 mb-0">
                             </div>
                             <div class="warn-mess"><p id="warnEditMess" class="mess"></p></div>
                             <div class="btn-container mx-2">
@@ -263,8 +237,7 @@ export default {
                 answer_1: "",
                 answer_2: "",
                 answer_correct: "",
-                id: "",
-                category_id: ""
+                id: ""
             },
             results: []
         }
@@ -380,6 +353,7 @@ export default {
                     if (this.curQuestion.name.trim() === "" || this.curQuestion.answer_1.trim() === ""
                         || this.curQuestion.answer_2.trim() === "") {
                         document.getElementById("warnMess").innerText = "All fields must be completed.";
+                        this.eraseWarnMess("warnMess");
                     } else {
                         this.setCheckedValue();
                         axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
