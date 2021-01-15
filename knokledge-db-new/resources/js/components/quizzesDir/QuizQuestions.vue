@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link class="link" :to="{name: 'SubjectContent', params: {subject_id: this.curQuiz.subject_id}}">
+        <router-link class="link" :to="{name: 'SubjectContent', params: {subject_id: this.subjectId}}">
             Back
         </router-link>
         <div v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
@@ -29,13 +29,62 @@
             </div>
             <div class="flex w-100 justify-content-end pt-2"
                  v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
-                <button class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
+                <button class="btn-primary btn-lg mx-1" style="background-color: #1777d4" data-toggle="modal"
+                        data-target="#chooseQuestionModal">Add/Delete question from list
+                </button>
+                <button class="btn-primary btn-lg mx-1" style="background-color: #1777d4" data-toggle="modal"
                         data-target="#createQuestionModal">Add new question
                 </button>
             </div>
 
             <Confirm/>
 
+            <div class="modal fade" id="chooseQuestionModal" tabindex="-1" role="dialog"
+                 aria-labelledby="assignSubjectToStudentsModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="assignSubjectToStudentsModalCenterTitle">
+                                Choose question
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="pr-2 pl-2 pt-2">
+                            <div class="col-span-6 sm:col-span-4 mx-2">
+                                <label for="subjects" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Questions
+                                </label>
+                                <select id="subjects" v-model="chosenQuestionId"
+                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                    <option v-for="question in questionsList" :key="question.id" :value="question.id">
+                                        {{ question.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="btn-container mx-2">
+                                <div class="btn-box start">
+                                    <button @click="" data-dismiss="modal" class="btn">
+                                        Confirm
+                                    </button>
+                                </div>
+                                <div class="btn-box end">
+                                    <button data-dismiss="modal" class="btn">
+                                        Cancel
+                                    </button>
+                                </div>
+                                <div class="btn-box end">
+                                    <button @click="deleteQuestionFromList" class="btn red">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
                  aria-labelledby="creationQuestionModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -243,24 +292,44 @@ export default {
                 id: "",
                 subject_id: ""
             },
-            results: []
+            results: [],
+            subjectId: "",
+            chosenQuestionId: "",
+            questionsList: []
         }
     },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
-            .then(resp => resp.data).then(value => this.questions = value);
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
+            .then(resp => this.questions = resp.data);
 
-        axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
-            .then(resp => resp.data).then(value => this.curQuiz = value);
+        await axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
+            .then(resp => this.curQuiz = resp.data);
+        this.subjectId = this.curQuiz.subject_id;
 
-        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/results")
-            .then(resp => resp.data).then(value => this.results = value);
+        await axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/results")
+            .then(resp => this.results = resp.data);
+
+        await axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/questions")
+            .then(resp => this.questionsList = resp.data);
+        if (this.questionsList.length) {
+            this.chosenQuestionId = this.questionsList[0].id;
+        }
+
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getAdminRole", "getStudentRole"])
     },
     methods: {
         ...mapActions(["confirm", "hide"]),
+        deleteQuestionFromList() {
+            axios.delete("http://127.0.0.1:8000/api/questions/" + this.chosenQuestionId)
+                .then(() => {
+                    this.questionsList = this.questionsList.filter(question => question.id !== this.chosenQuestionId);
+                    if (this.questionsList.length) {
+                        this.chosenQuestionId = this.questionsList[0].id;
+                    }
+                });
+        },
         sendResults() {
             const elements = document.querySelectorAll("input");
             let score = 0;
@@ -349,7 +418,6 @@ export default {
             });
         },
         createNewQuestion() {
-            this.curQuestion.subject_id = this.curQuiz.subject_id;
             axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId).then(resp => resp.data).then(value => {
                 if (parseInt(value.num_questions) === this.questions.length) {
                     document.getElementById("warnMess").innerText = "No more questions adding allowed";
@@ -361,6 +429,7 @@ export default {
                         this.eraseWarnMess("warnMess");
                     } else {
                         this.setCheckedValue();
+                        this.curQuestion.subject_id = this.subjectId;
                         axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
                             .then(() => {
                                 axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
