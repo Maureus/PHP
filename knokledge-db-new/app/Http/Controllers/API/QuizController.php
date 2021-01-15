@@ -30,7 +30,7 @@ class QuizController extends Controller
             'type' => 'required|max:255',
             'date_from' => 'required',
             'date_till' => 'required',
-            'quiz_desc' => 'required|max:255',
+            'quiz_desc' => 'max:255',
             'num_questions' => 'required',
             'points_fq' => 'required',
             'subject_id' => 'required'
@@ -71,7 +71,7 @@ class QuizController extends Controller
             'type' => 'required|max:255',
             'date_from' => 'required',
             'date_till' => 'required',
-            'quiz_desc' => 'required|max:255',
+            'quiz_desc' => 'max:255',
             'num_questions' => 'required',
             'points_fq' => 'required'
         ]);

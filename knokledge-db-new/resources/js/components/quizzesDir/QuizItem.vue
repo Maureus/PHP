@@ -18,15 +18,15 @@
             <div class="hover-shadow-effect">
                 <button @click="takeQuiz" :value="take"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-                    {{ getTakeOperation | capitalizer }}
+                    Take
                 </button>
             </div>
         </td>
         <td v-if="getUser != null && (getUser.role === getTeacherRole || getUser.role === getAdminRole)">
             <div class="hover-shadow-effect">
-                <button @click="setNewItem" :value="edit" data-toggle="modal" data-target="#modalQuiz"
+                <button @click="setNewItem" :value="edit" data-toggle="modal" data-target="#modalEditQuiz"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-                    {{ getEditOperation | capitalizer }}
+                    Edit
                 </button>
             </div>
         </td>
@@ -34,7 +34,7 @@
             <div class="hover-shadow-effect">
                 <button @click="deleteQuiz"
                         class="px-6 py-4 whitespace-no-wrap text-right text-base leading-5 font-medium">
-                    {{ getDeleteOperation | capitalizer }}
+                    Delete
                 </button>
             </div>
         </td>
@@ -84,30 +84,24 @@ export default {
             this.saveQuiz(newItem);
         }
     },
-    filters: {
-        capitalizer(value) {
-            return value ? value.replace(/\b\w/g, function (character) {
-                return character.toUpperCase();
-            }) : "";
-        }
-    }
+    filters: {}
 }
 </script>
 
 <style scoped="scoped" lang="scss">
-$hoverColor : #dde9f5;
-$indent     : 0.25em;
+$hoverColor: #dde9f5;
+$indent: 0.25em;
 
 @import "./resources/sass/hover_effects";
 
 th {
-    color            : white;
-    padding          : $indent $indent * 2;
-    background-color : darken($color : #187fe2, $amount : 3%);
+    color: white;
+    padding: $indent $indent * 2;
+    background-color: darken($color: #187fe2, $amount: 3%);
 }
 
 td {
-    padding : $indent $indent * 2;
+    padding: $indent $indent * 2;
 }
 
 </style>
