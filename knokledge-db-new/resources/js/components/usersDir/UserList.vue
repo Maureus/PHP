@@ -255,6 +255,7 @@ export default {
                     }
                 });
             });
+            this.confirm();
         },
         unsubscribeSubject() {
             const filteredUsersByYear = this.users.filter(user => user.year == this.chosenYear && user.role === this.getStudentRole);
@@ -272,6 +273,7 @@ export default {
                         axios.delete("http://127.0.0.1:8000/api/users/" + user.id + "/subjects/" + this.chosenSubjectId);
                     }
                 });
+                this.confirm();
             });
         },
         editUserData(userEditedId) {
