@@ -64,21 +64,16 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="warn-mess"><p id="warnMessAddingFromList" class="mess"></p></div>
                             <div class="btn-container mx-2">
                                 <div class="btn-box start">
-                                    <button @click="" data-dismiss="modal" class="btn">
-                                        Confirm
-                                    </button>
+                                    <button @click="assignQuestionToQuiz" class="btn">Confirm</button>
                                 </div>
                                 <div class="btn-box end">
-                                    <button data-dismiss="modal" class="btn">
-                                        Cancel
-                                    </button>
+                                    <button data-dismiss="modal" class="btn">Cancel</button>
                                 </div>
                                 <div class="btn-box end">
-                                    <button @click="deleteQuestionFromList" class="btn red">
-                                        Delete
-                                    </button>
+                                    <button @click="deleteQuestionFromList" class="btn red">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -314,7 +309,6 @@ export default {
         if (this.questionsList.length) {
             this.chosenQuestionId = this.questionsList[0].id;
         }
-
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getAdminRole", "getStudentRole"])
@@ -322,13 +316,30 @@ export default {
     methods: {
         ...mapActions(["confirm", "hide"]),
         deleteQuestionFromList() {
-            axios.delete("http://127.0.0.1:8000/api/questions/" + this.chosenQuestionId)
+            const questionId = this.chosenQuestionId;
+            axios.delete("http://127.0.0.1:8000/api/questions/" + questionId)
                 .then(() => {
-                    this.questionsList = this.questionsList.filter(question => question.id !== this.chosenQuestionId);
+                    this.questionsList = this.questionsList.filter(question => question.id !== questionId);
+                    // this.questions = this.questions.filter(question => question.id !== this.chosenQuestionId);
                     if (this.questionsList.length) {
                         this.chosenQuestionId = this.questionsList[0].id;
                     }
+
+                    axios.delete("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + questionId)
+                        .then(() => this.questions = this.questions.filter(question => question.id !== questionId));
                 });
+        },
+        assignQuestionToQuiz() {
+            if (parseInt(this.curQuiz.num_questions) === this.questions.length) {
+                document.getElementById("warnMessAddingFromList").innerText = "No more questions adding allowed";
+                this.eraseWarnMess("warnMessAddingFromList");
+            } else {
+                axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + this.chosenQuestionId)
+                    .then(() => {
+                        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
+                            .then(resp => this.questions = resp.data);
+                    });
+            }
         },
         sendResults() {
             const elements = document.querySelectorAll("input");
@@ -402,8 +413,9 @@ export default {
             }, 3000);
         },
         deleteQuestion() {
-            axios.delete("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id)
+            axios.delete("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + this.curQuestion.id)
                 .then(() => {
+                    //this.questionsList = this.questionsList.filter(question => question.id !== this.curQuestion.id);
                     this.questions = this.questions.filter(question => question.id !== this.curQuestion.id);
                     this.clearForm();
                     this.confirm();
@@ -436,6 +448,9 @@ export default {
                                     .then(resp => resp.data).then(value => {
                                     this.questions = value;
                                     this.prepareFormAfterAction("#createQuestionModal");
+
+                                    axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/questions")
+                                        .then(resp => this.questionsList = resp.data);
                                 });
                             });
                     }
