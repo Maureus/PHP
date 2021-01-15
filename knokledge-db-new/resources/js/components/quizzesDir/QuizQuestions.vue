@@ -1,5 +1,8 @@
 <template>
     <div>
+        <router-link class="link" :to="{name: 'SubjectContent', params: {subject_id: this.curQuiz.subject_id}}">
+            Back
+        </router-link>
         <div v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
             <h1 class="p-2 text-2xl text-white font-semibold">Questions</h1>
             <Loader v-if="questions === []"/>
@@ -237,7 +240,8 @@ export default {
                 answer_1: "",
                 answer_2: "",
                 answer_correct: "",
-                id: ""
+                id: "",
+                subject_id: ""
             },
             results: []
         }
@@ -345,6 +349,7 @@ export default {
             });
         },
         createNewQuestion() {
+            this.curQuestion.subject_id = this.curQuiz.subject_id;
             axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId).then(resp => resp.data).then(value => {
                 if (parseInt(value.num_questions) === this.questions.length) {
                     document.getElementById("warnMess").innerText = "No more questions adding allowed";
@@ -377,6 +382,7 @@ $indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
 @import "./resources/sass/table";
+@import "./resources/sass/routerlink";
 
 .warn-mess {
     margin-top  : $indent * 2;
