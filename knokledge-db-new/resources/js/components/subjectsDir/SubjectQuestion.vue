@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
+        <button class="btn-primary btn-lg w-100" style="background-color: #1777d4" data-toggle="modal"
                 data-target="#addQuestionToSubjectModal">Add new question to list
         </button>
 
