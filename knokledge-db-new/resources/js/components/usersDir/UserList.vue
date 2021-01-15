@@ -167,14 +167,19 @@
                             </select>
                         </div>
                         <div class="btn-container mx-2">
-                            <div class="btn-box start" style="width: 50%">
+                            <div class="btn-box start">
                                 <button @click="assignSubjectToStudentsGroup" data-dismiss="modal" class="btn">
                                     Confirm
                                 </button>
                             </div>
-                            <div class="btn-box end" style="width: 50%">
+                            <div class="btn-box end">
                                 <button data-dismiss="modal" class="btn">
                                     Cancel
+                                </button>
+                            </div>
+                            <div class="btn-box end">
+                                <button @click="unsubscribeSubject" data-dismiss="modal" class="btn red">
+                                    Delete
                                 </button>
                             </div>
                         </div>
@@ -233,8 +238,6 @@ export default {
     methods: {
         ...mapActions(["saveErrors", "confirm"]),
         assignSubjectToStudentsGroup() {
-            // console.log(this.chosenSubjectId);
-            // console.log(this.chosenYear);
             const filteredUsersByYear = this.users.filter(user => user.year == this.chosenYear && user.role === this.getStudentRole);
 
             for (let i = 0; i < filteredUsersByYear.length; i++) {
@@ -253,18 +256,9 @@ export default {
                         }
                     });
             }
-            // filteredUsersByYear.forEach(user => {
-            //     axios.get("http://127.0.0.1:8000/api/users/" + user.id + "/subjects")
-            //         .then(resp => {
-            //             resp.data.forEach(subject => {
-            //                 if (this.chosenSubjectId === subject.id) {
-            //                     console.log(subject.id + "" + subject.name);
-            //                     //axios.post("http://127.0.0.1:8000/api/users/" + user.id + "/subjects/" + this.chosenSubjectId);
-            //                 }
-            //             });
-            //         });
-            //     //axios.post("http://127.0.0.1:8000/api/users/" + user.id + "/subjects/" + this.chosenSubjectId);
-            // });
+        },
+        unsubscribeSubject() {
+
         },
         editUserData(userEditedId) {
             axios.get("http://127.0.0.1:8000/api/users/" + userEditedId).then(value => value.data).then(value => {
