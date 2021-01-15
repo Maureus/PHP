@@ -240,25 +240,39 @@ export default {
         assignSubjectToStudentsGroup() {
             const filteredUsersByYear = this.users.filter(user => user.year == this.chosenYear && user.role === this.getStudentRole);
 
-            for (let i = 0; i < filteredUsersByYear.length; i++) {
-                axios.get("http://127.0.0.1:8000/api/users/" + filteredUsersByYear[i].id + "/subjects")
-                    .then(resp => {
-                        let index = 0
-                        for (let j = 0; j < resp.data.length; j++) {
-                            if (this.chosenSubjectId === resp.data[j].id) {
-                                index++;
-                            }
+            filteredUsersByYear.forEach(user => {
+                axios.get("http://127.0.0.1:8000/api/users/" + user.id + "/subjects").then(resp => {
+                    let index = 0
+                    for (let j = 0; j < resp.data.length; j++) {
+                        if (this.chosenSubjectId === resp.data[j].id) {
+                            index++;
                         }
-                        if (index == 0) {
-                            axios.post("http://127.0.0.1:8000/api/users/" + filteredUsersByYear[i].id + "/subjects/" + this.chosenSubjectId);
-                        } else {
-                            console.log("Subject was written.");
-                        }
-                    });
-            }
+                    }
+                    if (index == 0) {
+                        axios.post("http://127.0.0.1:8000/api/users/" + user.id + "/subjects/" + this.chosenSubjectId);
+                    } else {
+                        console.log("Subject was written.");
+                    }
+                });
+            });
         },
         unsubscribeSubject() {
-
+            const filteredUsersByYear = this.users.filter(user => user.year == this.chosenYear && user.role === this.getStudentRole);
+            filteredUsersByYear.forEach(user => {
+                axios.get("http://127.0.0.1:8000/api/users/" + user.id + "/subjects").then(resp => {
+                    let index = 0
+                    for (let i = 0; i < resp.data.length; i++) {
+                        if (this.chosenSubjectId === resp.data[i].id) {
+                            index++;
+                        }
+                    }
+                    if (index == 0) {
+                        console.log("User doesn't have this subject.");
+                    } else {
+                        axios.delete("http://127.0.0.1:8000/api/users/" + user.id + "/subjects/" + this.chosenSubjectId);
+                    }
+                });
+            });
         },
         editUserData(userEditedId) {
             axios.get("http://127.0.0.1:8000/api/users/" + userEditedId).then(value => value.data).then(value => {
