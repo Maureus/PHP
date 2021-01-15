@@ -1,5 +1,8 @@
 <template>
     <div>
+        <router-link class="link" :to="{name: 'SubjectContent', params: {subject_id: this.subjectId}}">
+            Back
+        </router-link>
         <div v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
             <h1 class="p-2 text-2xl text-white font-semibold">Questions</h1>
             <Loader v-if="questions === []"/>
@@ -26,13 +29,57 @@
             </div>
             <div class="flex w-100 justify-content-end pt-2"
                  v-if="getUser != null && (getUser.role === getAdminRole || getUser.role === getTeacherRole)">
-                <button class="btn-primary btn-lg" style="background-color: #1777d4" data-toggle="modal"
+                <button class="btn-primary btn-lg mx-1" style="background-color: #1777d4" data-toggle="modal"
+                        data-target="#chooseQuestionModal">Add/Delete question from list
+                </button>
+                <button class="btn-primary btn-lg mx-1" style="background-color: #1777d4" data-toggle="modal"
                         data-target="#createQuestionModal">Add new question
                 </button>
             </div>
 
             <Confirm/>
 
+            <div class="modal fade" id="chooseQuestionModal" tabindex="-1" role="dialog"
+                 aria-labelledby="assignSubjectToStudentsModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="assignSubjectToStudentsModalCenterTitle">
+                                Choose question
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="focus:outline-none">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="pr-2 pl-2 pt-2">
+                            <div class="col-span-6 sm:col-span-4 mx-2">
+                                <label for="subjects" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Questions
+                                </label>
+                                <select id="subjects" v-model="chosenQuestionId"
+                                        class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                    <option v-for="question in questionsList" :key="question.id" :value="question.id">
+                                        {{ question.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="warn-mess"><p id="warnMessAddingFromList" class="mess"></p></div>
+                            <div class="btn-container mx-2">
+                                <div class="btn-box start">
+                                    <button @click="assignQuestionToQuiz" class="btn">Confirm</button>
+                                </div>
+                                <div class="btn-box end">
+                                    <button data-dismiss="modal" class="btn">Cancel</button>
+                                </div>
+                                <div class="btn-box end">
+                                    <button @click="deleteQuestionFromList" class="btn red">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
                  aria-labelledby="creationQuestionModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -237,26 +284,63 @@ export default {
                 answer_1: "",
                 answer_2: "",
                 answer_correct: "",
-                id: ""
+                id: "",
+                subject_id: ""
             },
-            results: []
+            results: [],
+            subjectId: "",
+            chosenQuestionId: "",
+            questionsList: []
         }
     },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
-            .then(resp => resp.data).then(value => this.questions = value);
+    async mounted() {
+        await axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
+            .then(resp => this.questions = resp.data);
 
-        axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
-            .then(resp => resp.data).then(value => this.curQuiz = value);
+        await axios.get("http://127.0.0.1:8000/api/quizzes/" + this.quizId)
+            .then(resp => this.curQuiz = resp.data);
+        this.subjectId = this.curQuiz.subject_id;
 
-        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/results")
-            .then(resp => resp.data).then(value => this.results = value);
+        await axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/results")
+            .then(resp => this.results = resp.data);
+
+        await axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/questions")
+            .then(resp => this.questionsList = resp.data);
+        if (this.questionsList.length) {
+            this.chosenQuestionId = this.questionsList[0].id;
+        }
     },
     computed: {
         ...mapGetters(["getUser", "getTeacherRole", "getAdminRole", "getStudentRole"])
     },
     methods: {
         ...mapActions(["confirm", "hide"]),
+        deleteQuestionFromList() {
+            const questionId = this.chosenQuestionId;
+            axios.delete("http://127.0.0.1:8000/api/questions/" + questionId)
+                .then(() => {
+                    this.questionsList = this.questionsList.filter(question => question.id !== questionId);
+                    // this.questions = this.questions.filter(question => question.id !== this.chosenQuestionId);
+                    if (this.questionsList.length) {
+                        this.chosenQuestionId = this.questionsList[0].id;
+                    }
+
+                    axios.delete("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + questionId)
+                        .then(() => this.questions = this.questions.filter(question => question.id !== questionId));
+                });
+        },
+        assignQuestionToQuiz() {
+            if (parseInt(this.curQuiz.num_questions) === this.questions.length) {
+                document.getElementById("warnMessAddingFromList").innerText = "No more questions adding allowed";
+                this.eraseWarnMess("warnMessAddingFromList");
+            } else {
+                axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + this.chosenQuestionId)
+                    .then(() => {
+                        axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
+                            .then(resp => this.questions = resp.data);
+                    });
+            }
+        },
         sendResults() {
             const elements = document.querySelectorAll("input");
             let score = 0;
@@ -329,8 +413,9 @@ export default {
             }, 3000);
         },
         deleteQuestion() {
-            axios.delete("http://127.0.0.1:8000/api/questions/" + this.curQuestion.id)
+            axios.delete("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question/" + this.curQuestion.id)
                 .then(() => {
+                    //this.questionsList = this.questionsList.filter(question => question.id !== this.curQuestion.id);
                     this.questions = this.questions.filter(question => question.id !== this.curQuestion.id);
                     this.clearForm();
                     this.confirm();
@@ -356,12 +441,16 @@ export default {
                         this.eraseWarnMess("warnMess");
                     } else {
                         this.setCheckedValue();
+                        this.curQuestion.subject_id = this.subjectId;
                         axios.post("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/question", this.curQuestion)
                             .then(() => {
                                 axios.get("http://127.0.0.1:8000/api/quiz/" + this.quizId + "/questions")
                                     .then(resp => resp.data).then(value => {
                                     this.questions = value;
                                     this.prepareFormAfterAction("#createQuestionModal");
+
+                                    axios.get("http://127.0.0.1:8000/api/subject/" + this.subjectId + "/questions")
+                                        .then(resp => this.questionsList = resp.data);
                                 });
                             });
                     }
@@ -377,6 +466,7 @@ $indent : 0.25em;
 
 @import "./resources/sass/form_util_btns";
 @import "./resources/sass/table";
+@import "./resources/sass/routerlink";
 
 .warn-mess {
     margin-top  : $indent * 2;
