@@ -66,15 +66,15 @@ const actions = {
     },
     async emulateUser({commit}, id) {
         commit('setAdminId', state.user.id);
-        await axios.post('api/login/emulate/' + id).then(res => {
-            commit('setUser', res.data)
+        await axios.post('http://127.0.0.1:8000/api/login/emulate/' + id).then(res => {
+            commit('setUser', res.data);
         });
     },
     async cancelEmulation({commit}) {
-        await axios.post('api/login/emulate/cancel').then(res => {
-            commit('setUser', res.data)
+        await axios.post('http://127.0.0.1:8000/api/login/emulate/cancel').then(res => {
+            commit('setUser', res.data);
+            commit('setAdminId', null);
         });
-        commit('setAdminId', null);
     },
 };
 const mutations = {
