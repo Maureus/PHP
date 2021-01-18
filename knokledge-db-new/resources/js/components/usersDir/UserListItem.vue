@@ -29,7 +29,7 @@
             class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.year }}
         </td>
-        <td v-if="user.role === getStudentRole"
+        <td v-if="user.role === getStudentRole || user.role === getTeacherRole"
             class="px-6 py-4 whitespace-no-wrap text-base leading-5 text-gray-500 text-center">
             {{ user.obor == null ? "Not chosen" : user.obor }}
         </td>

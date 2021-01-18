@@ -23,7 +23,7 @@
                                 class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Year
                             </th>
-                            <th v-if="userList.length !== 0 && userList[0].role === getStudentRole"
+                            <th v-if="userList.length !== 0 && (userList[0].role === getStudentRole || userList[0].role === getTeacherRole)"
                                 class="px-6 py-3 bg-gray-50 text-center text-base leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Discipline
                             </th>
