@@ -1,9 +1,9 @@
 <template>
     <div>
-        <nav>
-            <a class="link" style="padding: 0 5px" href="#teachers">Teachers</a>
-            <a class="link" style="padding: 0 5px" href="#students">Students</a>
-        </nav>
+<!--        <nav>-->
+<!--            <a class="link" style="padding: 0 5px" href="#teachers">Teachers</a>-->
+<!--            <a class="link" style="padding: 0 5px" href="#students">Students</a>-->
+<!--        </nav>-->
         <SearchField @search-area-text="setSearchAreaText"/>
 
         <transition name="fade">
