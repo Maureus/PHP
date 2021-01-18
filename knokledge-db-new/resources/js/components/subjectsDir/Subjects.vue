@@ -226,7 +226,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getStudentRole", "getStudentRole", "getAdminRole", "getWriteOperation", "getEditOperation", "getUser"]),
+        ...mapGetters(["getStudentRole", "getAdminRole", "getWriteOperation", "getEditOperation", "getUser"]),
         filteredSubjects() {
             return this.subjects.filter(subject => {
                 const subjectsCreationDate = subject.created_at.split("-");
