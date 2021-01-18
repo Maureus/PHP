@@ -21,7 +21,7 @@
             <div v-if="getUser" class="flex">
                 <button v-if="getAdminId!=null"
                         class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-sm-1 px-4 rounded mr-4"
-                        @click.prevent="cancelEmulation">
+                        @click.prevent="cancelEmu">
                     Cancel emulation
                 </button>
                 <router-link class="mr-4 text-white" to="/profile" exact>{{ getUser.name }}'s profile</router-link>
@@ -52,6 +52,11 @@ export default {
         ...mapActions(["getLoggedInUser", "cancelEmulation"]),
         logout() {
             this.$store.dispatch('logoutUser').then(() => this.$router.push({name: "Home"}));
+        },
+        async cancelEmu() {
+            await this.cancelEmulation().then(() => {
+                this.$router.push({name: "UserList"});
+            });
         }
     }
 }
