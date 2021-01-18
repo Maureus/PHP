@@ -288,6 +288,13 @@ export default {
             axios.delete("http://127.0.0.1:8000/api/users/" + this.curUser.id)
                 .then(() => {
                     this.users = this.users.filter(user => user.id !== this.curUser.id);
+                    if (this.curUser.role === this.getAdminRole) {
+                        this.adminsList = this.adminsList.filter(user => user.id !== this.curUser.id);
+                    } else if (this.curUser.role === this.getTeacherRole) {
+                        this.teachersList = this.teachersList.filter(user => user.id !== this.curUser.id);
+                    } else {
+                        this.studentsList = this.studentsList.filter(user => user.id !== this.curUser.id);
+                    }
                     this.curUser = {};
                     this.confirm();
                 });
@@ -297,9 +304,12 @@ export default {
                 .then(() => {
                     axios.get("http://127.0.0.1:8000/api/users").then(resp => resp.data).then(value => {
                         this.users = value;
+                        this.studentsList = this.users.filter(user => user.role === this.getStudentRole);
+                        this.adminsList = this.users.filter(user => user.role === this.getAdminRole);
+                        this.teachersList = this.users.filter(user => user.role === this.getTeacherRole);
+                        this.curUser = {};
+                        this.confirm();
                     });
-                    this.curUser = {};
-                    this.confirm();
                 });
         },
         setSearchAreaText(searchAreaText) {
