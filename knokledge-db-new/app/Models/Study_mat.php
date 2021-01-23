@@ -97,8 +97,6 @@ class Study_mat extends Model
             );
 
             $created_by = Auth::user()->name;
-//            $created_by = 'test';
-
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $file->getClientOriginalName(), PDO::PARAM_STR);
             $statement->bindValue(3, $file->getClientOriginalExtension(), PDO::PARAM_STR);
@@ -125,8 +123,6 @@ class Study_mat extends Model
             );
 
             $created_by = Auth::user()->name;
-//            $created_by = 'test';
-
             $statement->bindValue(1, $request->name, PDO::PARAM_STR);
             $statement->bindValue(2, $request->date_from);
             $statement->bindValue(3, $request->date_till);

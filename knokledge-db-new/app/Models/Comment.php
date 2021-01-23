@@ -40,11 +40,11 @@ class Comment extends Model
         return $this->belongsTo(Comment::class, 'comment_id');
     }
 
-    public function course() {
+    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    static public function selectSubCommentsTreeStartingFromId($id) {
+    static public function selectSubCommentsTreeStartingFromId($id): array {
         return DB::select(
             "select * from COMMENTS_VIEW START WITH id = :id CONNECT BY PRIOR id = comment_id",
             [':id' => $id]
@@ -63,9 +63,7 @@ class Comment extends Model
         $stmt = oci_parse($conn, $sql);
         $text = $request->text;
         $comment_id = $request->comment_id;
-        // ToDo change when prod
         $user_id = Auth::id();
-//        $user_id = '2';
         $subject_id = $request->subject_id;
 
         oci_bind_by_name($stmt, ':text', $text, -1);

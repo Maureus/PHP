@@ -63,6 +63,6 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $result = DB::delete("delete from COURSES where ID = :id", [':id' => $id]);
-        return $result == 1 ? response()->json($result, 200) : response()->json($result, 400);
+        return $result == 1 ? response()->json($result) : response()->json($result, 400);
     }
 }

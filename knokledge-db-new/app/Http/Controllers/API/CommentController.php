@@ -38,7 +38,7 @@ class CommentController extends Controller
         try {
             $result = Comment::insertComment($request);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -76,7 +76,7 @@ class CommentController extends Controller
         try {
             $result = Comment::updateComment($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -92,7 +92,7 @@ class CommentController extends Controller
         try {
             Comment::deleteComment($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json(1);
     }
