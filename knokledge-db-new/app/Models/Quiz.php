@@ -167,14 +167,6 @@ class Quiz extends Model
             [':id' => $id]);
     }
 
-    // expects array of ids
-//    static public function insertAllQuestionToQuiz(Request $request, $id) {
-//        $seize = $request->seize;
-//        $questions = $request->questions;
-//        $questionOne = $request->questions[0];
-//        return $request->questions;
-//    }
-
     static public function selectQuizResults($id): array {
         return DB::select('select * from QUIZ_USER_RESULT_VIEW where QUIZ_ID = :id', [':id'=>$id]);
     }

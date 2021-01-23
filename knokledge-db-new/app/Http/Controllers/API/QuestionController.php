@@ -40,7 +40,7 @@ class QuestionController extends Controller
         try {
             $result = Question::insertQuestion($request);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -79,7 +79,7 @@ class QuestionController extends Controller
         try {
             $result = Question::updateQuestion($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -95,7 +95,7 @@ class QuestionController extends Controller
         try {
             Question::deleteQuestion($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json(1);
     }
@@ -116,7 +116,7 @@ class QuestionController extends Controller
         try {
             $result = Question::insertQuestionInQuiz($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -126,7 +126,7 @@ class QuestionController extends Controller
         try {
             $result = Question::selectAllSubjectQuestions($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);

@@ -20,7 +20,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::selectAll();
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -47,7 +47,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::insertSubject($request);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -63,7 +63,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::selectById($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -91,7 +91,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::updateSubject($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -107,7 +107,7 @@ class SubjectController extends Controller
         try {
             Subject::deleteSubject($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json(1);
     }
@@ -116,7 +116,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::selectAllSubjectUsers($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -125,7 +125,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::selectAllSubjectTeachers($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -134,7 +134,7 @@ class SubjectController extends Controller
         try {
             $result = Subject::selectAllSubjectStudents($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -143,7 +143,7 @@ class SubjectController extends Controller
         try {
             $result = Comment::selectAllSubjectComments($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }

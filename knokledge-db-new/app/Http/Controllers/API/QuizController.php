@@ -43,7 +43,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::insertQuiz($request);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -83,7 +83,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::updateQuiz($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -99,7 +99,7 @@ class QuizController extends Controller
         try {
             Quiz::deleteQuiz($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json(1);
@@ -109,7 +109,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::selectAllQuizQuestions($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
 
         return response()->json($result);
@@ -135,7 +135,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::insertAllQuestionToQuiz($request, $id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -144,7 +144,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::selectQuizResults($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -153,7 +153,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::selectUserResults($id);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -171,7 +171,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::insertQuizResult($request->quiz_id, $request->result);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }
@@ -181,7 +181,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::assignQuizQuestion($quizId, $questionId);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return $result ? response()->json(1) : response()->json(0);
     }
@@ -191,7 +191,7 @@ class QuizController extends Controller
         try {
             $result = Quiz::removeQuizQuestion($quizId, $questionId);
         } catch (\Exception $ex) {
-            return response()->json($ex->getMessage(), 400);
+            return response()->json(0, 400);
         }
         return response()->json($result);
     }

@@ -45,76 +45,23 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 
-Route::apiResources([
-    'users' => UserController::class,
-    'subjects' => SubjectController::class,
-    'courses' => CourseController::class,
-    'questions' => QuestionController::class,
-    'quizzes' => QuizController::class,
-    'study_mats' => Stud_matController::class,
-    'categories' => CategoryController::class,
-    'comments' => CommentController::class
-]);
-
-// select all teacher assigned to subject
-Route::get('/subject/{id}/teachers', function ($id) {
-    return SubjectController::subjectTeachers($id);
-})->whereNumber('id');
-
-// select all students assigned to subject
-Route::get('/subject/{id}/students', function ($id) {
-    return SubjectController::subjectStudents($id);
-})->whereNumber('id');
-
-Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
-
-//subject all subject comments, order by CREATED_AT desc
-Route::get('/subject/{id}/comments', function ($id) {
-    return SubjectController::subjectComments($id);
-})->whereNumber('id');
-
-// post question to quiz
-Route::post('/quiz/{id}/question', [QuestionController::class, 'storeQuestionInQuiz'])->whereNumber('id');
-
-// get quiz questions
-Route::get('/quiz/{id}/questions', [QuizController::class, 'showQuizQuestions'])->whereNumber('id');
-
-// assign array of question ids to quiz
-Route::post('/quiz/{id}/questions', [QuizController::class, 'assignAllQuestionToQuiz'])->whereNumber('id');
-
-// get quiz results
-Route::get('/quiz/{id}/results', [QuizController::class, 'showQuizResults'])->whereNumber('id');
-
-// get user quizzes results
-Route::get('/user/{id}/results', [QuizController::class, 'showUserQuizzesResults'])->whereNumber('id');
-
-// store user quiz result
-Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
-
-Route::post('login/emulate/{id}', [LoginController::class, 'emulateUser'])->whereNumber('id');
-Route::post('login/emulate/cancel', [LoginController::class, 'cancelEmulation']);
-
-// add or remove question
-Route::post('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
-    return QuizController::assignQuestion($quizId, $questionId);
-})->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
-
-Route::delete('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
-    return QuizController::removeQuestion($quizId, $questionId);
-})->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
-
-// get subject questions
-Route::get('/subject/{id}/questions', [QuestionController::class, 'showSubjectQuestions'])
-    ->whereNumber('id');
-
-
-
 // MIDDLEWARE FOR USER AUTH
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     //Logged in user
     Route::get('/user', function () {
         return request()->user();
     });
+
+    Route::apiResources([
+        'users' => UserController::class,
+        'subjects' => SubjectController::class,
+        'courses' => CourseController::class,
+        'questions' => QuestionController::class,
+        'quizzes' => QuizController::class,
+        'study_mats' => Stud_matController::class,
+        'categories' => CategoryController::class,
+        'comments' => CommentController::class
+    ]);
 
     //Subjects
 
@@ -184,6 +131,57 @@ Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
 
     //For token auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // select all teacher assigned to subject
+    Route::get('/subject/{id}/teachers', function ($id) {
+        return SubjectController::subjectTeachers($id);
+    })->whereNumber('id');
+
+// select all students assigned to subject
+    Route::get('/subject/{id}/students', function ($id) {
+        return SubjectController::subjectStudents($id);
+    })->whereNumber('id');
+
+    Route::post('/study_mats/update', [Stud_matController::class, 'updateSM']);
+
+//subject all subject comments, order by CREATED_AT desc
+    Route::get('/subject/{id}/comments', function ($id) {
+        return SubjectController::subjectComments($id);
+    })->whereNumber('id');
+
+// post question to quiz
+    Route::post('/quiz/{id}/question', [QuestionController::class, 'storeQuestionInQuiz'])->whereNumber('id');
+
+// get quiz questions
+    Route::get('/quiz/{id}/questions', [QuizController::class, 'showQuizQuestions'])->whereNumber('id');
+
+// assign array of question ids to quiz
+    Route::post('/quiz/{id}/questions', [QuizController::class, 'assignAllQuestionToQuiz'])->whereNumber('id');
+
+// get quiz results
+    Route::get('/quiz/{id}/results', [QuizController::class, 'showQuizResults'])->whereNumber('id');
+
+// get user quizzes results
+    Route::get('/user/{id}/results', [QuizController::class, 'showUserQuizzesResults'])->whereNumber('id');
+
+// store user quiz result
+    Route::post('/quiz/results', [QuizController::class, 'storeQuizResult']);
+
+    Route::post('login/emulate/{id}', [LoginController::class, 'emulateUser'])->whereNumber('id');
+    Route::post('login/emulate/cancel', [LoginController::class, 'cancelEmulation']);
+
+// add or remove question
+    Route::post('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
+        return QuizController::assignQuestion($quizId, $questionId);
+    })->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
+
+    Route::delete('/quiz/{quizId}/question/{questionId}', function ($quizId, $questionId) {
+        return QuizController::removeQuestion($quizId, $questionId);
+    })->where(['quizId' => '[0-9]+', 'questionId' => '[0-9]+']);
+
+// get subject questions
+    Route::get('/subject/{id}/questions', [QuestionController::class, 'showSubjectQuestions'])
+        ->whereNumber('id');
 });
 
 
