@@ -98,7 +98,7 @@ return [
             'database' => 'xe',
             'service_name' => 'IDAS.UPCEUCEBNY.CZ',
             'username' => 'ST58211',
-            'password' => 'Andr7265357',
+            'password' => '',
             'charset' => 'utf8',
             'prefix' => '',
         ],
