@@ -64,11 +64,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUser", "getWriteOperation", "getEditOperation", "getDeleteOperation", "getTakeOperation"
-            , "getStudentRole", "getAdminRole", "getTeacherRole", "getQuiz"])
+        ...mapGetters(["getUser", "getStudentRole", "getAdminRole", "getTeacherRole"])
     },
     methods: {
-        ...mapActions(['saveQuiz', 'saveErrors', 'saveQuiz']),
+        ...mapActions(['saveQuiz', 'saveErrors']),
         takeQuiz() {
             this.$router.push({name: 'QuizQuestions', params: {quiz_id: this.quiz.id}});
         },
