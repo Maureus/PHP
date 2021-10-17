@@ -65,9 +65,6 @@ export default {
         ...mapGetters(['getUser', 'getErrors']),
         ...mapState(['user', 'errors'])
     },
-    created() {
-        // this.fetchData();
-    },
 }
 
 </script>
