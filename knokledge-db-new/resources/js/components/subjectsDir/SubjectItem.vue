@@ -74,7 +74,7 @@ export default {
     },
     filters: {
         capitalizer(value) {
-            return value ? value.replace(/\b\w/g, function (character) {
+            return value ? value.replace(/\b\w/g, (character) => {
                 return character.toUpperCase();
             }) : "";
         }

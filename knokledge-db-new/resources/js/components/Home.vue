@@ -1,6 +1,6 @@
 <template>
     <div class="text-2xl text-white">
-        Home page
+        <div>Home page</div>
         <ul>
             <li>
                 <div class="icon-container">
@@ -92,6 +92,4 @@ $indent : 0.25em;
 li {
     margin : $indent * 6.5;
 }
-
-
 </style>
